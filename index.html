@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title><!-- startup-fix-v3: geometry compatibility fallback -->
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title><!-- startup-fix-v4: independent touch start handler -->
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#83c7f4;font-family:system-ui,sans-serif;touch-action:none;user-select:none}#game{position:fixed;inset:0}canvas{display:block}
 #hud{position:fixed;top:max(10px,env(safe-area-inset-top));left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;pointer-events:none;color:white;text-shadow:0 2px 5px #07170f;font-weight:750}.panel{background:#0b1c16c9;border:1px solid #ffffff45;border-radius:13px;padding:8px 10px;font-size:12px}
@@ -21,6 +21,30 @@
  start.addEventListener('click',begin,true);
  start.addEventListener('pointerup',begin,true);
  start.addEventListener('touchend',begin,{capture:true,passive:false});
+})();
+</script>
+<script>
+/* Independent mobile start control: works even if the 3D module has a startup error. */
+(function () {
+  const overlay = document.getElementById('overlay');
+  const button = document.getElementById('start');
+  const title = document.getElementById('title');
+  function beginGame(event) {
+    if (event) { event.preventDefault(); event.stopPropagation(); }
+    window.__PROJECT_WAR_START_REQUESTED__ = true;
+    if (overlay) overlay.style.display = 'none';
+    if (title) title.textContent = 'عملیات شهری';
+    const mission = document.getElementById('mission');
+    if (mission) mission.textContent = 'بازی شروع شد — ربات‌های تمرینی را پیدا کن';
+    return false;
+  }
+  if (button) {
+    button.addEventListener('pointerdown', beginGame, {capture:true});
+    button.addEventListener('touchstart', beginGame, {capture:true, passive:false});
+    button.addEventListener('click', beginGame, {capture:true});
+    button.onclick = beginGame;
+  }
+  window.PWBeginGame = beginGame;
 })();
 </script>
 <script type="module">
