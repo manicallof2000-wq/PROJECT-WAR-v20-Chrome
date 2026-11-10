@@ -15,7 +15,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172a38;fon
 #joy{position:fixed;left:18px;bottom:max(22px,env(safe-area-inset-bottom));width:120px;height:120px;border-radius:50%;border:2px solid #ffffff99;background:#0b1c2b88;touch-action:none}
 #nub{position:absolute;left:34px;top:34px;width:48px;height:48px;border-radius:50%;background:#ffffffd9;border:2px solid white;box-shadow:0 3px 12px #0008}
 .action{position:fixed;border:1px solid #ffffffa8;color:#fff;font-weight:900;border-radius:50%;background:#0c2d40eF;box-shadow:0 4px 15px #0007;touch-action:none}
-#interact{right:20px;bottom:max(28px,env(safe-area-inset-bottom));width:82px;height:82px;background:#087c9b;font-size:13px}
+#interact{right:20px;bottom:max(28px,env(safe-area-inset-bottom));width:72px;height:72px;background:#087c9b;font-size:12px}\n#fire{right:104px;bottom:max(28px,env(safe-area-inset-bottom));width:72px;height:72px;background:#a43b35;font-size:13px}
 #jump{right:26px;bottom:max(121px,calc(env(safe-area-inset-bottom) + 121px));width:54px;height:54px;font-size:12px}
 #run{right:111px;bottom:max(108px,calc(env(safe-area-inset-bottom) + 108px));width:52px;height:52px;font-size:11px}
 #pause{position:fixed;right:10px;top:108px;width:38px;height:38px;border-radius:11px;border:1px solid #ffffff55;background:#091722d9;color:white;font-size:17px}
@@ -36,10 +36,11 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
 <div id="cross"></div>
 <div id="joy"><div id="nub"></div></div>
 <button class="action" id="interact" type="button">تعامل ✦</button>
+<button class="action" id="fire" type="button">شلیک</button>
 <button class="action" id="jump" type="button">پرش</button>
 <button class="action" id="run" type="button">دویدن</button>
 <button id="pause" type="button">Ⅱ</button>
-<div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن سمت راست • نزدیک نقطه شو و تعامل کن</div>
+<div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن سمت راست • شلیک: دکمه قرمز • تعامل: دکمه آبی</div>
 <div id="toast"></div>
 <div id="overlay">
  <div class="dialog">
@@ -108,8 +109,10 @@ function draw(){
  // subtle first-person sleeves, only decorative, no weapon model
  var handY=H-35+jump*25;ctx.fillStyle="#263b4b";ctx.beginPath();ctx.moveTo(W*.58,H);ctx.lineTo(W*.62,handY-75);ctx.quadraticCurveTo(W*.68,handY-95,W*.73,handY-55);ctx.lineTo(W*.79,H);ctx.fill();ctx.fillStyle="#b88768";ctx.beginPath();ctx.ellipse(W*.69,handY-18,32,27,-.2,0,Math.PI*2);ctx.fill();
 }
-function interact(){if(!playing||paused)return;var nearest=null,dist=999;points.forEach(function(pt){if(pt.done)return;var d=Math.hypot(pt.x-player.x,pt.z-player.z);if(d<dist){dist=d;nearest=pt}});if(nearest&&dist<7){nearest.done=true;found++;score+=100;toast("نقطه نورانی فعال شد +۱۰۰");updateHud()}else toast("به نقطه نورانی نزدیک‌تر شو")}
+function interact(){if(!playing||paused)return;var nearest=null,dist=999;points.forEach(function(pt){if(pt.done)return;var d=Math.hypot(pt.x-player.x,pt.z-player.z);if(d<dist){dist=d;nearest=pt}});if(nearest&&dist<7){nearest.done=true;found++;score+=100;toast("نقطه فعال شد +۱۰۰");updateHud()}else toast("برای تعامل باید نزدیک نقطه باشی")}
+function shoot(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dx=pt.x-player.x,dz=pt.z-player.z,dist=Math.hypot(dx,dz);if(dist>95)return;var targetYaw=Math.atan2(-dx,-dz),diff=Math.atan2(Math.sin(targetYaw-player.yaw),Math.cos(targetYaw-player.yaw));if(Math.abs(diff)<0.24&&dist<best){best=dist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;toast("هدف از دور زده شد +۱۰۰");updateHud()}else toast("هدف را وسط نشانه‌گیر بیاور")}
 document.getElementById("interact").addEventListener("pointerdown",function(e){e.preventDefault();interact()});
+document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();shoot()});
 document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
 var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false})});
 document.getElementById("pause").addEventListener("click",function(){if(!playing)return;paused=!paused;statusEl.textContent=paused?"مکث":"درحال بازی";overlay.style.display=paused?"grid":"none";document.getElementById("title").textContent=paused?"بازی متوقف شد":"گشت‌وگذار شهری";document.getElementById("start").textContent=paused?"ادامه بازی":"شروع بازی"});
@@ -123,7 +126,7 @@ function stopLook(){lookId=null}canvas.addEventListener("pointerup",stopLook);ca
 var last=performance.now();
 function frame(now){var dt=Math.min(.04,(now-last)/1000);last=now;if(playing&&!paused){
  var speed=running?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
- player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(-joyY*co-joyX*si)*speed*dt;
+ player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(joyY*co-joyX*si)*speed*dt;
  player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-90,Math.min(10,player.z));
  if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
  }
