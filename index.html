@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fa">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Green Field</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#86c8ff;font-family:system-ui,sans-serif;touch-action:none}
+#game{position:fixed;inset:0}canvas{display:block}
+#hud{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;color:white;text-shadow:0 2px 5px #18351c;font-weight:700}
+.pill{background:#10251e99;border:1px solid #ffffff55;border-radius:14px;padding:8px 12px}
+#cross{position:fixed;left:50%;top:46%;width:18px;height:18px;transform:translate(-50%,-50%);border:2px solid #fff;border-radius:50%;box-shadow:0 0 5px #000;pointer-events:none}
+#joy{position:fixed;left:22px;bottom:24px;width:126px;height:126px;border-radius:50%;background:#13291f55;border:2px solid #ffffff99;touch-action:none}
+#nub{position:absolute;width:52px;height:52px;left:35px;top:35px;border-radius:50%;background:#ffffffaa;border:2px solid #fff}
+#pulse{position:fixed;right:22px;bottom:35px;width:88px;height:88px;border-radius:50%;border:2px solid white;background:#167cdbcc;color:white;font-weight:800;font-size:15px;box-shadow:0 4px 18px #10251e88}
+#hint{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);color:white;text-shadow:0 1px 4px #000;font-size:12px;white-space:nowrap}
+#start{position:fixed;inset:0;background:#07150dcc;display:grid;place-items:center;color:white;text-align:center;padding:24px}
+#start button{padding:13px 28px;border:0;border-radius:14px;background:#25a45a;color:white;font-size:18px;font-weight:800}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div id="hud"><div class="pill">امتیاز: <span id="score">۰</span></div><div class="pill">هدف‌ها: <span id="left">۵</span></div></div>
+<div id="cross"></div>
+<div id="joy"><div id="nub"></div></div>
+<button id="pulse">پالس ✦</button>
+<div id="hint">برای چرخش، صفحه را بکش؛ با جوی‌استیک حرکت کن</div>
+<div id="start"><div><h2>زمین سبز سه‌بعدی</h2><p>۵ هدف شناور را با پالس نوری فعال کن.</p><button id="go">شروع بازی</button></div></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+const mount=document.querySelector('#game'), scene=new THREE.Scene();scene.background=new THREE.Color(0x8bcfff);scene.fog=new THREE.Fog(0x8bcfff,35,95);
+const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,150);camera.position.set(0,1.65,7);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff,0x49713c,2));const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(-8,15,7);sun.castShadow=true;scene.add(sun);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(180,180),new THREE.MeshStandardMaterial({color:0x42a83b,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.04;ground.receiveShadow=true;scene.add(ground);
+// A few subtle grass-color bands give depth without adding trees or obstacles.
+for(let i=0;i<9;i++){const strip=new THREE.Mesh(new THREE.PlaneGeometry(180,2.2),new THREE.MeshBasicMaterial({color:i%2?0x48ad40:0x3fa337,transparent:true,opacity:.12}));strip.rotation.x=-Math.PI/2;strip.position.set(0,.002,-12-i*8);scene.add(strip)}
+const targets=[];const colors=[0xffcf45,0x43e5ff,0xff6c91,0xb98cff,0xffffff];
+for(let i=0;i<5;i++){const g=new THREE.Group();g.position.set((i-2)*3.2,1.35,-12-(i%2)*2);const ring=new THREE.Mesh(new THREE.TorusGeometry(.72,.12,12,48),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.45,metalness:.2,roughness:.35}));g.add(ring);const disc=new THREE.Mesh(new THREE.CircleGeometry(.58,40),new THREE.MeshStandardMaterial({color:0x173b48,emissive:colors[i],emissiveIntensity:.16,side:THREE.DoubleSide}));disc.position.z=-.035;g.add(disc);const dot=new THREE.Mesh(new THREE.SphereGeometry(.12,16,12),new THREE.MeshBasicMaterial({color:0xffffff}));dot.position.z=.02;g.add(dot);scene.add(g);targets.push(g)}
+// Stylized, harmless glowing pointer held in view; deliberately not a realistic firearm.
+const tool=new THREE.Group();camera.add(tool);tool.position.set(.43,-.42,-.85);
+const grip=new THREE.Mesh(new THREE.BoxGeometry(.16,.28,.18),new THREE.MeshStandardMaterial({color:0x243b50,metalness:.4,roughness:.35}));grip.position.set(0,-.12,0);tool.add(grip);
+const barrel=new THREE.Mesh(new THREE.CylinderGeometry(.055,.075,.48,16),new THREE.MeshStandardMaterial({color:0x5b7890,metalness:.5,roughness:.3,emissive:0x164a68}));barrel.rotation.x=Math.PI/2;barrel.position.set(0,.04,-.22);tool.add(barrel);
+const glow=new THREE.Mesh(new THREE.SphereGeometry(.09,16,12),new THREE.MeshBasicMaterial({color:0x62eaff}));glow.position.set(0,.04,-.48);tool.add(glow);
+const handMat=new THREE.MeshStandardMaterial({color:0xc68f68,roughness:.8});const hand=new THREE.Mesh(new THREE.SphereGeometry(.13,16,12),handMat);hand.position.set(-.03,-.16,.08);tool.add(hand);
+camera.add(new THREE.PointLight(0x4adfff,1.4,2));scene.add(camera);
+let yaw=0,pitch=0,score=0,moveX=0,moveY=0,started=false;const ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);
+function updateHud(){document.querySelector('#score').textContent=String(score);document.querySelector('#left').textContent=String(targets.length)}
+function pulse(){if(!started)return;ray.setFromCamera(center,camera);const hits=ray.intersectObjects(targets,true);if(hits.length){let obj=hits[0].object;while(obj.parent&&!targets.includes(obj))obj=obj.parent;if(targets.includes(obj)){scene.remove(obj);targets.splice(targets.indexOf(obj),1);score+=10;updateHud()}}glow.material.color.set(0xffffff);setTimeout(()=>glow.material.color.set(0x62eaff),100)}
+document.querySelector('#pulse').addEventListener('pointerdown',e=>{e.preventDefault();pulse()});
+let dragging=false,lastX=0,lastY=0;renderer.domElement.addEventListener('pointerdown',e=>{if(e.target.closest&&e.target.closest('#joy'))return;dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging||!started)return;yaw-=(e.clientX-lastX)*.004;pitch=Math.max(-.65,Math.min(.65,pitch-(e.clientY-lastY)*.003));lastX=e.clientX;lastY=e.clientY});
+const joy=document.querySelector('#joy'),nub=document.querySelector('#nub');let joyId=null;function joyMove(e){const r=joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.min(42,Math.hypot(dx,dy)),a=Math.atan2(dy,dx),x=Math.cos(a)*d,y=Math.sin(a)*d;nub.style.transform='translate('+x+'px,'+y+'px)';moveX=x/42;moveY=y/42}
+joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;joy.setPointerCapture(joyId);joyMove(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)joyMove(e)});function resetJoy(){joyId=null;moveX=moveY=0;nub.style.transform=''}joy.addEventListener('pointerup',resetJoy);joy.addEventListener('pointercancel',resetJoy);
+document.querySelector('#go').onclick=()=>{started=true;document.querySelector('#start').style.display='none'};
+const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);if(started){camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));camera.position.addScaledVector(forward,-moveY*dt*5);camera.position.addScaledVector(right,moveX*dt*5);camera.position.x=THREE.MathUtils.clamp(camera.position.x,-18,18);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-35,10);targets.forEach((t,i)=>{t.position.y=1.35+Math.sin(clock.elapsedTime*1.4+i)*.08;t.lookAt(camera.position)})}renderer.render(scene,camera)}animate();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
