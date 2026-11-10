@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>PROJECT WAR v20 — Chrome Edition</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#10191b;color:#e9f5f4;font-family:system-ui,Arial;touch-action:none}canvas{display:block;width:100%;height:100%}
+#top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-weight:800;font-size:13px;text-shadow:0 2px 5px #000;pointer-events:none}
+#hint{position:fixed;top:39px;left:12px;font-size:11px;color:#d4e5df;text-shadow:0 2px 5px #000;pointer-events:none}
+#cross{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);font-size:24px;color:#bdfaff;text-shadow:0 0 8px #2cecff;pointer-events:none}
+#controls{position:fixed;left:12px;right:12px;bottom:16px;display:flex;align-items:end;justify-content:space-between}
+.pad{display:grid;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px 44px;gap:4px}
+button{background:#142b30d9;color:#f1ffff;border:1px solid #91c5c588;border-radius:11px;font-weight:800;font-size:11px;touch-action:none}
+.pad button{font-size:20px}.actions{display:flex;gap:7px}.actions button{height:52px;width:62px}
+#toast{position:fixed;top:18%;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;text-shadow:0 2px 6px #000;color:#9ffaff}
+</style></head><body>
+<canvas id="view"></canvas><div id="top"><span>PROJECT WAR v20</span><span id="stats">SCORE 0 · ENERGY 100</span></div>
+<div id="hint">TRAINING SIMULATION · Drag to look</div><div id="cross">+</div><div id="toast">READY</div>
+<div id="controls"><div class="pad"><span></span><button data-k="f">▲</button><span></span><button data-k="l">◀</button><button data-k="b">▼</button><button data-k="r">▶</button><span></span><button id="jump">↟</button><span></span></div><div class="actions"><button id="reload">RECHARGE</button><button id="pulse">PULSE</button></div></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x9eafb0);scene.fog=new THREE.Fog(0x9eafb0,22,78);
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,130);camera.position.set(0,1.65,8);
+const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#view'),antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);
+scene.add(new THREE.HemisphereLight(0xdaf5ff,0x26352e,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(-8,16,7);scene.add(sun);
+const material=(c,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness:m});
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(130,130),material(0x56645b));floor.rotation.x=-Math.PI/2;floor.position.y=-.08;scene.add(floor);
+const grid=new THREE.GridHelper(110,55,0x9db3a7,0x718278);grid.position.y=-.06;scene.add(grid);
+function box(x,y,z,w,h,d,c){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(c,.18));o.position.set(x,y,z);scene.add(o);return o}
+for(let i=0;i<18;i++){const x=(i%6-2.5)*6,z=-12-Math.floor(i/6)*12;box(x,1.4,z,3.5,2.8,3.5,0x394a43);box(x,2.85,z,3.7,.15,3.7,0x718078)}
+for(let i=0;i<8;i++){box((i-4)*4,.65,-4,1.1,1.3,.8,0x68776d)}
+// Compact fictional energy emitter, kept low in the frame
+const emitter=new THREE.Group();camera.add(emitter);emitter.position.set(.43,-.39,-.78);
+const shell=new THREE.Mesh(new THREE.BoxGeometry(.2,.19,.48),material(0x24383d,.65));emitter.add(shell);
+const barrel=new THREE.Mesh(new THREE.CylinderGeometry(.065,.065,.3,16),new THREE.MeshBasicMaterial({color:0x45eaff}));barrel.rotation.x=Math.PI/2;barrel.position.z=-.24;emitter.add(barrel);
+const handle=new THREE.Mesh(new THREE.BoxGeometry(.12,.25,.14),material(0x172327));handle.position.set(0,-.19,.06);emitter.add(handle);
+const targets=[];const targetMat=new THREE.MeshStandardMaterial({color:0x5df5ff,emissive:0x0b9ca8,emissiveIntensity:2});
+for(let i=0;i<10;i++){const t=new THREE.Mesh(new THREE.IcosahedronGeometry(.38,1),targetMat);t.position.set((Math.random()-.5)*20,1.2+Math.random()*2,-12-Math.random()*35);scene.add(t);targets.push(t)}
+const held={f:false,b:false,l:false,r:false};let yaw=0,pitch=0,vy=0,grounded=true,score=0,energy=100,drag=false,lx=0,ly=0;
+const stats=document.querySelector('#stats'),toast=document.querySelector('#toast');function hud(){stats.textContent='SCORE '+score+' · ENERGY '+energy}
+function pulse(){if(energy<10){toast.textContent='ENERGY LOW';return}energy-=10;const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(0,0),camera);const hits=ray.intersectObjects(targets);if(hits.length){const t=hits[0].object;scene.remove(t);targets.splice(targets.indexOf(t),1);score+=100;toast.textContent='TARGET TAGGED +100'}else toast.textContent='PULSE FIRED';hud()}
+document.querySelector('#pulse').onclick=pulse;document.querySelector('#reload').onclick=()=>{energy=100;hud();toast.textContent='ENERGY RESTORED'};
+document.querySelector('#jump').onpointerdown=()=>{if(grounded){vy=5.6;grounded=false}};
+document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k;b.onpointerdown=e=>{e.preventDefault();held[k]=true};for(const ev of ['pointerup','pointercancel','pointerleave'])b.addEventListener(ev,()=>held[k]=false)});
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='w'||k==='arrowup')held.f=true;if(k==='s'||k==='arrowdown')held.b=true;if(k==='a'||k==='arrowleft')held.l=true;if(k==='d'||k==='arrowright')held.r=true;if(e.code==='Space'&&grounded){vy=5.6;grounded=false}});
+addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='w'||k==='arrowup')held.f=false;if(k==='s'||k==='arrowdown')held.b=false;if(k==='a'||k==='arrowleft')held.l=false;if(k==='d'||k==='arrowright')held.r=false});
+const canvas=renderer.domElement;canvas.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;yaw-=dx*.004;pitch=THREE.MathUtils.clamp(pitch-dy*.004,-1.05,1.05)});for(const ev of ['pointerup','pointercancel'])canvas.addEventListener(ev,()=>drag=false);
+const clock=new THREE.Clock();function loop(){requestAnimationFrame(loop);const dt=Math.min(clock.getDelta(),.04);camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;const f=(held.f?1:0)-(held.b?1:0),s=(held.r?1:0)-(held.l?1:0);const v=new THREE.Vector3(s,0,-f);if(v.lengthSq())v.normalize().applyAxisAngle(new THREE.Vector3(0,1,0),yaw);camera.position.addScaledVector(v,dt*4.8);vy-=12*dt;camera.position.y+=vy*dt;if(camera.position.y<1.65){camera.position.y=1.65;vy=0;grounded=true}camera.position.x=THREE.MathUtils.clamp(camera.position.x,-25,25);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-45,12);targets.forEach((t,i)=>{t.rotation.y+=dt*(.6+i*.04);t.position.y+=Math.sin(clock.elapsedTime*2+i)*.0015});renderer.render(scene,camera)}
+loop();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script></body></html>
