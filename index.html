@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#83c7f4;font-family:system-ui,sans-serif;touch-action:none;user-select:none}#game{position:fixed;inset:0}canvas{display:block}
 #hud{position:fixed;top:max(10px,env(safe-area-inset-top));left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;pointer-events:none;color:white;text-shadow:0 2px 5px #07170f;font-weight:750}.panel{background:#0b1c16c9;border:1px solid #ffffff45;border-radius:13px;padding:8px 10px;font-size:12px}
@@ -9,21 +9,32 @@
 .action{position:fixed;border:1px solid #ffffffb0;color:white;font-weight:800;border-radius:50%;background:#10251edb;box-shadow:0 4px 15px #0005;touch-action:none}#pulse{right:20px;bottom:max(35px,env(safe-area-inset-bottom));width:82px;height:82px;background:#087c9be8;font-size:14px}#reload{right:112px;bottom:max(48px,env(safe-area-inset-bottom));width:57px;height:57px;font-size:11px}#jump{position:fixed;right:24px;bottom:max(125px,calc(env(safe-area-inset-bottom) + 125px));width:52px;height:52px;border-radius:50%;border:1px solid #ffffffb0;color:white;background:#10251edb;font-weight:800}#sprint{position:fixed;right:110px;bottom:max(112px,calc(env(safe-area-inset-bottom) + 112px));width:50px;height:50px;border-radius:50%;border:1px solid #ffffffb0;color:white;background:#10251edb;font-weight:800}#pause{position:fixed;right:12px;top:108px;width:38px;height:38px;border-radius:12px;border:1px solid #ffffff45;background:#0b1c16c9;color:white;font-size:17px}
 #hint{position:fixed;bottom:7px;left:50%;transform:translateX(-50%);color:white;text-shadow:0 1px 4px #000;font-size:10px;white-space:nowrap;pointer-events:none}
 #overlay{position:fixed;inset:0;background:linear-gradient(160deg,#07150de8,#10271de8);display:grid;place-items:center;color:white;text-align:center;padding:22px}.dialog{width:min(420px,100%);background:#10251eee;border:1px solid #ffffff38;border-radius:24px;padding:24px;box-shadow:0 18px 60px #0008}.logo{font-size:12px;letter-spacing:3px;color:#76f0b0;font-weight:900}h1{font-size:28px;margin:9px 0}.sub{color:#d4e5da;font-size:14px;line-height:1.9}.primary{border:0;border-radius:14px;background:linear-gradient(135deg,#31bd75,#168b59);color:#062516;padding:13px 30px;font-size:17px;font-weight:900;margin-top:14px}#toast{position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);background:#10251eee;color:white;padding:12px 18px;border-radius:14px;opacity:0;transition:opacity .18s;pointer-events:none;font-weight:800}
-</style></head><body><div id="game"></div>
+</style></head><body><div id="game"></div><div id="loadError" style="display:none;position:fixed;inset:0;background:#101d2c;color:white;z-index:99;place-items:center;text-align:center;padding:28px;font:16px/2 system-ui">خطا در اجرای بازی. صفحه را در Chrome و با اینترنت باز کن.</div>
 <div id="hud"><div class="panel">امتیاز: <span id="score">۰</span></div><div class="panel">شارژ: <span id="ammo">۵</span>/۵</div><div class="panel">سلامت: <span id="health">۱۰۰</span٪</div></div>
 <div id="mission">ماموریت: ۵ نشان نورانی را فعال کن</div><div id="cross"></div><div id="joy"><div id="nub"></div></div><button class="action" id="pulse">پالس ✦</button><button class="action" id="reload">شارژ</button><button class="action" id="jump">پرش</button><button class="action" id="sprint">دویدن</button><button id="pause">Ⅱ</button><div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن صفحه • پالس: دکمه آبی</div><div id="toast"></div>
 <div id="overlay"><div class="dialog"><div class="logo">PROJECT WAR / URBAN OPS</div><h1 id="title">عملیات شهری</h1><p class="sub">میدان تمرینی شهری با ساختمان‌های جزئیات‌دار، خیابان آسفالتی و ربات‌های شناور.<br>۵ ربات تمرینی را پیدا کن و با پالس انرژی فعالشان کن.</p><p class="sub">کنترل‌ها: جوی‌استیک حرکت، کشیدن صفحه برای چرخش دوربین، دکمه پالس و شارژ مجدد.</p><button class="primary" id="start">شروع بازی</button></div></div>
 <script type="module">
-import * as THREE from 'three';
-import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+window.addEventListener("error",e=>{const el=document.querySelector("#loadError");if(el){el.style.display="grid";el.textContent="خطای اجرا: "+(e.message||"بارگذاری ناموفق")+" — صفحه را دوباره بارگذاری کن."}});
+window.addEventListener("unhandledrejection",e=>{const el=document.querySelector("#loadError");if(el){el.style.display="grid";el.textContent="خطا در بارگذاری موتور سه‌بعدی. اینترنت را بررسی و صفحه را دوباره بارگذاری کن."}});
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const mount=document.querySelector('#game'),scene=new THREE.Scene();scene.background=new THREE.Color(0x8bcfff);scene.fog=new THREE.Fog(0x8bcfff,42,105);
 const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,160);camera.position.set(0,1.65,7);
-const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
+const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.25));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x4c7542,2.1));const sun=new THREE.DirectionalLight(0xfff4dc,2.1);sun.position.set(-9,17,8);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),new THREE.MeshStandardMaterial({color:0x687d52,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.05;ground.receiveShadow=true;scene.add(ground);
 const road=new THREE.Mesh(new THREE.PlaneGeometry(22,150),new THREE.MeshStandardMaterial({color:0x30383e,roughness:1}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-34);road.receiveShadow=true;scene.add(road);
 const curbmat=new THREE.MeshStandardMaterial({color:0xb4b8b5,roughness:.9}),wallmat=new THREE.MeshStandardMaterial({color:0x858d90,roughness:.9}),windowmat=new THREE.MeshStandardMaterial({color:0x203e50,metalness:.25,roughness:.22,emissive:0x102b3a,emissiveIntensity:.4});
-function rounded(w,h,d,r,m){return new THREE.Mesh(new RoundedBoxGeometry(w,h,d,4,r),m)}
+function rounded(w,h,d,r,m){
+ const x=w/2,y=h/2,rr=Math.max(.01,Math.min(r,x*.8,y*.8));
+ const s=new THREE.Shape();
+ s.moveTo(-x+rr,-y);s.lineTo(x-rr,-y);s.quadraticCurveTo(x,-y,x,-y+rr);
+ s.lineTo(x,y-rr);s.quadraticCurveTo(x,y,x-rr,y);
+ s.lineTo(-x+rr,y);s.quadraticCurveTo(-x,y,-x,y-rr);
+ s.lineTo(-x,-y+rr);s.quadraticCurveTo(-x,-y,-x+rr,-y);
+ const geo=new THREE.ExtrudeGeometry(s,{depth:Math.max(.01,d-2*rr),bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:rr*.45,bevelThickness:rr*.45,curveSegments:5});
+ geo.translate(0,0,-(d-2*rr)/2);geo.computeVertexNormals();
+ return new THREE.Mesh(geo,m)
+}
 function facade(x,z,w,h,d){
  const body=rounded(w,h,d,.18,wallmat);body.position.set(x,h/2,z);body.castShadow=true;body.receiveShadow=true;scene.add(body);
  for(let row=0;row<3;row++)for(let col=0;col<3;col++){
@@ -45,7 +56,7 @@ const colors=[0xffd45b,0x54eaff,0xff7caa,0xb89aff,0x9dff83],targets=[];
 for(let i=0;i<5;i++){const g=new THREE.Group();g.position.set((i-2)*3.15,1.35,-13-(i%2)*2.3);const shell=new THREE.Mesh(new THREE.SphereGeometry(.43,24,18),new THREE.MeshStandardMaterial({color:0x344b60,metalness:.5,roughness:.35}));g.add(shell);
 const ring=new THREE.Mesh(new THREE.TorusGeometry(.62,.085,14,48),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.85,metalness:.25,roughness:.3}));g.add(ring);
 const eye=new THREE.Mesh(new THREE.SphereGeometry(.12,16,12),new THREE.MeshBasicMaterial({color:0xffffff}));eye.position.set(0,.08,.38);g.add(eye);
-for(let k=0;k<4;k++){const fin=new THREE.Mesh(new THREE.CapsuleGeometry(.055,.28,4,10),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.4}));fin.rotation.z=k*Math.PI/2;fin.position.set(Math.cos(k*Math.PI/2)*.48,Math.sin(k*Math.PI/2)*.48,0);g.add(fin)}scene.add(g);targets.push(g)}
+for(let k=0;k<4;k++){const fin=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,.38,12),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.4}));fin.rotation.z=k*Math.PI/2;fin.position.set(Math.cos(k*Math.PI/2)*.48,Math.sin(k*Math.PI/2)*.48,0);g.add(fin)}scene.add(g);targets.push(g)}
 let yaw=0,pitch=0,score=0,ammo=5,health=100,moveX=0,moveY=0,started=false,paused=false,jumpV=0,onGround=true,sprinting=false;const ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);const fa=n=>new Intl.NumberFormat('fa-IR').format(n);
 function hud(){document.querySelector('#score').textContent=fa(score);document.querySelector('#ammo').textContent=fa(ammo);document.querySelector('#health').textContent=fa(health);document.querySelector('#mission').textContent=targets.length?'ماموریت: فعال‌کردن '+fa(targets.length)+' نشان باقی‌مانده':'ماموریت کامل شد! آفرین 🎉'}
 function toast(msg){const el=document.querySelector('#toast');el.textContent=msg;el.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>el.style.opacity=0,950)}
