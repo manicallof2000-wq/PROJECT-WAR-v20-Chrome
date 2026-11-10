@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#83c7f4;font-family:system-ui,sans-serif;touch-action:none;user-select:none}#game{position:fixed;inset:0}canvas{display:block}
 #hud{position:fixed;top:max(10px,env(safe-area-inset-top));left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;pointer-events:none;color:white;text-shadow:0 2px 5px #07170f;font-weight:750}.panel{background:#0b1c16c9;border:1px solid #ffffff45;border-radius:13px;padding:8px 10px;font-size:12px}
@@ -14,8 +14,8 @@
 <div id="mission">ماموریت: ۵ نشان نورانی را فعال کن</div><div id="cross"></div><div id="joy"><div id="nub"></div></div><button class="action" id="pulse">پالس ✦</button><button class="action" id="reload">شارژ</button><button class="action" id="jump">پرش</button><button class="action" id="sprint">دویدن</button><button id="pause">Ⅱ</button><div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن صفحه • پالس: دکمه آبی</div><div id="toast"></div>
 <div id="overlay"><div class="dialog"><div class="logo">PROJECT WAR / URBAN OPS</div><h1 id="title">عملیات شهری</h1><p class="sub">میدان تمرینی شهری با ساختمان‌های جزئیات‌دار، خیابان آسفالتی و ربات‌های شناور.<br>۵ ربات تمرینی را پیدا کن و با پالس انرژی فعالشان کن.</p><p class="sub">کنترل‌ها: جوی‌استیک حرکت، کشیدن صفحه برای چرخش دوربین، دکمه پالس و شارژ مجدد.</p><button class="primary" id="start">شروع بازی</button></div></div>
 <script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import {RoundedBoxGeometry} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js';
+import * as THREE from 'three';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
 const mount=document.querySelector('#game'),scene=new THREE.Scene();scene.background=new THREE.Color(0x8bcfff);scene.fog=new THREE.Fog(0x8bcfff,42,105);
 const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,160);camera.position.set(0,1.65,7);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
