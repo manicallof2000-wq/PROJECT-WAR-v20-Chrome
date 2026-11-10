@@ -5,7 +5,7 @@
 #top{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-weight:800;font-size:13px;text-shadow:0 2px 5px #000;pointer-events:none}
 #hint{position:fixed;top:39px;left:12px;font-size:11px;color:#d4e5df;text-shadow:0 2px 5px #000;pointer-events:none}
 #cross{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);font-size:24px;color:#bdfaff;text-shadow:0 0 8px #2cecff;pointer-events:none}
-#controls{position:fixed;left:12px;right:12px;bottom:16px;display:flex;align-items:end;justify-content:space-between}
+#controls{position:fixed;left:12px;right:12px;bottom:16px;display:flex;align-items:end;justify-content:space-between;pointer-events:none}#controls button{pointer-events:auto}
 .pad{display:grid;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px 44px;gap:4px}
 button{background:#142b30d9;color:#f1ffff;border:1px solid #91c5c588;border-radius:11px;font-weight:800;font-size:11px;touch-action:none}
 .pad button{font-size:20px}.actions{display:flex;gap:7px}.actions button{height:52px;width:62px}
@@ -17,7 +17,7 @@ button{background:#142b30d9;color:#f1ffff;border:1px solid #91c5c588;border-radi
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x9eafb0);scene.fog=new THREE.Fog(0x9eafb0,22,78);
-const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,130);camera.position.set(0,1.65,8);
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,130);camera.position.set(0,1.65,8);scene.add(camera);
 const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#view'),antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);
 scene.add(new THREE.HemisphereLight(0xdaf5ff,0x26352e,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(-8,16,7);scene.add(sun);
 const material=(c,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness:m});
@@ -27,7 +27,7 @@ function box(x,y,z,w,h,d,c){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),
 for(let i=0;i<18;i++){const x=(i%6-2.5)*6,z=-12-Math.floor(i/6)*12;box(x,1.4,z,3.5,2.8,3.5,0x394a43);box(x,2.85,z,3.7,.15,3.7,0x718078)}
 for(let i=0;i<8;i++){box((i-4)*4,.65,-4,1.1,1.3,.8,0x68776d)}
 // Large, readable first-person fantasy energy blaster with a visible gloved support hand
-const emitter=new THREE.Group();camera.add(emitter);emitter.position.set(.48,-.37,-.92);
+const emitter=new THREE.Group();camera.add(emitter);emitter.position.set(.48,-.37,-.92);emitter.scale.set(1.45,1.45,1.45);
 const dark=material(0x111d23,.82),steel=material(0x64777c,.88),rubber=material(0x172126,.12),edge=material(0x263c43,.72);
 function part(parent,geo,mat,pos,rot){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);if(rot)m.rotation.set(...rot);parent.add(m);return m}
 // Main armored body and rear housing
