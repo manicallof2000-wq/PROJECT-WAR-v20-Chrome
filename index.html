@@ -26,11 +26,41 @@ const grid=new THREE.GridHelper(110,55,0x9db3a7,0x718278);grid.position.y=-.06;s
 function box(x,y,z,w,h,d,c){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(c,.18));o.position.set(x,y,z);scene.add(o);return o}
 for(let i=0;i<18;i++){const x=(i%6-2.5)*6,z=-12-Math.floor(i/6)*12;box(x,1.4,z,3.5,2.8,3.5,0x394a43);box(x,2.85,z,3.7,.15,3.7,0x718078)}
 for(let i=0;i<8;i++){box((i-4)*4,.65,-4,1.1,1.3,.8,0x68776d)}
-// Compact fictional energy emitter, kept low in the frame
-const emitter=new THREE.Group();camera.add(emitter);emitter.position.set(.43,-.39,-.78);
-const shell=new THREE.Mesh(new THREE.BoxGeometry(.2,.19,.48),material(0x24383d,.65));emitter.add(shell);
-const barrel=new THREE.Mesh(new THREE.CylinderGeometry(.065,.065,.3,16),new THREE.MeshBasicMaterial({color:0x45eaff}));barrel.rotation.x=Math.PI/2;barrel.position.z=-.24;emitter.add(barrel);
-const handle=new THREE.Mesh(new THREE.BoxGeometry(.12,.25,.14),material(0x172327));handle.position.set(0,-.19,.06);emitter.add(handle);
+// Detailed fictional sci-fi pulse tool: clearly a fantasy energy device, not a real firearm
+const emitter=new THREE.Group();camera.add(emitter);emitter.position.set(.46,-.40,-.82);
+const dark=material(0x17252b,.72),steel=material(0x52666c,.82),rubber=material(0x10191d,.08);
+function part(parent,geo,mat,pos,rot){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);if(rot)m.rotation.set(...rot);parent.add(m);return m}
+part(emitter,new THREE.BoxGeometry(.24,.22,.55),dark,[0,0,0]);
+part(emitter,new THREE.BoxGeometry(.27,.07,.32),steel,[0,.13,-.04]);
+part(emitter,new THREE.BoxGeometry(.12,.28,.17),rubber,[0,-.2,.1],[-.18,0,0]);
+part(emitter,new THREE.BoxGeometry(.17,.07,.22),steel,[0,.19,.03]);
+part(emitter,new THREE.BoxGeometry(.08,.09,.16),dark,[0,.25,.02]);
+const muzzle=part(emitter,new THREE.CylinderGeometry(.075,.09,.34,20),steel,[0,.015,-.38],[Math.PI/2,0,0]);
+const core=part(emitter,new THREE.CylinderGeometry(.045,.045,.36,16),new THREE.MeshBasicMaterial({color:0x4ceeff}),[0,.015,-.39],[Math.PI/2,0,0]);
+const glow=new THREE.PointLight(0x35dfff,1.6,2);glow.position.set(0,.02,-.5);emitter.add(glow);
+for(let z of [-.2,-.05,.1]){part(emitter,new THREE.BoxGeometry(.29,.018,.025),new THREE.MeshBasicMaterial({color:0x38dff5,emissive:0x168baf}),[0,.11,z])}
+part(emitter,new THREE.BoxGeometry(.035,.16,.2),steel,[-.145,.015,-.02]);
+part(emitter,new THREE.BoxGeometry(.035,.16,.2),steel,[.145,.015,-.02]);
+part(emitter,new THREE.BoxGeometry(.12,.035,.14),new THREE.MeshBasicMaterial({color:0xa6fbff}),[0,.18,-.16]);
+// Stylized masked operator display model in the training yard (original design)
+const operator=new THREE.Group();operator.position.set(2.8,0,-7);operator.rotation.y=0;scene.add(operator);
+const cloth=material(0x293b36),armor=material(0x172329,.35),maskMat=material(0xb9c4bc,.28),black=material(0x080f12,.1);
+part(operator,new THREE.CylinderGeometry(.43,.52,.95,12),cloth,[0,1.05,0]);
+part(operator,new THREE.BoxGeometry(1.05,.62,.38),armor,[0,1.28,.02]);
+part(operator,new THREE.BoxGeometry(.24,.65,.28),cloth,[-.62,1.18,0], [0,0,-.18]);
+part(operator,new THREE.BoxGeometry(.24,.65,.28),cloth,[.62,1.18,0], [0,0,.18]);
+part(operator,new THREE.CylinderGeometry(.29,.31,.48,16),cloth,[0,.42,0]);
+part(operator,new THREE.SphereGeometry(.38,20,16),armor,[0,1.98,0]);
+part(operator,new THREE.BoxGeometry(.72,.16,.68),dark,[0,2.24,-.015]);
+part(operator,new THREE.BoxGeometry(.64,.12,.62),steel,[0,2.29,0]);
+part(operator,new THREE.BoxGeometry(.57,.4,.08),maskMat,[0,1.91,.34]);
+part(operator,new THREE.BoxGeometry(.19,.11,.035),black,[-.16,2.02,.39]);
+part(operator,new THREE.BoxGeometry(.19,.11,.035),black,[.16,2.02,.39]);
+part(operator,new THREE.BoxGeometry(.11,.19,.045),steel,[0,1.91,.405]);
+part(operator,new THREE.BoxGeometry(.42,.14,.05),black,[0,1.77,.4]);
+for(let i=0;i<4;i++)part(operator,new THREE.BoxGeometry(.045,.10,.04),maskMat,[-.15+i*.10,1.77,.43]);
+part(operator,new THREE.BoxGeometry(.12,.3,.12),cloth,[-.22,.25,0]);
+part(operator,new THREE.BoxGeometry(.12,.3,.12),cloth,[.22,.25,0]);
 const targets=[];const targetMat=new THREE.MeshStandardMaterial({color:0x5df5ff,emissive:0x0b9ca8,emissiveIntensity:2});
 for(let i=0;i<10;i++){const t=new THREE.Mesh(new THREE.IcosahedronGeometry(.38,1),targetMat);t.position.set((Math.random()-.5)*20,1.2+Math.random()*2,-12-Math.random()*35);scene.add(t);targets.push(t)}
 const held={f:false,b:false,l:false,r:false};let yaw=0,pitch=0,vy=0,grounded=true,score=0,energy=100,drag=false,lx=0,ly=0;
