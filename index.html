@@ -1,109 +1,136 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#173c2b"><title>PROJECT WAR — Urban Ops</title><!-- startup-fix-v4: independent touch start handler -->
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#142330">
+<title>PROJECT WAR — City Explorer</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#83c7f4;font-family:system-ui,sans-serif;touch-action:none;user-select:none}#game{position:fixed;inset:0}canvas{display:block}
-#hud{position:fixed;top:max(10px,env(safe-area-inset-top));left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;pointer-events:none;color:white;text-shadow:0 2px 5px #07170f;font-weight:750}.panel{background:#0b1c16c9;border:1px solid #ffffff45;border-radius:13px;padding:8px 10px;font-size:12px}
-#mission{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#0b1c16bd;color:white;border:1px solid #ffffff45;border-radius:14px;padding:7px 12px;font-size:12px;white-space:nowrap;pointer-events:none}
-#cross{position:fixed;left:50%;top:46%;width:18px;height:18px;transform:translate(-50%,-50%);border:2px solid white;border-radius:50%;box-shadow:0 0 6px #000;pointer-events:none}#cross:after,#cross:before{content:"";position:absolute;background:white;left:50%;top:50%;transform:translate(-50%,-50%)}#cross:after{width:2px;height:28px}#cross:before{height:2px;width:28px}
-#joy{position:fixed;left:18px;bottom:max(22px,env(safe-area-inset-bottom));width:126px;height:126px;border-radius:50%;background:#13291f66;border:2px solid #ffffff99;touch-action:none}#nub{position:absolute;width:52px;height:52px;left:35px;top:35px;border-radius:50%;background:#ffffffb8;border:2px solid white}
-.action{position:fixed;border:1px solid #ffffffb0;color:white;font-weight:800;border-radius:50%;background:#10251edb;box-shadow:0 4px 15px #0005;touch-action:none}#pulse{right:20px;bottom:max(35px,env(safe-area-inset-bottom));width:82px;height:82px;background:#087c9be8;font-size:14px}#reload{right:112px;bottom:max(48px,env(safe-area-inset-bottom));width:57px;height:57px;font-size:11px}#jump{position:fixed;right:24px;bottom:max(125px,calc(env(safe-area-inset-bottom) + 125px));width:52px;height:52px;border-radius:50%;border:1px solid #ffffffb0;color:white;background:#10251edb;font-weight:800}#sprint{position:fixed;right:110px;bottom:max(112px,calc(env(safe-area-inset-bottom) + 112px));width:50px;height:50px;border-radius:50%;border:1px solid #ffffffb0;color:white;background:#10251edb;font-weight:800}#pause{position:fixed;right:12px;top:108px;width:38px;height:38px;border-radius:12px;border:1px solid #ffffff45;background:#0b1c16c9;color:white;font-size:17px}
-#hint{position:fixed;bottom:7px;left:50%;transform:translateX(-50%);color:white;text-shadow:0 1px 4px #000;font-size:10px;white-space:nowrap;pointer-events:none}
-#overlay{position:fixed;z-index:50;inset:0;background:linear-gradient(160deg,#07150de8,#10271de8);display:grid;place-items:center;color:white;text-align:center;padding:22px}.dialog{width:min(420px,100%);background:#10251eee;border:1px solid #ffffff38;border-radius:24px;padding:24px;box-shadow:0 18px 60px #0008}.logo{font-size:12px;letter-spacing:3px;color:#76f0b0;font-weight:900}h1{font-size:28px;margin:9px 0}.sub{color:#d4e5da;font-size:14px;line-height:1.9}.primary{border:0;border-radius:14px;background:linear-gradient(135deg,#31bd75,#168b59);color:#062516;padding:13px 30px;font-size:17px;font-weight:900;margin-top:14px}#toast{position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);background:#10251eee;color:white;padding:12px 18px;border-radius:14px;opacity:0;transition:opacity .18s;pointer-events:none;font-weight:800}
-</style></head><body><div id="game"></div><div id="loadError" style="display:none;position:fixed;inset:0;background:#101d2c;color:white;z-index:99;place-items:center;text-align:center;padding:28px;font:16px/2 system-ui">خطا در اجرای بازی. صفحه را در Chrome و با اینترنت باز کن.</div>
-<div id="hud"><div class="panel">امتیاز: <span id="score">۰</span></div><div class="panel">شارژ: <span id="ammo">۵</span>/۵</div><div class="panel">سلامت: <span id="health">۱۰۰</span٪</div></div>
-<div id="mission">ماموریت: ۵ نشان نورانی را فعال کن</div><div id="cross"></div><div id="joy"><div id="nub"></div></div><button class="action" id="pulse">پالس ✦</button><button class="action" id="reload">شارژ</button><button class="action" id="jump">پرش</button><button class="action" id="sprint">دویدن</button><button id="pause">Ⅱ</button><div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن صفحه • پالس: دکمه آبی</div><div id="toast"></div>
-<div id="overlay"><div class="dialog"><div class="logo">PROJECT WAR / URBAN OPS</div><h1 id="title">عملیات شهری</h1><p class="sub">میدان تمرینی شهری با ساختمان‌های جزئیات‌دار، خیابان آسفالتی و ربات‌های شناور.<br>۵ ربات تمرینی را پیدا کن و با پالس انرژی فعالشان کن.</p><p class="sub">کنترل‌ها: جوی‌استیک حرکت، کشیدن صفحه برای چرخش دوربین، دکمه پالس و شارژ مجدد.</p><button class="primary" id="start">شروع بازی</button></div></div>
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172a38;font-family:system-ui,sans-serif;touch-action:none}
+#world{position:fixed;inset:0;width:100%;height:100%;display:block}
+#hud{position:fixed;top:max(9px,env(safe-area-inset-top));left:10px;right:10px;display:flex;justify-content:space-between;gap:6px;color:#fff;font-weight:800;pointer-events:none;text-shadow:0 2px 5px #000}
+.pill{background:#091722d9;border:1px solid #ffffff55;border-radius:12px;padding:7px 10px;font-size:12px;backdrop-filter:blur(7px)}
+#task{position:fixed;top:55px;left:50%;transform:translateX(-50%);background:#091722df;color:white;border:1px solid #ffffff55;border-radius:12px;padding:7px 12px;font-size:12px;white-space:nowrap;pointer-events:none}
+#joy{position:fixed;left:18px;bottom:max(22px,env(safe-area-inset-bottom));width:120px;height:120px;border-radius:50%;border:2px solid #ffffff99;background:#0b1c2b88;touch-action:none}
+#nub{position:absolute;left:34px;top:34px;width:48px;height:48px;border-radius:50%;background:#ffffffd9;border:2px solid white;box-shadow:0 3px 12px #0008}
+.action{position:fixed;border:1px solid #ffffffa8;color:#fff;font-weight:900;border-radius:50%;background:#0c2d40eF;box-shadow:0 4px 15px #0007;touch-action:none}
+#interact{right:20px;bottom:max(28px,env(safe-area-inset-bottom));width:82px;height:82px;background:#087c9b;font-size:13px}
+#jump{right:26px;bottom:max(121px,calc(env(safe-area-inset-bottom) + 121px));width:54px;height:54px;font-size:12px}
+#run{right:111px;bottom:max(108px,calc(env(safe-area-inset-bottom) + 108px));width:52px;height:52px;font-size:11px}
+#pause{position:fixed;right:10px;top:108px;width:38px;height:38px;border-radius:11px;border:1px solid #ffffff55;background:#091722d9;color:white;font-size:17px}
+#hint{position:fixed;bottom:5px;left:50%;transform:translateX(-50%);color:white;text-shadow:0 1px 4px #000;font-size:10px;white-space:nowrap;pointer-events:none}
+#overlay{position:fixed;z-index:1000;inset:0;display:grid;place-items:center;background:linear-gradient(155deg,#07121fee,#123044ee);padding:20px;color:white;text-align:center}
+.dialog{width:min(430px,100%);background:#0b1d2bf2;border:1px solid #ffffff45;border-radius:22px;padding:23px;box-shadow:0 18px 60px #0009}
+.logo{font-size:12px;letter-spacing:3px;color:#63ebd1;font-weight:900}
+h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deebf2}
+#start{border:0;border-radius:13px;background:linear-gradient(135deg,#67f1c5,#43b8e6);color:#082033;padding:14px 32px;font-size:18px;font-weight:900;margin-top:12px;min-width:175px;touch-action:manipulation}
+#toast{position:fixed;z-index:20;left:50%;top:45%;transform:translate(-50%,-50%);background:#071c2cf2;color:#fff;border-radius:13px;padding:11px 17px;opacity:0;transition:opacity .2s;pointer-events:none;font-weight:900}
+#cross{position:fixed;left:50%;top:45%;width:15px;height:15px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 6px #000;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="world"></canvas>
+<div id="hud"><div class="pill">امتیاز <span id="score">۰</span></div><div class="pill">نقاط <span id="count">۰</span>/۵</div><div class="pill">وضعیت <span id="status">آماده</span></div></div>
+<div id="task">ماموریت: ۵ نقطه نورانی شهر را پیدا کن</div>
+<div id="cross"></div>
+<div id="joy"><div id="nub"></div></div>
+<button class="action" id="interact" type="button">تعامل ✦</button>
+<button class="action" id="jump" type="button">پرش</button>
+<button class="action" id="run" type="button">دویدن</button>
+<button id="pause" type="button">Ⅱ</button>
+<div id="hint">حرکت: جوی‌استیک • نگاه: کشیدن سمت راست • نزدیک نقطه شو و تعامل کن</div>
+<div id="toast"></div>
+<div id="overlay">
+ <div class="dialog">
+  <div class="logo">PROJECT WAR / CITY EXPLORER</div>
+  <h1 id="title">گشت‌وگذار شهری</h1>
+  <p class="desc">یک محیط سه‌بعدی سبک و لمسی برای Chrome.<br>در خیابان حرکت کن و ۵ نقطه نورانی را پیدا و فعال کن.</p>
+  <p class="desc">جوی‌استیک برای حرکت، کشیدن سمت راست برای چرخش دوربین، و دکمه‌های پرش و تعامل.</p>
+  <button id="start" type="button" onclick="startGame(event)" ontouchend="startGame(event)">شروع بازی</button>
+ </div>
+</div>
 <script>
 (function(){
- const overlay=document.getElementById('overlay'), start=document.getElementById('start');
- window.__PW_STARTED=false;
- function begin(e){if(e){e.preventDefault();e.stopPropagation()}window.__PW_STARTED=true;overlay.style.display='none';}
- start.addEventListener('click',begin,true);
- start.addEventListener('pointerup',begin,true);
- start.addEventListener('touchend',begin,{capture:true,passive:false});
-})();
-</script>
-<script>
-/* Independent mobile start control: works even if the 3D module has a startup error. */
-(function () {
-  const overlay = document.getElementById('overlay');
-  const button = document.getElementById('start');
-  const title = document.getElementById('title');
-  function beginGame(event) {
-    if (event) { event.preventDefault(); event.stopPropagation(); }
-    window.__PROJECT_WAR_START_REQUESTED__ = true;
-    if (overlay) overlay.style.display = 'none';
-    if (title) title.textContent = 'عملیات شهری';
-    const mission = document.getElementById('mission');
-    if (mission) mission.textContent = 'بازی شروع شد — ربات‌های تمرینی را پیدا کن';
-    return false;
-  }
-  if (button) {
-    button.addEventListener('pointerdown', beginGame, {capture:true});
-    button.addEventListener('touchstart', beginGame, {capture:true, passive:false});
-    button.addEventListener('click', beginGame, {capture:true});
-    button.onclick = beginGame;
-  }
-  window.PWBeginGame = beginGame;
-})();
-</script>
-<script type="module">
-window.addEventListener("error",e=>{const el=document.querySelector("#loadError");if(el){el.style.display="grid";el.textContent="خطای اجرا: "+(e.message||"بارگذاری ناموفق")+" — صفحه را دوباره بارگذاری کن."}});
-window.addEventListener("unhandledrejection",e=>{const el=document.querySelector("#loadError");if(el){el.style.display="grid";el.textContent="خطا در بارگذاری موتور سه‌بعدی. اینترنت را بررسی و صفحه را دوباره بارگذاری کن."}});
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-const RoundedBoxGeometry = THREE.BoxGeometry; // compatibility fallback for older cached code
-const mount=document.querySelector('#game'),scene=new THREE.Scene();scene.background=new THREE.Color(0x8bcfff);scene.fog=new THREE.Fog(0x8bcfff,42,105);
-const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,160);camera.position.set(0,1.65,7);
-const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.25));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xffffff,0x4c7542,2.1));const sun=new THREE.DirectionalLight(0xfff4dc,2.1);sun.position.set(-9,17,8);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),new THREE.MeshStandardMaterial({color:0x687d52,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.05;ground.receiveShadow=true;scene.add(ground);
-const road=new THREE.Mesh(new THREE.PlaneGeometry(22,150),new THREE.MeshStandardMaterial({color:0x30383e,roughness:1}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-34);road.receiveShadow=true;scene.add(road);
-const curbmat=new THREE.MeshStandardMaterial({color:0xb4b8b5,roughness:.9}),wallmat=new THREE.MeshStandardMaterial({color:0x858d90,roughness:.9}),windowmat=new THREE.MeshStandardMaterial({color:0x203e50,metalness:.25,roughness:.22,emissive:0x102b3a,emissiveIntensity:.4});
-function rounded(w,h,d,r,m){
- const x=w/2,y=h/2,rr=Math.max(.01,Math.min(r,x*.8,y*.8));
- const s=new THREE.Shape();
- s.moveTo(-x+rr,-y);s.lineTo(x-rr,-y);s.quadraticCurveTo(x,-y,x,-y+rr);
- s.lineTo(x,y-rr);s.quadraticCurveTo(x,y,x-rr,y);
- s.lineTo(-x+rr,y);s.quadraticCurveTo(-x,y,-x,y-rr);
- s.lineTo(-x,-y+rr);s.quadraticCurveTo(-x,-y,-x+rr,-y);
- const geo=new THREE.ExtrudeGeometry(s,{depth:Math.max(.01,d-2*rr),bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:rr*.45,bevelThickness:rr*.45,curveSegments:5});
- geo.translate(0,0,-(d-2*rr)/2);geo.computeVertexNormals();
- return new THREE.Mesh(geo,m)
+"use strict";
+var canvas=document.getElementById("world"),ctx=canvas.getContext("2d",{alpha:false});
+var overlay=document.getElementById("overlay"),startBtn=document.getElementById("start");
+var scoreEl=document.getElementById("score"),countEl=document.getElementById("count"),statusEl=document.getElementById("status"),taskEl=document.getElementById("task"),toastEl=document.getElementById("toast");
+var W=innerWidth,H=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5),playing=false,paused=false;
+var player={x:0,z:8,y:0,yaw:0,pitch:0},joyX=0,joyY=0,running=false,jump=0,jumpV=0,score=0,found=0;
+var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
+function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener("resize",resize);resize();
+function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;overlay.style.display="none";statusEl.textContent="درحال بازی";taskEl.textContent="ماموریت: نقاط نورانی را پیدا کن";return false}
+window.startGame=startGame;
+["click","pointerup","touchend"].forEach(function(ev){startBtn.addEventListener(ev,startGame,{passive:false})});
+function toast(t){toastEl.textContent=t;toastEl.style.opacity="1";clearTimeout(toast.timer);toast.timer=setTimeout(function(){toastEl.style.opacity="0"},1100)}
+function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";toast("همه نقاط را پیدا کردی!")} }
+function project(x,y,z){
+ var dx=x-player.x,dz=z-player.z,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
+ var vx=dx*co+dz*si,vz=dx*si-dz*co;
+ if(vz<.35)return null;
+ var focal=Math.min(W,H)*.92,scale=focal/vz;
+ return {x:W/2+vx*scale,y:H*.43-(y-1.65-jump)*scale,scale:scale,z:vz};
 }
-function facade(x,z,w,h,d){
- const body=rounded(w,h,d,.18,wallmat);body.position.set(x,h/2,z);body.castShadow=true;body.receiveShadow=true;scene.add(body);
- for(let row=0;row<3;row++)for(let col=0;col<3;col++){
-  const wx=x-w*.31+col*w*.31,wy=1.25+row*1.45;
-  const win=rounded(w*.17,.78,.08,.035,windowmat);win.position.set(wx,wy,z+d/2+.045);scene.add(win);
-  const sill=rounded(w*.2,.07,.13,.025,curbmat);sill.position.set(wx,wy-.43,z+d/2+.08);scene.add(sill);
+function poly(pts,fill,stroke){var p=pts.map(function(v){return project(v[0],v[1],v[2])});if(p.some(function(v){return !v}))return;ctx.beginPath();ctx.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length;i++)ctx.lineTo(p[i].x,p[i].y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
+function box(x,z,w,h,d,base){
+ var a=x-w/2,b=x+w/2,n=z-d/2,f=z+d/2;
+ poly([[a,0,f],[b,0,f],[b,h,f],[a,h,f]],base);
+ poly([[b,0,f],[b,0,n],[b,h,n],[b,h,f]],shade(base,.72));
+ poly([[a,h,f],[b,h,f],[b,h,n],[a,h,n]],shade(base,1.13));
+ var front=f;
+ for(var row=0;row<3;row++)for(var col=0;col<3;col++){
+  var wx=a+w*(.18+col*.32),wy=h*(.2+row*.23),ww=w*.16,wh=h*.105;
+  poly([[wx-ww/2,wy,front+.025],[wx+ww/2,wy,front+.025],[wx+ww/2,wy+wh,front+.025],[wx-ww/2,wy+wh,front+.025]],"#25485a","#9eaaab");
  }
- const roof=rounded(w+.2,.18,d+.2,.06,new THREE.MeshStandardMaterial({color:0x3b484e}));roof.position.set(x,h+.08,z);scene.add(roof);
 }
-facade(-17,-19,8,8,6);facade(17,-24,9,9,7);facade(-19,-44,9,10,7);facade(19,-49,9,8,7);
-for(let i=0;i<5;i++){const x=(i-2)*4.4;const barrier=rounded(2.9,1.05,1.25,.24,i%2?curbmat:wallmat);barrier.position.set(x,.52,-8-(i%2));barrier.castShadow=true;scene.add(barrier)}
-const lane=new THREE.Mesh(new THREE.PlaneGeometry(.16,120),new THREE.MeshBasicMaterial({color:0xd7c878}));lane.rotation.x=-Math.PI/2;lane.position.set(0,.02,-34);scene.add(lane);
-for(let i=0;i<14;i++){const s=new THREE.Mesh(new THREE.PlaneGeometry(220,2.5),new THREE.MeshBasicMaterial({color:i%2?0x55b94b:0x379a32,transparent:true,opacity:.1,depthWrite:false}));s.rotation.x=-Math.PI/2;s.position.set(0,.002,-10-i*7);scene.add(s)}
-// Stylized first-person hands and a fictional energy projector, not a real-world weapon replica.
-const held=new THREE.Group();camera.add(held);held.position.set(.42,-.39,-.78);const metal=new THREE.MeshStandardMaterial({color:0x263e4c,metalness:.55,roughness:.32});
-const core=rounded(.22,.19,.46,.07,metal);core.position.set(0,0,-.12);held.add(core);const emitter=new THREE.Mesh(new THREE.CylinderGeometry(.075,.095,.35,12),new THREE.MeshStandardMaterial({color:0x426779,metalness:.55,roughness:.28}));emitter.rotation.x=Math.PI/2;emitter.position.set(0,.015,-.43);held.add(emitter);
-const energy=new THREE.Mesh(new THREE.SphereGeometry(.085,16,12),new THREE.MeshBasicMaterial({color:0x6af2ff}));energy.position.set(0,.015,-.62);held.add(energy);const skin=new THREE.MeshStandardMaterial({color:0xb98260,roughness:.85});const hand1=new THREE.Mesh(new THREE.SphereGeometry(.115,16,12),skin);hand1.position.set(-.02,-.13,.08);held.add(hand1);const hand2=new THREE.Mesh(new THREE.SphereGeometry(.1,16,12),skin);hand2.position.set(.1,-.08,-.22);held.add(hand2);scene.add(camera);
-const colors=[0xffd45b,0x54eaff,0xff7caa,0xb89aff,0x9dff83],targets=[];
-for(let i=0;i<5;i++){const g=new THREE.Group();g.position.set((i-2)*3.15,1.35,-13-(i%2)*2.3);const shell=new THREE.Mesh(new THREE.SphereGeometry(.43,24,18),new THREE.MeshStandardMaterial({color:0x344b60,metalness:.5,roughness:.35}));g.add(shell);
-const ring=new THREE.Mesh(new THREE.TorusGeometry(.62,.085,14,48),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.85,metalness:.25,roughness:.3}));g.add(ring);
-const eye=new THREE.Mesh(new THREE.SphereGeometry(.12,16,12),new THREE.MeshBasicMaterial({color:0xffffff}));eye.position.set(0,.08,.38);g.add(eye);
-for(let k=0;k<4;k++){const fin=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,.38,12),new THREE.MeshStandardMaterial({color:colors[i],emissive:colors[i],emissiveIntensity:.4}));fin.rotation.z=k*Math.PI/2;fin.position.set(Math.cos(k*Math.PI/2)*.48,Math.sin(k*Math.PI/2)*.48,0);g.add(fin)}scene.add(g);targets.push(g)}
-let yaw=0,pitch=0,score=0,ammo=5,health=100,moveX=0,moveY=0,started=!!window.__PW_STARTED,paused=false,jumpV=0,onGround=true,sprinting=false;const ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);const fa=n=>new Intl.NumberFormat('fa-IR').format(n);
-function hud(){document.querySelector('#score').textContent=fa(score);document.querySelector('#ammo').textContent=fa(ammo);document.querySelector('#health').textContent=fa(health);document.querySelector('#mission').textContent=targets.length?'ماموریت: فعال‌کردن '+fa(targets.length)+' نشان باقی‌مانده':'ماموریت کامل شد! آفرین 🎉'}
-function toast(msg){const el=document.querySelector('#toast');el.textContent=msg;el.style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>el.style.opacity=0,950)}
-function pulse(){if(!started||paused)return;if(ammo<=0){toast('شارژ تمام شد؛ دکمه شارژ را بزن');return}ammo--;ray.setFromCamera(center,camera);const hits=ray.intersectObjects(targets,true);if(hits.length){let o=hits[0].object;while(o.parent&&!targets.includes(o))o=o.parent;if(targets.includes(o)){scene.remove(o);targets.splice(targets.indexOf(o),1);score+=10;toast('+۱۰ امتیاز');if(!targets.length)toast('همه نشان‌ها فعال شدند!')}}else toast('نشان در مرکز دید نیست');energy.material.color.set(0xffffff);setTimeout(()=>energy.material.color.set(0x6af2ff),110);hud()}
-document.querySelector('#pulse').addEventListener('pointerdown',e=>{e.preventDefault();pulse()});document.querySelector('#reload').addEventListener('pointerdown',e=>{e.preventDefault();if(started&&!paused){ammo=5;hud();toast('شارژ کامل شد')}});
-document.querySelector('#jump').addEventListener('pointerdown',e=>{e.preventDefault();if(started&&!paused&&onGround){jumpV=5.2;onGround=false}});
-const sprintBtn=document.querySelector('#sprint');sprintBtn.addEventListener('pointerdown',e=>{e.preventDefault();sprinting=true});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>sprintBtn.addEventListener(ev,()=>sprinting=false));
-document.querySelector('#pause').onclick=()=>{if(!started)return;paused=!paused;document.querySelector('#overlay').style.display=paused?'grid':'none';document.querySelector('#title').textContent=paused?'بازی متوقف شد':'میدان سبز';document.querySelector('#start').textContent=paused?'ادامه بازی':'شروع بازی'};
-document.querySelector('#start').addEventListener('click',()=>{started=true;window.__PW_STARTED=true;paused=false;document.querySelector('#overlay').style.display='none';document.querySelector('#title').textContent='عملیات شهری';});
-let dragging=false,lastX=0,lastY=0;renderer.domElement.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointercancel',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging||!started||paused)return;yaw-=(e.clientX-lastX)*.004;pitch=Math.max(-.62,Math.min(.62,pitch-(e.clientY-lastY)*.003));lastX=e.clientX;lastY=e.clientY});
-const joy=document.querySelector('#joy'),nub=document.querySelector('#nub');let joyId=null;function joyMove(e){const r=joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.min(43,Math.hypot(dx,dy)),a=Math.atan2(dy,dx),x=Math.cos(a)*d,y=Math.sin(a)*d;nub.style.transform='translate('+x+'px,'+y+'px)';moveX=x/43;moveY=y/43}
-joy.addEventListener('pointerdown',e=>{joyId=e.pointerId;joy.setPointerCapture(joyId);joyMove(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)joyMove(e)});function resetJoy(){joyId=null;moveX=moveY=0;nub.style.transform=''}joy.addEventListener('pointerup',resetJoy);joy.addEventListener('pointercancel',resetJoy);
-const clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.04);if(window.__PROJECT_WAR_START_REQUESTED__)started=true;if(started&&!paused){camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);const f=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));const speed=sprinting?8:5;camera.position.addScaledVector(f,-moveY*dt*speed);camera.position.addScaledVector(r,moveX*dt*speed);camera.position.x=THREE.MathUtils.clamp(camera.position.x,-22,22);camera.position.z=THREE.MathUtils.clamp(camera.position.z,-55,9);if(!onGround){camera.position.y+=jumpV*dt;jumpV-=13*dt;if(camera.position.y<=1.65){camera.position.y=1.65;jumpV=0;onGround=true}}held.position.y=-.39+Math.sin(clock.elapsedTime*5)*.006;targets.forEach((t,i)=>{t.position.y=1.35+Math.sin(clock.elapsedTime*1.4+i)*.09;t.rotation.y=clock.elapsedTime*.45;t.lookAt(camera.position)})}renderer.render(scene,camera)}animate();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});hud();
-</script></body></html>
+function shade(hex,f){var n=parseInt(hex.slice(1),16),r=Math.min(255,((n>>16)&255)*f),g=Math.min(255,((n>>8)&255)*f),b=Math.min(255,(n&255)*f);return "rgb("+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"}
+function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function draw(){
+ var sky=ctx.createLinearGradient(0,0,0,H*.7);sky.addColorStop(0,"#7fc6ed");sky.addColorStop(1,"#d6e0da");ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ var hz=H*.43;
+ poly([[-500,0,-100],[500,0,-100],[500,0,50],[-500,0,50]],"#687a59");
+ // ground and asphalt lane
+ ctx.fillStyle="#647b53";ctx.fillRect(0,hz,W,H-hz);
+ poly([[-11,.01,-110],[11,.01,-110],[45,.01,18],[-45,.01,18]],"#343c42");
+ poly([[-11,.025,-110],[-10.7,.025,-110],[-44,.025,18],[-45,.025,18]],"#c2b889");
+ poly([[10.7,.025,-110],[11,.025,-110],[45,.025,18],[44,.025,18]],"#c2b889");
+ for(var z=-12;z>-100;z-=12){poly([[-.08,.04,z],[.08,.04,z],[.08,.04,z-5],[-.08,.04,z-5]],"#d6d0a7")}
+ // buildings are drawn far-to-near, with windows on their street-facing façades
+ var buildings=[[-16,-19,9,10,7,"#777e7c"],[16,-23,10,12,8,"#85817a"],[-19,-43,10,13,8,"#747e84"],[19,-48,11,11,8,"#88847e"],[-14,-69,8,14,7,"#6d7e82"],[15,-73,9,13,7,"#777c80"]];
+ buildings.sort(function(a,b){return b[1]-a[1]});
+ buildings.forEach(function(b){box(b[0],b[1],b[2],b[3],b[4],b[5])});
+ // road-side rounded cover barriers
+ for(var i=0;i<5;i++){var bx=(i-2)*4.7,bz=-9-(i%2)*1.4,p1=project(bx,0,bz),p2=project(bx,1.05,bz);if(p1&&p2){var w=Math.max(8,Math.min(90,p1.scale*1.65));roundRect(p1.x-w/2,p2.y,w,Math.max(5,p1.y-p2.y),Math.min(8,w*.12),i%2?"#8e9997":"#59676c");ctx.fillStyle="#bdc2bc";ctx.fillRect(p1.x-w/2,p2.y,w,Math.max(2,w*.035))}}
+ // luminous checkpoints
+ points.forEach(function(pt,i){if(pt.done)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var r=Math.max(4,Math.min(42,p.scale*.55));ctx.save();ctx.shadowBlur=Math.min(28,r*1.4);ctx.shadowColor=["#ffe36c","#5cecff","#ff88bc","#b6a0ff","#a4ff91"][i];ctx.fillStyle=["#ffe36c","#5cecff","#ff88bc","#b6a0ff","#a4ff91"][i];ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle="#ffffff";ctx.lineWidth=Math.max(1,r*.12);ctx.beginPath();ctx.arc(p.x,p.y,r*1.45,0,Math.PI*2);ctx.stroke();ctx.restore()});
+ // subtle first-person sleeves, only decorative, no weapon model
+ var handY=H-35+jump*25;ctx.fillStyle="#263b4b";ctx.beginPath();ctx.moveTo(W*.58,H);ctx.lineTo(W*.62,handY-75);ctx.quadraticCurveTo(W*.68,handY-95,W*.73,handY-55);ctx.lineTo(W*.79,H);ctx.fill();ctx.fillStyle="#b88768";ctx.beginPath();ctx.ellipse(W*.69,handY-18,32,27,-.2,0,Math.PI*2);ctx.fill();
+}
+function interact(){if(!playing||paused)return;var nearest=null,dist=999;points.forEach(function(pt){if(pt.done)return;var d=Math.hypot(pt.x-player.x,pt.z-player.z);if(d<dist){dist=d;nearest=pt}});if(nearest&&dist<7){nearest.done=true;found++;score+=100;toast("نقطه نورانی فعال شد +۱۰۰");updateHud()}else toast("به نقطه نورانی نزدیک‌تر شو")}
+document.getElementById("interact").addEventListener("pointerdown",function(e){e.preventDefault();interact()});
+document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
+var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false})});
+document.getElementById("pause").addEventListener("click",function(){if(!playing)return;paused=!paused;statusEl.textContent=paused?"مکث":"درحال بازی";overlay.style.display=paused?"grid":"none";document.getElementById("title").textContent=paused?"بازی متوقف شد":"گشت‌وگذار شهری";document.getElementById("start").textContent=paused?"ادامه بازی":"شروع بازی"});
+var joy=document.getElementById("joy"),nub=document.getElementById("nub"),joyId=null;
+function joyMove(e){var r=joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.min(42,Math.hypot(dx,dy)),a=Math.atan2(dy,dx),x=Math.cos(a)*d,y=Math.sin(a)*d;nub.style.transform="translate("+x+"px,"+y+"px)";joyX=x/42;joyY=y/42}
+joy.addEventListener("pointerdown",function(e){joyId=e.pointerId;joy.setPointerCapture(joyId);joyMove(e)});joy.addEventListener("pointermove",function(e){if(e.pointerId===joyId)joyMove(e)});function resetJoy(){joyId=null;joyX=joyY=0;nub.style.transform=""}joy.addEventListener("pointerup",resetJoy);joy.addEventListener("pointercancel",resetJoy);
+var lookId=null,lastX=0,lastY=0;
+canvas.addEventListener("pointerdown",function(e){if(e.clientX<W*.42&&e.clientY>H*.55)return;lookId=e.pointerId;lastX=e.clientX;lastY=e.clientY});
+canvas.addEventListener("pointermove",function(e){if(lookId!==e.pointerId||!playing||paused)return;player.yaw-=(e.clientX-lastX)*.004;player.pitch=Math.max(-.45,Math.min(.45,player.pitch-(e.clientY-lastY)*.002));lastX=e.clientX;lastY=e.clientY});
+function stopLook(){lookId=null}canvas.addEventListener("pointerup",stopLook);canvas.addEventListener("pointercancel",stopLook);
+var last=performance.now();
+function frame(now){var dt=Math.min(.04,(now-last)/1000);last=now;if(playing&&!paused){
+ var speed=running?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
+ player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(-joyY*co-joyX*si)*speed*dt;
+ player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-90,Math.min(10,player.z));
+ if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
+ }
+ draw();requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+updateHud();
+})();
+</script>
+</body>
+</html>
