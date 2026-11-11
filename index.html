@@ -1064,6 +1064,9 @@ var pw315style=document.createElement("style");pw315style.textContent="#joy{left
 
 // pw316: Right controls safe viewport
 var pw316style=document.createElement("style");pw316style.textContent="#fire,#jump,#run,#pause,#sound{right:max(10px,env(safe-area-inset-right))}";document.head.appendChild(pw316style);
+
+// pw317: Minimap safe viewport
+var pw317style=document.createElement("style");pw317style.textContent="#map{right:max(10px,env(safe-area-inset-right))}";document.head.appendChild(pw317style);
 requestAnimationFrame(frame);updateHud();
 })();
 
