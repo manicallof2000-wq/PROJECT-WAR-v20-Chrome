@@ -1605,6 +1605,9 @@ var pw493title=document.createElement("div");pw493title.textContent="PROJECT WAR
 
 // pw494: Add a compact dashboard footer with version
 var pw494footer=document.createElement("div");pw494footer.textContent="ARCADE BUILD 4.94";pw494footer.style.cssText="padding:5px;margin-top:6px;text-align:center;color:#8baab6;font:700 9px system-ui;border-top:1px solid #34515c";pw416dash.appendChild(pw494footer);
+
+// pw495: Save the selected mission objective
+pw490objective.addEventListener("click",function(){try{localStorage.setItem("pw_mission_objective",String(pw490idx))}catch(e){}});
 })();
 
  }
