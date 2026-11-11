@@ -986,6 +986,9 @@ var pw289style=document.createElement("style");pw289style.textContent="#map{z-in
 
 // pw290: Crosshair layering
 var pw290style=document.createElement("style");pw290style.textContent="#cross{z-index:7}";document.head.appendChild(pw290style);
+
+// pw291: Controls layering
+var pw291style=document.createElement("style");pw291style.textContent="#joy,#fire,#jump,#run,#pause,#sound{z-index:12}";document.head.appendChild(pw291style);
 requestAnimationFrame(frame);updateHud();
 })();
 
