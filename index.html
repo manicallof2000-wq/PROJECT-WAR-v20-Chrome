@@ -1113,6 +1113,9 @@ var pw329base=pw183fire;pw183fire=function(){var before=score;pw329base();if(sco
 
 // pw330: Create combo streak display
 var pw330combo=0,pw330last=0,pw330badge=document.createElement("div");pw330badge.id="pw330combo";pw330badge.textContent="COMBO ×0";pw330badge.style.cssText="position:fixed;right:10px;top:62px;z-index:14;padding:7px 10px;border:1px solid #ffc66b88;border-radius:10px;background:#271b12dd;color:#ffe1a6;font:900 11px Arial;pointer-events:none";document.body.appendChild(pw330badge);
+
+// pw331: Reward consecutive target hits
+var pw331base=pw183fire;pw183fire=function(){var before=score;pw331base();if(score>before){var now=performance.now();pw330combo=now-pw330last<5000?pw330combo+1:1;pw330last=now;if(pw330badge)pw330badge.textContent="COMBO ×"+pw330combo;score+=Math.min(150,(pw330combo-1)*15);if(pw330combo>1)toast("زنجیره امتیاز ×"+pw330combo)}};
 })();
 
  }
