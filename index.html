@@ -1137,6 +1137,9 @@ var pw337fov=document.createElement("button");pw337fov.textContent="زاویه �
 
 // pw338: Add minimap visibility toggle
 var pw338map=document.createElement("button");pw338map.textContent="نقشه کوچک: روشن";pw338map.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw338map);var pw338mapOn=true;pw338map.addEventListener("click",function(){pw338mapOn=!pw338mapOn;document.getElementById("map").style.display=pw338mapOn?"block":"none";pw338map.textContent="نقشه کوچک: "+(pw338mapOn?"روشن":"خاموش")});
+
+// pw339: Add reduced-motion camera option
+var pw339motion=document.createElement("button");pw339motion.textContent="لرزش دوربین: روشن";pw339motion.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw339motion);var pw339motionOn=true;pw339motion.addEventListener("click",function(){pw339motionOn=!pw339motionOn;pw339motion.textContent="لرزش دوربین: "+(pw339motionOn?"روشن":"خاموش");if(!pw339motionOn){pw185recoil=0;camera.rotation.z=0}});var pw339baseFrame=frame;
 })();
 
  }
