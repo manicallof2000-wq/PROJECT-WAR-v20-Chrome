@@ -561,7 +561,7 @@ window.startGame=startGame;startBtn.addEventListener("click",startGame);
 startBtn.addEventListener("touchend",function(e){e.preventDefault();startGame(e)},{passive:false});
 function toast(t){var el=document.getElementById("toast");if(!el)return;el.textContent=t;el.style.opacity="1";clearTimeout(toast._t);toast._t=setTimeout(function(){el.style.opacity="0"},1600)}
 function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){statusEl.textContent="عالی";if(score>best){best=score;try{localStorage.setItem("pw_best",String(best))}catch(e){}}toast("مرحله کامل شد! رکورد: "+best)}}
-function beep(freq,duration){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;g.gain.value=.04;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration)}catch(e){}}
+function beep(freq,duration){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;g.gain.value=.04*pw364volume;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration)}catch(e){}}
 function drawMap(){var m=document.getElementById("map"),c=m.getContext("2d");c.clearRect(0,0,208,208);c.fillStyle="#102b37";c.fillRect(0,0,208,208);c.strokeStyle="#526b6e";c.lineWidth=17;c.beginPath();c.moveTo(104,12);c.lineTo(104,196);c.stroke();points.forEach(function(p){c.fillStyle=p.done?"#64736e":"#ffd400";c.beginPath();c.arc(104+p.x*2.2,18+(8-p.z)*2.2,5,0,Math.PI*2);c.fill()});
 // pw214: plot active training drones on the minimap
 if(typeof pw183targets!=="undefined")pw183targets.forEach(function(g){if(g.visible){c.fillStyle="#4cecff";c.beginPath();c.arc(104+g.position.x*2.2,18+(8-g.position.z)*2.2,3.5,0,Math.PI*2);c.fill()}});c.save();c.translate(104+player.x*2.2,18+(8-player.z)*2.2);c.rotate(player.yaw);c.fillStyle="#fff";c.beginPath();c.moveTo(0,-9);c.lineTo(-6,7);c.lineTo(6,7);c.fill();c.restore()}
@@ -1212,6 +1212,9 @@ var pw362pulse=0;setInterval(function(){pw362pulse+=.08;pw183targets.forEach(fun
 
 // pw363: Add adjustable touch camera sensitivity
 var pw363sens=1;var pw363sensBtn=document.createElement("button");pw363sensBtn.textContent="حساسیت دوربین: ۱";pw363sensBtn.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw363sensBtn);pw363sensBtn.addEventListener("click",function(){pw363sens=pw363sens>=1.5?.7:pw363sens+.25;pw363sensBtn.textContent="حساسیت دوربین: "+pw363sens.toFixed(2)});
+
+// pw364: Add adjustable sound volume
+var pw364volume=1;var pw364volumeBtn=document.createElement("button");pw364volumeBtn.textContent="بلندی صدا: ۱۰۰٪";pw364volumeBtn.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw364volumeBtn);pw364volumeBtn.addEventListener("click",function(){pw364volume=pw364volume<=.25?1:pw364volume-.25;pw364volumeBtn.textContent="بلندی صدا: "+Math.round(pw364volume*100)+"٪"});
 })();
 
  }
