@@ -1599,6 +1599,9 @@ var pw491start=startGame;startGame=function(e){pw490goalDone=false;pw380brief.te
 
 // pw492: Add a dashboard toggle for goal progress
 var pw492goalToggle=document.createElement("button");pw492goalToggle.textContent="نمایش پیشرفت هدف";pw492goalToggle.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw492goalToggle);pw492goalToggle.onclick=function(){var on=pw489goalbar.style.display==="none";pw489goalbar.style.display=on?"block":"none";pw489goaltext.style.display=on?"block":"none"};
+
+// pw493: Add a small game title to the stats dashboard
+var pw493title=document.createElement("div");pw493title.textContent="PROJECT WAR • BATTLE HUD";pw493title.style.cssText="padding:5px;margin:4px 0;text-align:center;color:#85d8e8;font:900 9px system-ui;letter-spacing:.5px;border-bottom:1px solid #47717d";pw416dash.insertBefore(pw493title,pw416dash.firstChild);
 })();
 
  }
