@@ -1182,6 +1182,9 @@ var pw352theme=document.createElement("button");pw352theme.textContent="محیط
 
 // pw353: Add an environment label to the mission panel
 var pw353env=document.createElement("div");pw353env.id="pw353env";pw353env.textContent="محیط تمرین: شهر";pw353env.style.cssText="position:fixed;left:10px;top:267px;z-index:14;padding:6px 9px;border:1px solid #83c8d966;border-radius:9px;background:#071b2bd9;color:#d7f4ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw353env);pw352theme.addEventListener("click",function(){pw353env.textContent="محیط تمرین: "+(pw352night?"شب":"روز")});
+
+// pw354: Add adaptive drone spacing for later waves
+var pw354base=pw183fire;pw183fire=function(){var old=pw194wave;pw354base();if(pw194wave>old){var spread=1+Math.min(.18,(pw194wave-1)*.025);pw183targets.forEach(function(t,i){t.position.x=pw191bases[i].x*spread});toast("چیدمان موج جدید آماده شد")}};
 })();
 
  }
