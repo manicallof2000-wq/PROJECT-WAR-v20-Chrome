@@ -1389,6 +1389,9 @@ var pw421section=document.createElement("div");pw421section.textContent="— ت�
 
 // pw422: Add a one-tap return to default camera view
 var pw422camera=document.createElement("button");pw422camera.textContent="بازنشانی دوربین";pw422camera.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw422camera);pw422camera.onclick=function(){camera.fov=68;camera.updateProjectionMatrix();pw363sens=1;pw337wide=false;pw337fov.textContent="زاویه دید: استاندارد";pw363sensBtn.textContent="حساسیت دوربین: ۱";toast("تنظیمات دوربین به حالت پایه برگشت")};
+
+// pw423: Add a saved visual preference switch
+var pw423visual=document.createElement("button");pw423visual.textContent="افکت‌های رابط: روشن";pw423visual.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw423visual);var pw423on=true;pw423visual.onclick=function(){pw423on=!pw423on;document.querySelectorAll("#pw340hit,#pw228banner").forEach(function(el){if(el)el.style.display=pw423on?"block":"none"});pw423visual.textContent="افکت‌های رابط: "+(pw423on?"روشن":"خاموش");try{localStorage.setItem("pw_visual_fx",pw423on?"1":"0")}catch(e){}};
 })();
 
  }
