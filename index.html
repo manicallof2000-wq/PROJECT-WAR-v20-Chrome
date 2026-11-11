@@ -1125,6 +1125,9 @@ var pw333base=pw183fire;pw183fire=function(){pw333base();if(score>pw332value){pw
 
 // pw334: Track highest wave reached
 var pw334waveBest=1;try{pw334waveBest=Number(localStorage.getItem("pw_wave_best")||1)||1}catch(e){}var pw334waveEl=document.createElement("div");pw334waveEl.id="pw334wave";pw334waveEl.textContent="بالاترین موج "+pw334waveBest;pw334waveEl.style.cssText="position:fixed;right:10px;top:128px;z-index:14;padding:6px 9px;border:1px solid #b39aff66;border-radius:9px;background:#17152ddd;color:#e5dcff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw334waveEl);var pw334base=pw183fire;pw183fire=function(){var old= pw194wave;pw334base();if(pw194wave>pw334waveBest){pw334waveBest=pw194wave;try{localStorage.setItem("pw_wave_best",String(pw334waveBest))}catch(e){}pw334waveEl.textContent="بالاترین موج "+pw334waveBest}};
+
+// pw335: Add a compact settings menu
+var pw335settings=document.createElement("button");pw335settings.id="pw335settings";pw335settings.textContent="تنظیمات ⚙";pw335settings.style.cssText="position:fixed;left:10px;top:158px;z-index:25;border:1px solid #8bd9e8;border-radius:9px;padding:7px 10px;background:#102c3ddd;color:#e9fbff;font:800 10px system-ui";document.body.appendChild(pw335settings);var pw335panel=document.createElement("div");pw335panel.id="pw335panel";pw335panel.style.cssText="display:none;position:fixed;left:10px;top:195px;z-index:26;width:190px;padding:12px;border:1px solid #83d8e8;border-radius:13px;background:#071925f2;color:#eafaff;font:800 11px system-ui;box-shadow:0 8px 28px #0009";pw335panel.innerHTML="<div style='margin-bottom:9px'>تنظیمات بازی</div>";document.body.appendChild(pw335panel);pw335settings.addEventListener("click",function(){pw335panel.style.display=pw335panel.style.display==="none"?"block":"none"});
 })();
 
  }
