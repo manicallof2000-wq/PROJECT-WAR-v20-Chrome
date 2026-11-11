@@ -1536,6 +1536,9 @@ var pw470balanced=document.createElement("button");pw470balanced.textContent="گ
 
 // pw471: Add a one-tap performance graphics preset
 var pw471fast=document.createElement("button");pw471fast.textContent="گرافیک روان";pw471fast.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw471fast);pw471fast.onclick=function(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,.85));renderer.shadowMap.enabled=false;renderer.setSize(innerWidth,innerHeight,false);pw428high=false;pw428auto.textContent="گرافیک: روان";toast("حالت روان فعال شد")};
+
+// pw472: Add a one-tap high-detail graphics preset
+var pw472high=document.createElement("button");pw472high.textContent="گرافیک با جزئیات بیشتر";pw472high.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw472high);pw472high.onclick=function(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.shadowMap.enabled=true;renderer.setSize(innerWidth,innerHeight,false);pw428high=true;pw428auto.textContent="گرافیک: جزئیات بیشتر";toast("جزئیات گرافیکی بیشتر فعال شد")};
 })();
 
  }
