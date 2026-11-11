@@ -1004,6 +1004,9 @@ var pw295style=document.createElement("style");pw295style.textContent="@media(or
 
 // pw296: Mobile portrait minimap
 var pw296style=document.createElement("style");pw296style.textContent="@media(orientation:portrait) and (max-width:520px){#map{top:146px}}";document.head.appendChild(pw296style);
+
+// pw297: Touch controls pointer cursor
+var pw297style=document.createElement("style");pw297style.textContent="@media(hover:hover){#joy,.action,#pause,#sound{cursor:pointer}}";document.head.appendChild(pw297style);
 requestAnimationFrame(frame);updateHud();
 })();
 
