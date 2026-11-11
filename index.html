@@ -1395,6 +1395,9 @@ var pw423visual=document.createElement("button");pw423visual.textContent="افک
 
 // pw424: Restore saved visual preference on startup
 try{pw423on=localStorage.getItem("pw_visual_fx")!=="0";pw423visual.textContent="افکت‌های رابط: "+(pw423on?"روشن":"خاموش");if(!pw423on)document.querySelectorAll("#pw340hit,#pw228banner").forEach(function(el){if(el)el.style.display="none"})}catch(e){}
+
+// pw425: Add a compact game version label
+var pw425version=document.createElement("div");pw425version.textContent="PROJECT WAR • ARCADE v4.25";pw425version.style.cssText="margin:6px 0;text-align:center;color:#82c8d8;font:700 9px system-ui;letter-spacing:.4px";pw335panel.appendChild(pw425version);
 })();
 
  }
