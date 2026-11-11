@@ -1618,6 +1618,12 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape"){pw335panel.
 // pw498: Add final compact styling for the new mission and diagnostics panels
 var pw498style=document.createElement("style");pw498style.textContent="#pw416dash{box-sizing:border-box}#pw416dash>div{overflow-wrap:anywhere}#pw335panel button,#pw416dashBtn{cursor:pointer}#pw335panel button:focus-visible{outline:2px solid #b8f6ff;outline-offset:2px}@media(max-width:420px){#pw416dash{max-width:58vw!important}#pw335panel{max-width:86vw}}";document.head.appendChild(pw498style);
 
+// pw500: Mobile HUD spacing and touch layout polish
+var pw500style=document.createElement("style");
+pw500style.textContent="#hud{align-items:flex-start;flex-wrap:wrap}#hud .pill{min-width:0;white-space:nowrap}#joy,#fire,#jump,#run{touch-action:none;-webkit-tap-highlight-color:transparent}@media(max-width:420px){#hud{left:7px;right:7px;gap:4px}#hud .pill{padding:6px 8px;font-size:11px;border-radius:10px}#joy{width:108px;height:108px;left:14px;bottom:max(16px,env(safe-area-inset-bottom))}#nub{left:30px;top:30px;width:44px;height:44px}#fire{right:82px;width:78px;height:78px;bottom:max(16px,env(safe-area-inset-bottom))}#jump{right:17px;bottom:max(106px,calc(env(safe-area-inset-bottom) + 106px));width:50px;height:50px}#run{right:94px;bottom:max(99px,calc(env(safe-area-inset-bottom) + 99px));width:48px;height:48px}#pause{right:8px;top:98px}#map{right:8px;top:143px;width:92px;height:92px}#sound{right:8px;top:242px}}@media(max-height:520px){#joy{width:88px;height:88px}#nub{left:24px;top:24px;width:36px;height:36px}#fire{width:66px;height:66px}#jump{bottom:92px}#run{bottom:88px}}";
+document.head.appendChild(pw500style);
+pw425version.textContent="PROJECT WAR • ARCADE UPDATE 5.00";
+
 // pw499: Finalize the 60-stage arcade release
 pw425version.textContent="PROJECT WAR • ARCADE UPDATE 5.10";pw380brief.textContent="مأموریت آماده است • نسخه ۵.۱۰";pw494footer.textContent="ARCADE BUILD 5.10";pw416dashBtn.textContent="آمار ▾";pw416dashBtn.setAttribute("aria-label","نمایش یا مخفی‌کردن آمار بازی");
 
@@ -1669,6 +1675,114 @@ var pw510style=document.createElement("style");
 pw510style.textContent="@media(orientation:landscape) and (max-height:520px){#pw335panel,#pw416dash{max-height:82vh}#hud{gap:3px}}";
 document.head.appendChild(pw510style);
 
+// pw511-pw610: 100-stage interface and mobile polish batch
+var pw610style=document.createElement("style");
+pw610style.textContent="html,body{min-height:100%;height:100%;overscroll-behavior:none}\ncanvas{display:block;max-width:100%;touch-action:none}\n#hud,#joy,#fire,#jump,#run,#pause,#map,#sound{z-index:2}\n#hud{isolation:isolate;row-gap:4px}\n#hud .pill{box-sizing:border-box;min-width:0;line-height:1.35;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}\n#pw335panel,#pw416dash{box-sizing:border-box;max-width:calc(100vw - 16px);max-height:calc(100dvh - 20px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;overflow-wrap:anywhere}\n#pw335panel{z-index:30}\n#pw416dash{z-index:29;line-height:1.45;font-variant-numeric:tabular-nums}\n#pw335panel button,#pw416dash button{box-sizing:border-box;min-width:0;min-height:40px;width:100%;border-radius:9px;touch-action:manipulation;white-space:normal;overflow-wrap:anywhere}\n#pw335panel button:focus-visible,#pw416dash button:focus-visible,button:focus-visible{outline:2px solid #c4f7ff;outline-offset:3px}\nbutton:active{filter:brightness(1.16)}\nbutton:disabled{opacity:.55;filter:saturate(.55)}\n#joy,#fire,#jump,#run,#pause,#sound{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}\n#joy,#fire,#jump,#run{touch-action:none}\n#joy,#fire,#jump,#run,#pause,#sound{box-sizing:border-box}\n#nub{box-sizing:border-box}\n#map{box-sizing:border-box;max-width:28vw;max-height:28vw;object-fit:contain}\n#pw425version,#pw380brief{max-width:90vw;overflow-wrap:anywhere}\n@media(max-width:420px){#hud{max-width:calc(100vw - 12px);gap:4px}#hud .pill{max-width:calc(50vw - 10px);font-size:clamp(10px,2.8vw,12px)}}\n@media(max-width:420px){#pw416dash{width:min(230px,62vw);max-width:62vw}#pw335panel{width:min(340px,90vw);max-width:90vw}}\n@media(max-width:420px){#pw335panel button,#pw416dash button{min-height:40px;padding:8px}}\n@media(max-height:520px){#pw335panel,#pw416dash{max-height:76vh;padding:7px}#pw416dash{font-size:10px}}\n@media(max-height:520px){#map{max-width:22vh;max-height:22vh}#sound{top:auto;bottom:max(8px,env(safe-area-inset-bottom))}}\n@media(orientation:landscape) and (max-height:520px){#pw335panel,#pw416dash{max-height:78vh;max-width:54vw}#hud{gap:3px}}\n@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}\n@media(forced-colors:active){button{border:1px solid ButtonText}}\n@media(min-width:700px){#pw335panel{width:min(380px,70vw)}#pw416dash{width:min(260px,36vw)}}\n@media(max-width:360px){#pw335panel,#pw416dash{width:calc(100vw - 16px)}}\n@media(max-width:420px){#joy{left:max(8px,env(safe-area-inset-left))}#fire{right:max(70px,env(safe-area-inset-right))}}\n@media(max-width:420px){#jump{right:max(10px,env(safe-area-inset-right))}#run{right:max(82px,env(safe-area-inset-right))}}\n@media(max-width:420px){#map{right:max(6px,env(safe-area-inset-right))}#hud{padding-inline:max(4px,env(safe-area-inset-left))}}\n@media(max-height:520px){#joy,#fire{bottom:max(8px,env(safe-area-inset-bottom))}#pause{top:max(8px,env(safe-area-inset-top))}}\n@media(max-height:520px){#jump,#run{transform:scale(.94);transform-origin:bottom right}}\n#pw416dash>div{overflow-wrap:anywhere;line-height:1.4}\n#pw416dash button+button,#pw335panel button+button{margin-top:3px}\n#hud .pill{display:inline-flex;align-items:center;gap:4px}\n#pw335panel,#pw416dash{scrollbar-color:#527987 transparent;color-scheme:dark}\n#joy,#fire,#jump,#run{box-shadow:0 3px 12px rgba(0,0,0,.25)}\n#pause,#sound{box-shadow:0 2px 8px rgba(0,0,0,.22)}\n@media(max-width:420px){#fire{max-width:23vw;max-height:23vw}#jump,#run{max-width:16vw;max-height:16vw}}\n@media(max-width:420px){#map{max-width:24vw;max-height:24vw}#pw416dash>div{font-size:10px}}\n@media(max-height:520px){#pw335panel button,#pw416dash button{min-height:36px}}\n@media(prefers-reduced-motion:reduce){#hud *,#pw335panel *,#pw416dash *{animation:none!important;transition:none!important}}";
+document.head.appendChild(pw610style);
+// pw511: Normalize viewport height on mobile
+// pw512: Keep the game canvas behind interface panels
+// pw513: Add consistent border-box sizing to HUD controls
+// pw514: Improve contrast for small HUD text
+// pw515: Keep control labels from wrapping awkwardly
+// pw516: Add subtle borders to touch controls
+// pw517: Give pressed buttons clear visual feedback
+// pw518: Keep buttons above the canvas stacking layer
+// pw519: Prevent panels from exceeding viewport width
+// pw520: Improve scrolling inside long settings panels
+// pw521: Keep stats panel readable on narrow screens
+// pw522: Align HUD pills consistently
+// pw523: Reduce visual clutter around small controls
+// pw524: Improve disabled button contrast
+// pw525: Add consistent corner rounding to panels
+// pw526: Keep modal panels centered on small screens
+// pw527: Avoid horizontal overflow in dashboard
+// pw528: Improve spacing between panel sections
+// pw529: Make panel headings easier to distinguish
+// pw530: Keep footer labels legible
+// pw531: Add a clearer hover state for pointer devices
+// pw532: Add a clearer active state for touch buttons
+// pw533: Keep the minimap within viewport bounds
+// pw534: Avoid minimap overlap on short screens
+// pw535: Keep sound control reachable in landscape
+// pw536: Keep pause control reachable in landscape
+// pw537: Improve joystick boundary clarity
+// pw538: Improve joystick nub contrast
+// pw539: Keep action controls clear of safe-area insets
+// pw540: Use stable line heights for control labels
+// pw541: Keep HUD above decorative canvas effects
+// pw542: Prevent panel content from stretching too wide
+// pw543: Improve text wrapping in mission summaries
+// pw544: Keep long labels from breaking the layout
+// pw545: Make dashboard rows easier to scan
+// pw546: Add separators between dashboard groups
+// pw547: Keep dashboard buttons full-width
+// pw548: Improve button text alignment
+// pw549: Improve button minimum width
+// pw550: Avoid tiny text on compact screens
+// pw551: Use consistent font rendering for interface
+// pw552: Improve readability in high-density displays
+// pw553: Avoid accidental overscroll during panel scrolling
+// pw554: Keep the page from selecting interface text
+// pw555: Respect reduced-motion preferences for interface
+// pw556: Keep focus outlines visible
+// pw557: Improve keyboard focus for panel buttons
+// pw558: Keep interactive controls visually distinct
+// pw559: Add clear active button feedback
+// pw560: Keep touch targets comfortably sized
+// pw561: Keep the settings panel above the HUD
+// pw562: Keep the stats panel above the HUD
+// pw563: Prevent map clipping at viewport edges
+// pw564: Keep map proportions consistent
+// pw565: Avoid HUD collisions in portrait mode
+// pw566: Avoid HUD collisions in landscape mode
+// pw567: Make small-screen panel padding consistent
+// pw568: Make large-screen panel width comfortable
+// pw569: Keep dashboard content scrollable
+// pw570: Keep panel scrollbars unobtrusive
+// pw571: Improve readability of status badges
+// pw572: Improve contrast of secondary labels
+// pw573: Keep score figures aligned
+// pw574: Use tabular numerals for numeric HUD values
+// pw575: Keep timer text from shifting layout
+// pw576: Keep score text from shifting layout
+// pw577: Keep status text from shifting layout
+// pw578: Prevent long mission names overflowing
+// pw579: Prevent long objective names overflowing
+// pw580: Improve spacing around the crosshair overlay
+// pw581: Keep touch controls from triggering browser gestures
+// pw582: Keep canvas touch input isolated
+// pw583: Avoid tap highlight flashes on controls
+// pw584: Keep action buttons from shrinking in flex layouts
+// pw585: Keep HUD pills from shrinking below content
+// pw586: Use consistent gaps between HUD pills
+// pw587: Improve panel button focus visibility
+// pw588: Improve panel button pressed feedback
+// pw589: Keep controls visible on very short displays
+// pw590: Keep controls visible on very narrow displays
+// pw591: Use safe-area padding on the bottom edge
+// pw592: Use safe-area padding on the left edge
+// pw593: Use safe-area padding on the right edge
+// pw594: Use safe-area padding on the top edge
+// pw595: Keep panels inside safe viewport bounds
+// pw596: Keep dashboard title from wrapping
+// pw597: Keep dashboard footer from wrapping
+// pw598: Keep version label readable
+// pw599: Keep mission briefing text readable
+// pw600: Keep status indicators aligned
+// pw601: Improve contrast for the joystick base
+// pw602: Improve contrast for the joystick knob
+// pw603: Keep the fire control visually distinct
+// pw604: Keep jump and run controls visually distinct
+// pw605: Keep pause and sound controls easy to identify
+// pw606: Keep interface layout stable during resize
+// pw607: Recalculate viewport-friendly panel sizing
+// pw608: Avoid unnecessary transitions on interface elements
+// pw609: Keep interface styles grouped in one stylesheet
+// pw610: Publish the 100-stage interface polish release
+pw425version.textContent="PROJECT WAR • ARCADE UPDATE 6.10";
+pw380brief.textContent="مأموریت آماده است • نسخه ۶.۱۰";
+pw494footer.textContent="ARCADE BUILD 6.10";
+
 })();
 
  }
@@ -1681,8 +1795,3 @@ document.head.appendChild(pw510style);
 </script>
 </body>
 </html>
-// pw500: Mobile HUD spacing and touch layout polish
-var pw500style=document.createElement("style");
-pw500style.textContent="#hud{align-items:flex-start;flex-wrap:wrap}#hud .pill{min-width:0;white-space:nowrap}#joy,#fire,#jump,#run{touch-action:none;-webkit-tap-highlight-color:transparent}@media(max-width:420px){#hud{left:7px;right:7px;gap:4px}#hud .pill{padding:6px 8px;font-size:11px;border-radius:10px}#joy{width:108px;height:108px;left:14px;bottom:max(16px,env(safe-area-inset-bottom))}#nub{left:30px;top:30px;width:44px;height:44px}#fire{right:82px;width:78px;height:78px;bottom:max(16px,env(safe-area-inset-bottom))}#jump{right:17px;bottom:max(106px,calc(env(safe-area-inset-bottom) + 106px));width:50px;height:50px}#run{right:94px;bottom:max(99px,calc(env(safe-area-inset-bottom) + 99px));width:48px;height:48px}#pause{right:8px;top:98px}#map{right:8px;top:143px;width:92px;height:92px}#sound{right:8px;top:242px}}@media(max-height:520px){#joy{width:88px;height:88px}#nub{left:24px;top:24px;width:36px;height:36px}#fire{width:66px;height:66px}#jump{bottom:92px}#run{bottom:88px}}";
-document.head.appendChild(pw500style);
-pw425version.textContent="PROJECT WAR • ARCADE UPDATE 5.00";
