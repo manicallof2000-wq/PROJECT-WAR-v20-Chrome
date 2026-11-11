@@ -1443,6 +1443,9 @@ pw425version.textContent="PROJECT WAR • ARCADE UPDATE 4.39";pw380brief.textCon
 
 // pw440: Add a compact mission briefing in the stats dashboard
 var pw440brief=document.createElement("div");pw440brief.textContent="ماموریت: میدان تمرین را پاک‌سازی کن";pw440brief.style.cssText="padding:7px;margin:4px 0;background:#123649;color:#e7fbff;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw440brief);
+
+// pw441: Add a live remaining-target count to the dashboard
+var pw441targets=document.createElement("div");pw441targets.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw441targets);setInterval(function(){pw441targets.textContent="هدف‌های باقی‌مانده: "+pw183targets.filter(function(t){return t.visible}).length},600);
 })();
 
  }
