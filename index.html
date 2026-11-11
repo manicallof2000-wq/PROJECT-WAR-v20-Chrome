@@ -855,6 +855,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
 }
 // pw233: present the arcade training identity on the start screen
  document.title="PROJECT WAR — Arcade Training";document.querySelector(".logo").textContent="PROJECT WAR / ARCADE TRAINING";document.getElementById("title").textContent="میدان تمرین";document.querySelectorAll(".desc")[0].innerHTML="وارد میدان تمرین سه‌بعدی شو و پهپادهای تمرینی را هدف بگیر.<br>هر موج، چیدمان تازه‌ای دارد.";document.querySelectorAll(".desc")[1].textContent="جوی‌استیک برای حرکت، کشیدن صفحه برای چرخش دوربین و دکمه شلیک برای ثبت هدف.";
+// pw234: label the primary action as a clear arcade fire control
+ var pw234fire=document.getElementById("fire");pw234fire.textContent="شلیک";pw234fire.setAttribute("aria-label","شلیک به هدف تمرینی");pw234fire.title="شلیک به پهپاد تمرینی";
 requestAnimationFrame(frame);updateHud();
 })();
 
