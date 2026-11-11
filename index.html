@@ -947,6 +947,9 @@ var pw276style=document.createElement("style");pw276style.textContent="#sound{bo
 
 // pw277: Minimap frame
 var pw277style=document.createElement("style");pw277style.textContent="#map{outline:1px solid #00121c;outline-offset:2px}";document.head.appendChild(pw277style);
+
+// pw278: Minimap rendering
+var pw278style=document.createElement("style");pw278style.textContent="#map{image-rendering:auto;contain:paint}";document.head.appendChild(pw278style);
 requestAnimationFrame(frame);updateHud();
 })();
 
