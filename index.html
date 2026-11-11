@@ -653,6 +653,7 @@ var pw125vent=new THREE.MeshStandardMaterial({color:0x667276,metalness:.42,rough
 var pw126base=new THREE.MeshStandardMaterial({color:0x77817d,metalness:.62,roughness:.4});buildings.forEach(function(b,i){if(i%3===0)slab(.22,.1,.22,pw126base,b[0]-.9,b[3]+.15,b[1]+.6)});
 var pw127clamp=new THREE.MeshStandardMaterial({color:0xb0b9b3,metalness:.78,roughness:.3});buildings.forEach(function(b){for(var y=3;y<b[3]-1;y+=3.2)for(var x of [-1,1])slab(.13,.055,.19,pw127clamp,b[0]+x*(b[2]/2-.24),y,b[1]+b[4]/2+.14)});
 var pw128trim=new THREE.MeshStandardMaterial({color:0x87918d,metalness:.28,roughness:.72});buildings.forEach(function(b){for(var x of [-1,1])slab(.08,b[3]*.65,.08,pw128trim,b[0]+x*(b[2]/2+.03),b[3]*.48,b[1])});
+var pw129band=new THREE.MeshStandardMaterial({color:0xb2afa2,roughness:.82});buildings.forEach(function(b){for(var y=3;y<b[3];y+=3.2)slab(b[2]*.08,.07,b[4]+.1,pw129band,b[0]-b[2]/2-.03,y,b[1])});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
