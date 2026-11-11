@@ -814,6 +814,8 @@ var pw202hud=document.createElement("div");pw202hud.style.cssText="position:fixe
 var pw204count=document.createElement("div");pw204count.style.cssText="position:fixed;left:14px;top:44px;z-index:8;color:#e8fbff;background:#071b2bd9;border:1px solid #58d9e866;border-radius:8px;padding:5px 8px;font:800 10px Arial;pointer-events:none";pw204count.textContent="DRONES 0 / 5";document.body.appendChild(pw204count);
 // pw221: sprint stamina system for more deliberate movement pacing
 var pw221stamina=100,pw221staminaBar=document.createElement("div"),pw221staminaFill=document.createElement("div");pw221staminaBar.style.cssText="position:fixed;left:18px;bottom:20px;width:110px;height:7px;background:#142b36;border:1px solid #ffffff66;border-radius:8px;overflow:hidden;z-index:8;pointer-events:none";pw221staminaFill.style.cssText="width:100%;height:100%;background:#72e9c3";pw221staminaBar.appendChild(pw221staminaFill);document.body.appendChild(pw221staminaBar);
+// pw224: small visual pulse when the player lands from a jump
+var pw224wasAirborne=false,pw224land=document.createElement("div");pw224land.style.cssText="position:fixed;left:50%;top:55%;width:44px;height:12px;border:2px solid #9af5ff;border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;z-index:3;pointer-events:none";document.body.appendChild(pw224land);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
@@ -822,7 +824,7 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
   var movingNow=Math.abs(joyX)+Math.abs(joyY)>.08;if(running&&movingNow)pw221stamina=Math.max(0,pw221stamina-dt*23);else pw221stamina=Math.min(100,pw221stamina+dt*15);if(pw221stamina<=0)running=false;if(pw221staminaFill){pw221staminaFill.style.width=pw221stamina+"%";pw221staminaFill.style.background=pw221stamina<25?"#ffb45d":"#72e9c3"}var speed=running&&pw221stamina>0?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
   player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(joyY*co-joyX*si)*speed*dt;
   player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-105,Math.min(10,player.z));
-  if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
+  if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0;pw224land.style.opacity=".75";pw224land.style.transform="translate(-50%,-50%) scale(1.25)";setTimeout(function(){pw224land.style.opacity="0";pw224land.style.transform="translate(-50%,-50%) scale(.4)"},180)}}
  }
  // pw222: subtle camera bob while moving on foot
 var pw222moving=Math.abs(joyX)+Math.abs(joyY)>.08;camera.position.set(player.x,1.65+jump+(pw222moving&&playing&&!paused?Math.sin(now*.012)*.025:0),player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch+pw185recoil;pw185recoil*=.78;if(pw185recoil<.001)pw185recoil=0;
