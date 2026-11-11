@@ -766,6 +766,7 @@ var pw190combo=0,pw190lastHit=0,pw190fire=pw183fire;pw183fire=function(){var old
 // pw191: give active training drones a gentle hovering motion
 var pw191bases=pw183targets.map(function(g){return {y:g.position.y,phase:g.userData.index*.9}});
 // pw192: animate active drones with a restrained hover cycle
+// pw193: give drones a slight arcade side-to-side drift
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
@@ -779,6 +780,7 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
  camera.position.set(player.x,1.65+jump,player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
  markerObjects.forEach(function(o,i){if(o.visible)o.rotation.y+=dt*.65});
  pw183targets.forEach(function(g,i){if(g.visible)g.position.y=pw191bases[i].y+Math.sin(now*.002+pw191bases[i].phase)*.12});
+pw183targets.forEach(function(g,i){if(g.visible)g.position.x+=Math.sin(now*.0012+i)*.0008});
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
 }
