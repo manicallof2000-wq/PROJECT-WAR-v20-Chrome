@@ -131,13 +131,27 @@ function makeSurfaceTexture(kind){
   else{g.fillStyle=rnd()>.5?"rgba(25,55,23,"+a+")":"rgba(190,180,110,"+a+")";g.fillRect(x,y,1+rnd()*2,1+rnd()*3)}
  }
  if(kind==="road"){
-  for(var k=0;k<90;k++){g.fillStyle="rgba(15,20,23,.12)";g.beginPath();g.arc(rnd()*512,rnd()*512,rnd()*2+.3,0,Math.PI*2);g.fill()}
+  // Subtle sealed repairs, aggregate flecks and faint tyre-wear variation
+  for(var patch=0;patch<34;patch++){
+   var px=rnd()*490+11,py=rnd()*490+11,pw=18+rnd()*54,ph=5+rnd()*15;
+   g.fillStyle="rgba(12,17,20,"+(.035+rnd()*.055)+")";g.fillRect(px,py,pw,ph);
+   g.fillStyle="rgba(205,210,205,.035)";g.fillRect(px,py+ph,pw,1);
+  }
+  for(var k=0;k<130;k++){g.fillStyle="rgba(15,20,23,.12)";g.beginPath();g.arc(rnd()*512,rnd()*512,rnd()*2+.3,0,Math.PI*2);g.fill()}
  }
- var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(kind==="road"?3:16,kind==="road"?22:18);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
+ var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(kind==="road"?3:16,kind==="road"?22:18);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(12,renderer.capabilities.getMaxAnisotropy());
+ var bumpCanvas=document.createElement("canvas");bumpCanvas.width=512;bumpCanvas.height=512;var bg=bumpCanvas.getContext("2d");
+ bg.fillStyle="#858585";bg.fillRect(0,0,512,512);
+ for(var bn=0;bn<(kind==="road"?26000:18000);bn++){
+  var bx=rnd()*512,by=rnd()*512,shade=90+Math.floor(rnd()*90);
+  bg.fillStyle="rgb("+shade+","+shade+","+shade+")";bg.fillRect(bx,by,kind==="road"?1+rnd()*2:1,kind==="road"?1:1+rnd()*2);
+ }
+ var bump=new THREE.CanvasTexture(bumpCanvas);bump.wrapS=bump.wrapT=THREE.RepeatWrapping;bump.repeat.copy(t.repeat);bump.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ t.userData.bump=bump;return t;
 }
 var grassTex=makeSurfaceTexture("grass"),asphaltTex=makeSurfaceTexture("road");
-var ground=new THREE.Mesh(new THREE.PlaneGeometry(150,180),new THREE.MeshStandardMaterial({map:grassTex,color:0xffffff,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.set(0,-.035,-42);ground.receiveShadow=true;scene.add(ground);
-var road=new THREE.Mesh(new THREE.PlaneGeometry(22,125),new THREE.MeshStandardMaterial({map:asphaltTex,color:0xffffff,roughness:.96}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-43);road.receiveShadow=true;scene.add(road);
+var ground=new THREE.Mesh(new THREE.PlaneGeometry(150,180),new THREE.MeshStandardMaterial({map:grassTex,bumpMap:grassTex.userData.bump,bumpScale:.035,color:0xffffff,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.set(0,-.035,-42);ground.receiveShadow=true;scene.add(ground);
+var road=new THREE.Mesh(new THREE.PlaneGeometry(22,125),new THREE.MeshStandardMaterial({map:asphaltTex,bumpMap:asphaltTex.userData.bump,bumpScale:.055,color:0xffffff,roughness:.94}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-43);road.receiveShadow=true;scene.add(road);
 var sidewalkMat=new THREE.MeshStandardMaterial({color:0x92958d,roughness:.95});
 var curbMat=new THREE.MeshStandardMaterial({color:0xb6b5a9,roughness:.9});
 for(var side of [-1,1]){
