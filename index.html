@@ -52,7 +52,7 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
   <h1 id="title">گشت‌وگذار شهری</h1>
   <p class="desc">یک محیط سه‌بعدی سبک و لمسی برای Chrome.<br>در خیابان حرکت کن و ۵ نقطه نورانی را پیدا و فعال کن.</p>
   <p class="desc">جوی‌استیک برای حرکت؛ صفحه را به راست بکش تا به راست نگاه کنی و به چپ بکش تا به چپ نگاه کنی.</p>
-  <button id="start" type="button" onclick="startGame(event)" ontouchend="startGame(event)">شروع بازی</button>
+  <button id="start" type="button">شروع بازی</button>
  </div>
 </div>
 
@@ -72,7 +72,7 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
   if(index>=urls.length){showLoadError("کتابخانه سه‌بعدی بارگذاری نشد. اینترنت گوشی را بررسی کن و صفحه را دوباره باز کن.");return;}
   var script=document.createElement("script");
   script.src=urls[index];script.async=true;
-  script.onload=function(){try{bootGame()}catch(err){console.error(err);showLoadError("مرورگر نتوانست محیط سه‌بعدی را اجرا کند. Chrome را به‌روز کن یا صفحه را دوباره بارگذاری کن.")}};
+  script.onload=function(){try{bootGame()}catch(err){console.error(err);showLoadError("خطای اجرا: "+(err&&err.message?String(err.message):String(err))+". صفحه را دوباره بارگذاری کن.")}};
   script.onerror=function(){loadThree(urls,index+1)};
   document.head.appendChild(script);
  }
@@ -200,7 +200,7 @@ for(var tactileZ of [-29,-78]){
  }
 }
 var lineMat=new THREE.MeshStandardMaterial({color:0xd8d0a8,roughness:.8});
-function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
+function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=!isMobileDevice;m.receiveShadow=!isMobileDevice;scene.add(m);return m}
 slab(.22,.025,115,lineMat,-10.8,.02,-45);slab(.22,.025,115,lineMat,10.8,.02,-45);
 for(var z=-12;z>-108;z-=8){slab(.16,.025,3.8,lineMat,0,.025,z)}
 // Crosswalks, lane reflectors and street drainage details
@@ -455,8 +455,10 @@ for(var li=0;li<6;li++){
  lampCollar.position.set(lx,1.05,lz);scene.add(lampCollar);
  slab(1.15,.1,.12,metal,lx+(li%2?-.48:.48),4.72,lz);
  slab(.22,.13,.2,lampGlow,armX,4.65,lz);
- var streetLight=new THREE.PointLight(0xffd99a,.85,15,1.7);
- streetLight.position.set(armX,4.45,lz);streetLight.castShadow=false;scene.add(streetLight);
+ if(!isMobileDevice){
+  var streetLight=new THREE.PointLight(0xffd99a,.85,15,1.7);
+  streetLight.position.set(armX,4.45,lz);streetLight.castShadow=false;scene.add(streetLight);
+ }
  var glowDisc=new THREE.Mesh(new THREE.CircleGeometry(1.35,24),new THREE.MeshBasicMaterial({color:0xffd58c,transparent:true,opacity:.075,depthWrite:false}));
  glowDisc.rotation.x=-Math.PI/2;glowDisc.position.set(armX,.035,lz);scene.add(glowDisc);
 }
@@ -493,11 +495,12 @@ streetPlanter(-13.15,-31);streetPlanter(13.15,-57);streetPlanter(-13.15,-86);
 // Compact utility cabinets and public litter bins add believable street furniture
 var cabinetMat=new THREE.MeshStandardMaterial({color:0x52666a,metalness:.28,roughness:.68});
 var cabinetDoor=new THREE.MeshStandardMaterial({color:0x26383e,metalness:.34,roughness:.5});
+var cabinetAccent=new THREE.MeshStandardMaterial({color:0xd4c9a7,metalness:.24,roughness:.52});
 for(var cab of [{x:-13.25,z:-46},{x:13.25,z:-91}]){
  slab(.78,1.12,.62,cabinetMat,cab.x,.72,cab.z);
  slab(.58,.82,.025,cabinetDoor,cab.x,.73,cab.z+.325);
- slab(.32,.035,.035,postBand,cab.x,.98,cab.z+.35);
- for(var ventLine=0;ventLine<4;ventLine++)slab(.34,.018,.018,postMat,cab.x,.57+ventLine*.075,cab.z+.35);
+ slab(.32,.035,.035,cabinetAccent,cab.x,.98,cab.z+.35);
+ for(var ventLine=0;ventLine<4;ventLine++)slab(.34,.018,.018,cabinetDoor,cab.x,.57+ventLine*.075,cab.z+.35);
 }
 for(var bin of [{x:12.9,z:-30},{x:-12.9,z:-94}]){
  var binBody=new THREE.Mesh(new THREE.CylinderGeometry(.25,.29,.78,12),cabinetMat);
@@ -607,7 +610,7 @@ var pw75light=new THREE.MeshStandardMaterial({color:0xffd99b,emissive:0xffc477,e
 var pw76base=new THREE.MeshStandardMaterial({color:0x777e7c,roughness:.9});for(var s of [-1,1])for(var z=-18;z>-105;z-=16){var m=new THREE.Mesh(new THREE.CylinderGeometry(.24,.3,.3,12),pw76base);m.position.set(s*11.45,.15,z);scene.add(m)}
 var pw77glass=new THREE.MeshPhysicalMaterial({color:0x547b8d,metalness:.18,roughness:.22,clearcoat:.7});buildings.forEach(function(b){var z=b[1]+b[4]/2+.19;slab(.22,b[3]*.55,.025,pw77glass,b[0]+b[2]*.28,b[3]*.55,z)});
 var pw78stone=new THREE.MeshStandardMaterial({color:0x9da196,roughness:.8});buildings.forEach(function(b){var z=b[1]+b[4]/2+.2;for(var y=3.1;y<b[3]-1;y+=3.2)for(var x=-1;x<=1;x+=2)slab(.08,.1,.08,pw78stone,b[0]+x*b[2]*.31,y,z)});
-var pw79case=new THREE.MeshStandardMaterial({color:0x65736e,metalness:.22,roughness:.72});for(var s of [-1,1]){slab(.72,1.15,.5,pw79case,s*14.1,.58,-39);slab(.52,.06,.025,doorFrame,s*14.1,.72,-38.73)}
+var pw79case=new THREE.MeshStandardMaterial({color:0x65736e,metalness:.22,roughness:.72});for(var s of [-1,1]){slab(.72,1.15,.5,pw79case,s*14.1,.58,-39);slab(.52,.06,.025,cabinetDoor,s*14.1,.72,-38.73)}
 var pw80metal=new THREE.MeshStandardMaterial({color:0xb5bdb6,metalness:.72,roughness:.34});for(var s of [-1,1]){slab(.12,.22,.035,pw80metal,s*14.1,.58,-38.7);slab(.32,.025,.035,pw80metal,s*14.1,.96,-38.7)}
 var pw81edge=new THREE.MeshStandardMaterial({color:0xb5bdb9,metalness:.72,roughness:.3});slab(3.28,.045,.06,pw81edge,14.1,2.55,-82);slab(.06,.045,1.3,pw81edge,12.55,2.55,-82);slab(.06,.045,1.3,pw81edge,15.65,2.55,-82);
 var pw82handle=new THREE.MeshStandardMaterial({color:0xd1c6a4,metalness:.86,roughness:.2});buildings.slice(0,6).forEach(function(b){var z=b[1]+b[4]/2+.22;slab(.035,.42,.035,pw82handle,b[0]+b[2]*.18,1.05,z)});
