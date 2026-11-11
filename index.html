@@ -1320,6 +1320,9 @@ var pw398share=document.createElement("button");pw398share.textContent="کپی �
 
 // pw399: Add a compact training statistics card
 var pw399stats=document.createElement("div");pw399stats.textContent="آمار تمرین: "+pw327shots+" شلیک • "+pw327hits+" ثبت";pw399stats.style.cssText="margin:7px 0;padding:8px;border-radius:8px;background:#0b2635;color:#cfeefa;font:800 10px/1.7 system-ui";pw335panel.appendChild(pw399stats);setInterval(function(){pw399stats.textContent="آمار تمرین: "+pw327shots+" شلیک • "+pw327hits+" ثبت"},800);
+
+// pw400: Add a quick target practice mode
+var pw400practice=document.createElement("button");pw400practice.textContent="تمرین سریع ۳۰ ثانیه‌ای";pw400practice.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#174334;color:#e2fff1;border:1px solid #68dca8;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw400practice);var pw400end=0;pw400practice.onclick=function(){pw400end=performance.now()+30000;pw345start=performance.now();pw345time=30;pw345clock.style.display="block";pw345clock.textContent="تمرین سریع: ۳۰";toast("تمرین سریع شروع شد")};
 })();
 
  }
