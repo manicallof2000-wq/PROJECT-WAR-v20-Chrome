@@ -980,6 +980,9 @@ var pw287style=document.createElement("style");pw287style.textContent="#map{box-
 
 // pw288: HUD layering
 var pw288style=document.createElement("style");pw288style.textContent="#hud{z-index:10}";document.head.appendChild(pw288style);
+
+// pw289: Minimap layering
+var pw289style=document.createElement("style");pw289style.textContent="#map{z-index:8}";document.head.appendChild(pw289style);
 requestAnimationFrame(frame);updateHud();
 })();
 
