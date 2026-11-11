@@ -1419,6 +1419,9 @@ var pw431full=document.createElement("button");pw431full.textContent="تمام�
 
 // pw432: Pause gameplay when the app goes to background
 document.addEventListener("visibilitychange",function(){if(document.hidden&&playing&&!paused){paused=true;statusEl.textContent="مکث";overlay.style.display="grid";document.getElementById("title").textContent="بازی متوقف شد";startBtn.textContent="ادامه بازی";if(pw382pause)pw382pause.textContent="Ⅱ مکث";if(pw413status)pw413status.textContent="وضعیت: مکث"}});
+
+// pw433: Add a safe resume hint after background pause
+var pw433resume=document.createElement("div");pw433resume.textContent="برای ادامه، دکمه ادامه بازی را بزن";pw433resume.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#102b38;color:#d9f7ff;font:700 10px system-ui";pw416dash.appendChild(pw433resume);document.addEventListener("visibilitychange",function(){pw433resume.style.display=document.hidden?"block":"none"});
 })();
 
  }
