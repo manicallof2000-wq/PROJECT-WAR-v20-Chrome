@@ -1578,6 +1578,9 @@ var pw484trendToggle=document.createElement("button");pw484trendToggle.textConte
 
 // pw485: Add a quick hide-dashboard shortcut button
 var pw485hide=document.createElement("button");pw485hide.textContent="×";pw485hide.setAttribute("aria-label","بستن پنل آمار");pw485hide.style.cssText="float:left;width:27px;height:27px;border:1px solid #7ab9c8;border-radius:8px;background:#183a4a;color:white;font:900 15px system-ui";pw416dash.insertBefore(pw485hide,pw416dash.firstChild);pw485hide.onclick=function(){pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"};
+
+// pw486: Add a quick access button for stats from the settings panel
+var pw486stats=document.createElement("button");pw486stats.textContent="نمایش داشبورد آمار";pw486stats.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw486stats);pw486stats.onclick=function(){pw416dash.style.display="block";pw416dashBtn.style.display="block";pw416dashBtn.textContent="آمار ▴";pw416dashBtn.setAttribute("aria-expanded","true")};
 })();
 
  }
