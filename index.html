@@ -1530,6 +1530,9 @@ var pw468density=document.createElement("button");pw468density.textContent="فا
 
 // pw469: Add a quick hide-all-stats control
 var pw469hide=document.createElement("button");pw469hide.textContent="مخفی‌کردن آمار";pw469hide.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw469hide);pw469hide.onclick=function(){pw416dash.style.display="none";pw416dashBtn.style.display="none";pw392open.style.display="block";toast("پنل آمار مخفی شد؛ با دکمه آمار بازش کن")};pw416dashBtn.addEventListener("click",function(){pw416dashBtn.style.display="block"});
+
+// pw470: Add a one-tap balanced graphics preset
+var pw470balanced=document.createElement("button");pw470balanced.textContent="گرافیک متعادل";pw470balanced.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw470balanced);pw470balanced.onclick=function(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.25));renderer.shadowMap.enabled=true;renderer.setSize(innerWidth,innerHeight,false);pw428high=true;pw428auto.textContent="گرافیک: متعادل";toast("گرافیک متعادل اعمال شد")};
 })();
 
  }
