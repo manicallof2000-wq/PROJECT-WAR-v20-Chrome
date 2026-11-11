@@ -1356,6 +1356,9 @@ try{var p=Number(localStorage.getItem("pw_profile")||1);if(p>=0&&p<=2){pw409mode
 
 // pw411: Add a session accuracy bar
 var pw411accbar=document.createElement("div"),pw411accfill=document.createElement("div");pw411accbar.style.cssText="position:fixed;right:10px;top:458px;width:105px;height:5px;background:#253b42;border-radius:5px;overflow:hidden;z-index:14;pointer-events:none";pw411accfill.style.cssText="height:100%;width:0;background:#6ce6c0";pw411accbar.appendChild(pw411accfill);document.body.appendChild(pw411accbar);setInterval(function(){pw411accfill.style.width=Math.round(pw327hits/Math.max(1,pw327shots)*100)+"%"},500);
+
+// pw412: Add a session rank color indicator
+var pw412rankStyle=document.createElement("style");pw412rankStyle.textContent="#pw404grade{border:1px solid #82d9ef66;box-shadow:0 3px 12px #0005}";document.head.appendChild(pw412rankStyle);var pw412tick=setInterval(function(){var a=pw327hits/Math.max(1,pw327shots);pw404grade.style.color=pw327shots<5?"#e6f2ff":a>=.8?"#9fffd0":a>=.5?"#ffe2a1":"#ffb3a8"},500);
 })();
 
  }
