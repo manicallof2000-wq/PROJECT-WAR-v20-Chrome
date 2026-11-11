@@ -121,15 +121,15 @@ var skyDome=new THREE.Mesh(new THREE.SphereGeometry(190,48,32),new THREE.MeshBas
 skyDome.frustumCulled=false;scene.add(skyDome);
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
-// Restore sharper mobile rendering while keeping expensive real-time shadows disabled on phones
-var qualityScale=isMobileDevice?1.35:1.75;
+// High-quality mobile rendering with a controlled shadow budget
+var qualityScale=isMobileDevice?1.5:1.85;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 skyTexture.anisotropy=Math.min(isMobileDevice?4:8,renderer.capabilities.getMaxAnisotropy());
 renderer.setClearColor(0x9bbfce,1);
 canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();var o=document.getElementById("overlay");if(o){o.style.display="grid";var t=document.getElementById("title"),d=o.querySelector(".desc");if(t)t.textContent="مشکل گرافیکی";if(d)d.textContent="گرافیک دستگاه متوقف شد؛ صفحه را دوباره بارگذاری کن."}});
 
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
-renderer.shadowMap.enabled=!isMobileDevice;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 // Lightweight procedural studio environment for more convincing material response
 var envCanvas=document.createElement("canvas");envCanvas.width=512;envCanvas.height=256;
 var envCtx=envCanvas.getContext("2d"),envGrad=envCtx.createLinearGradient(0,0,0,256);
@@ -140,7 +140,7 @@ envCtx.fillStyle="rgba(42,66,78,.42)";envCtx.fillRect(0,155,512,34);
 var envTexture=new THREE.CanvasTexture(envCanvas);envTexture.mapping=THREE.EquirectangularReflectionMapping;envTexture.colorSpace=THREE.SRGBColorSpace;
 
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,1.75));
-var sun=new THREE.DirectionalLight(0xffe5bd,2.7);sun.position.set(-18,48,-12);sun.castShadow=!isMobileDevice;
+var sun=new THREE.DirectionalLight(0xffe5bd,2.7);sun.position.set(-18,48,-12);sun.castShadow=true;
 sun.shadow.mapSize.set(isMobileDevice?1024:2048,isMobileDevice?1024:2048);
 sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=36;sun.shadow.camera.bottom=-36;
 sun.shadow.camera.near=.5;sun.shadow.camera.far=125;sun.shadow.bias=-.00018;sun.shadow.normalBias=.018;
