@@ -693,6 +693,9 @@ for(var x of [-16,16])for(var z of [-20,-24,-44,-49]){var o=new THREE.Mesh(new T
 // pw166: compact skylight frames on selected rooftops
 var pw166mat=new THREE.MeshStandardMaterial({color:0x718b91,metalness:.48,roughness:.32});
 for(var b of [[-16,-19,9,10,7],[16,-23,10,12,8],[-19,-43,10,13,8],[19,-48,11,11,8]]){var o=new THREE.Mesh(new THREE.BoxGeometry(1.5,.16,1.1),pw166mat);o.position.set(b[0],b[3]+.18,b[1]);scene.add(o)}
+// pw167: reflective caps for sidewalk bollards
+var pw167mat=new THREE.MeshStandardMaterial({color:0xe2d7a8,metalness:.38,roughness:.28,emissive:0x302711});
+for(var side of [-1,1])for(var z=-18;z>-100;z-=14){var o=new THREE.Mesh(new THREE.CylinderGeometry(.16,.16,.09,12),pw167mat);o.position.set(side*11.0,.82,z);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
