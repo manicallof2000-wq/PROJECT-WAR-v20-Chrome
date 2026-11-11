@@ -863,6 +863,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  [["joy","کنترل حرکت"],["jump","پرش"],["run","دویدن"],["pause","توقف یا ادامه بازی"],["sound","روشن یا خاموش کردن صدا"]].forEach(function(v){var e=document.getElementById(v[0]);if(e)e.setAttribute("aria-label",v[1])});
 // pw237: keep arcade controls clear of rounded-screen and gesture safe areas
  var pw237style=document.createElement("style");pw237style.textContent="#fire{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))}#pw187ammo{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))!important}#pw188reload{bottom:max(88px,calc(env(safe-area-inset-bottom) + 78px))!important}#pw209bar{bottom:max(76px,calc(env(safe-area-inset-bottom) + 66px))!important}";document.head.appendChild(pw237style);
+// pw238: compact the four-part HUD on narrow phone screens
+ var pw238style=document.createElement("style");pw238style.textContent="@media(max-width:520px){#hud{left:6px;right:6px;gap:4px}.pill{padding:7px 6px;font-size:10px;border-radius:10px}#map{width:88px;height:88px;top:148px;right:7px}#sound{top:243px;right:7px}}";document.head.appendChild(pw238style);
 requestAnimationFrame(frame);updateHud();
 })();
 
