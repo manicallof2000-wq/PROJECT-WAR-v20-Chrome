@@ -88,7 +88,7 @@ var player={x:0,z:8,yaw:0,pitch:0};
 var savedBest=0;try{savedBest=Number(localStorage.getItem("pw_best")||0)||0}catch(e){}
 var best=savedBest;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
-var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,42,125);
+var scene=new THREE.Scene();scene.fog=new THREE.Fog(0xaab9b8,72,155);scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,42,125);
 var camera=new THREE.PerspectiveCamera(72,W/H,.1,180);camera.position.set(0,1.65,8);
 var skyCanvas=document.createElement("canvas");skyCanvas.width=1024;skyCanvas.height=512;
 var skyCtx=skyCanvas.getContext("2d"),skyGrad=skyCtx.createLinearGradient(0,0,0,512);
@@ -269,7 +269,16 @@ function tree(x,z,size){
 }
 [[-8,-13,1.1],[8,-18,1.25],[-9,-34,.9],[10,-39,1.2],[-8,-57,1.15],[9,-64,1.1],[-11,-83,1.3],[12,-88,1.2]].forEach(function(t){tree(t[0],t[1],t[2])});
 var metal=new THREE.MeshStandardMaterial({color:0x303d43,metalness:.65,roughness:.35}),lampGlow=new THREE.MeshStandardMaterial({color:0xffe5a5,emissive:0xffc46b,emissiveIntensity:1.5});
-for(var li=0;li<6;li++){var lx=li%2?8.8:-8.8,lz=-12-li*15;slab(.12,4.8,.12,metal,lx,2.4,lz);slab(1.15,.1,.12,metal,lx+(li%2?-.48:.48),4.72,lz);slab(.22,.13,.2,lampGlow,lx+(li%2?-.92:.92),4.65,lz);}
+for(var li=0;li<6;li++){
+ var lx=li%2?8.8:-8.8,lz=-12-li*15,armX=lx+(li%2?-.92:.92);
+ slab(.12,4.8,.12,metal,lx,2.4,lz);
+ slab(1.15,.1,.12,metal,lx+(li%2?-.48:.48),4.72,lz);
+ slab(.22,.13,.2,lampGlow,armX,4.65,lz);
+ var streetLight=new THREE.PointLight(0xffd99a,.85,15,1.7);
+ streetLight.position.set(armX,4.45,lz);streetLight.castShadow=false;scene.add(streetLight);
+ var glowDisc=new THREE.Mesh(new THREE.CircleGeometry(1.35,24),new THREE.MeshBasicMaterial({color:0xffd58c,transparent:true,opacity:.075,depthWrite:false}));
+ glowDisc.rotation.x=-Math.PI/2;glowDisc.position.set(armX,.035,lz);scene.add(glowDisc);
+}
 
 // Sidewalk furniture: planters, benches and wayfinding signs
 var planterMat=new THREE.MeshStandardMaterial({color:0x555e5b,roughness:.92});
