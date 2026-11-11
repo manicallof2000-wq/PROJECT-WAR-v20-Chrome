@@ -1082,6 +1082,11 @@ var pw321style=document.createElement("style");pw321style.textContent=".action:a
 
 // pw322: Final responsive polish
 var pw322style=document.createElement("style");pw322style.textContent="@media(max-width:340px){#hud .pill{font-size:8px;padding:5px 4px}#map{width:76px;height:76px}}";document.head.appendChild(pw322style);
+
+// pw323: restore distinct positions for every mobile control
+var pw323layout=document.createElement("style");
+pw323layout.textContent="#fire{right:max(94px,calc(env(safe-area-inset-right) + 94px))}#jump{right:max(26px,calc(env(safe-area-inset-right) + 26px))}#run{right:max(111px,calc(env(safe-area-inset-right) + 111px))}#pause{right:max(10px,calc(env(safe-area-inset-right) + 10px))}#sound{right:max(10px,calc(env(safe-area-inset-right) + 10px))}#pw187ammo{right:max(18px,calc(env(safe-area-inset-right) + 18px))}#pw188reload{right:max(20px,calc(env(safe-area-inset-right) + 20px))}@media(max-width:360px){#fire{right:max(84px,calc(env(safe-area-inset-right) + 84px))}}";
+document.head.appendChild(pw323layout);
 requestAnimationFrame(frame);updateHud();
 })();
 
