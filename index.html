@@ -573,6 +573,7 @@ var pw45dish=new THREE.MeshStandardMaterial({color:0x9da8a6,metalness:.78,roughn
 var pw46ant=new THREE.MeshStandardMaterial({color:0x59666a,metalness:.72,roughness:.3});buildings.forEach(function(pw46b,pw46i){if(pw46i%3===0){var pw46m=new THREE.Mesh(new THREE.CylinderGeometry(.025,.045,2.2,8),pw46ant);pw46m.position.set(pw46b[0]-.9,pw46b[3]+1.25,pw46b[1]+.6);scene.add(pw46m);slab(.65,.035,.035,pw46ant,pw46b[0]-.9,pw46b[3]+2.15,pw46b[1]+.6)}});
 var pw47lamp=new THREE.MeshStandardMaterial({color:0xffdf9d,emissive:0xffbd68,emissiveIntensity:1.2});buildings.forEach(function(pw47b){var pw47z=pw47b[1]+pw47b[4]/2+.22;for(var pw47y of [2.8,6.2])slab(.22,.32,.13,pw47lamp,pw47b[0],pw47y,pw47z)});
 var pw48board=new THREE.MeshStandardMaterial({color:0x263e49,roughness:.5,metalness:.22}),pw48edge=new THREE.MeshStandardMaterial({color:0xc2a978,metalness:.55,roughness:.38});buildings.slice(0,6).forEach(function(pw48b){var pw48z=pw48b[1]+pw48b[4]/2+.38;slab(pw48b[2]*.58,.42,.1,pw48board,pw48b[0],2.72,pw48z);slab(pw48b[2]*.58+.08,.045,.13,pw48edge,pw48b[0],2.96,pw48z)});
+var pw49support=new THREE.MeshStandardMaterial({color:0x59666a,metalness:.62,roughness:.38});buildings.slice(0,6).forEach(function(pw49b){var pw49z=pw49b[1]+pw49b[4]/2+.62;for(var pw49x of [-1,1])slab(.07,1.8,.07,pw49support,pw49b[0]+pw49x*pw49b[2]*.36,1.25,pw49z)});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
