@@ -112,7 +112,7 @@ renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
 var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(isMobileDevice?1536:2048,isMobileDevice?1536:2048);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
 function makeSurfaceTexture(kind){
- var c=document.createElement("canvas");c.width=512;c.height=512;var g=c.getContext("2d");
+ var c=document.createElement("canvas");c.width=1024;c.height=1024;var g=c.getContext("2d");g.scale(2,2);
  g.fillStyle=kind==="road"?"#343b40":"#71805c";g.fillRect(0,0,512,512);
  var seed=kind==="road"?23:71;
  function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
@@ -174,7 +174,7 @@ for(var mhz of [-38,-87]){
 }
 
 function facadeTexture(seed){
- var c=document.createElement("canvas");c.width=512;c.height=512;var g=c.getContext("2d");
+ var c=document.createElement("canvas");c.width=1024;c.height=1024;var g=c.getContext("2d");g.scale(2,2);
  var tones=["#8c9693","#a49d91","#78858a","#9b9a91","#7e8987"];g.fillStyle=tones[seed%tones.length];g.fillRect(0,0,512,512);
  for(var y=0;y<512;y+=4){g.fillStyle=y%8===0?"#ffffff0b":"#17242a08";g.fillRect(0,y,512,1)}
  for(var row=0;row<7;row++)for(var col=0;col<5;col++){
