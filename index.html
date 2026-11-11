@@ -423,6 +423,10 @@ var metal=new THREE.MeshStandardMaterial({color:0x303d43,metalness:.65,roughness
 for(var li=0;li<6;li++){
  var lx=li%2?8.8:-8.8,lz=-12-li*15,armX=lx+(li%2?-.92:.92);
  slab(.12,4.8,.12,metal,lx,2.4,lz);
+ var lampBase=new THREE.Mesh(new THREE.CylinderGeometry(.28,.34,.24,16),metal);
+ lampBase.position.set(lx,.14,lz);lampBase.castShadow=true;scene.add(lampBase);
+ var lampCollar=new THREE.Mesh(new THREE.CylinderGeometry(.105,.105,.16,12),curbMat);
+ lampCollar.position.set(lx,1.05,lz);scene.add(lampCollar);
  slab(1.15,.1,.12,metal,lx+(li%2?-.48:.48),4.72,lz);
  slab(.22,.13,.2,lampGlow,armX,4.65,lz);
  var streetLight=new THREE.PointLight(0xffd99a,.85,15,1.7);
