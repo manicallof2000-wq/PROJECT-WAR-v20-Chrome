@@ -1422,6 +1422,9 @@ document.addEventListener("visibilitychange",function(){if(document.hidden&&play
 
 // pw433: Add a safe resume hint after background pause
 var pw433resume=document.createElement("div");pw433resume.textContent="برای ادامه، دکمه ادامه بازی را بزن";pw433resume.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#102b38;color:#d9f7ff;font:700 10px system-ui";pw416dash.appendChild(pw433resume);document.addEventListener("visibilitychange",function(){pw433resume.style.display=document.hidden?"block":"none"});
+
+// pw434: Add a reduced-effects performance mode
+var pw434perf=document.createElement("button");pw434perf.textContent="حالت روان‌سازی: خاموش";pw434perf.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw434perf);var pw434on=false;pw434perf.onclick=function(){pw434on=!pw434on;renderer.setPixelRatio(Math.min(devicePixelRatio||1,pw434on?.85:1.5));renderer.shadowMap.enabled=!pw434on&&pw426on;renderer.setSize(innerWidth,innerHeight,false);pw434perf.textContent="حالت روان‌سازی: "+(pw434on?"روشن":"خاموش")};
 })();
 
  }
