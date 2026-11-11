@@ -788,8 +788,10 @@ pw195waveEl.textContent="WAVE "+pw194wave;pw195waveEl.style.color=pw194wave%2?"#
 if(pw202hud)pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING  /  WAVE "+pw194wave;
 // pw217: append the saved arcade record to the training label
 pw202hud.textContent+="  /  BEST "+(typeof pw216best==="number"?pw216best:0);setTimeout(function(){// pw225: shift the drone formation slightly on each new wave
-pw183targets.forEach(function(g,i){g.userData.hit=false;g.visible=true;var shift=Math.sin(pw194wave*.85+i)*1.8;g.position.x=pw191bases[i].x+shift;g.position.z=pw191bases[i].z-(pw194wave%3)*1.2;pw191bases[i].x=g.position.x;pw191bases[i].z=g.position.z;});pw205transition=false;toast("موج "+pw194wave+" شروع شد")},900)}};
+pw183targets.forEach(function(g,i){g.userData.hit=false;g.visible=true;var shift=Math.sin(pw194wave*.85+i)*1.8;g.position.x=pw191bases[i].x+shift;g.position.z=pw191bases[i].z-(pw194wave%3)*1.2;pw191bases[i].x=g.position.x;pw191bases[i].z=g.position.z;});pw205transition=false;toast("موج "+pw194wave+" شروع شد");pw228banner.textContent="WAVE "+pw194wave;pw228banner.style.opacity="1";pw228banner.style.transform="translate(-50%,-50%) scale(1)";setTimeout(function(){pw228banner.style.opacity="0"},1000)},900)}};
 // pw195: display the current arcade wave beside the energy counter
+// pw228: centered wave-start banner for clearer arcade pacing
+var pw228banner=document.createElement("div");pw228banner.style.cssText="position:fixed;left:50%;top:30%;transform:translate(-50%,-50%) scale(.9);z-index:20;color:#d9fcff;background:#082332dd;border:1px solid #6beafa;border-radius:12px;padding:10px 18px;font:900 15px Arial;letter-spacing:2px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s";document.body.appendChild(pw228banner);
 var pw195waveEl=document.createElement("div");pw195waveEl.style.cssText="position:fixed;right:18px;bottom:55px;z-index:8;color:#9af5ff;font:900 11px Arial;letter-spacing:1px;text-shadow:0 1px 5px #001";pw195waveEl.textContent="WAVE 1";document.body.appendChild(pw195waveEl);
 // pw196: tint the reticle when a training drone is under the crosshair
 var pw196cross=document.getElementById("cross");if(pw196cross)pw196cross.style.transition="border-color .08s,box-shadow .08s";
