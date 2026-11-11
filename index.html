@@ -777,6 +777,7 @@ var pw196cross=document.getElementById("cross");if(pw196cross)pw196cross.style.t
 var pw197mission=document.createElement("div");pw197mission.style.cssText="position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:8;color:#e5fbff;background:#071b2bd9;border:1px solid #58d9e866;border-radius:9px;padding:6px 10px;font:800 10px Arial;letter-spacing:.5px;pointer-events:none;white-space:nowrap";pw197mission.textContent="TRAINING DRONES  0 / 5";document.body.appendChild(pw197mission);
 // pw198: add a brief abstract cyan spark burst on successful drone hits
 var pw198fire=pw183fire;pw183fire=function(){var old=score;pw198fire();if(score>old){var pos=camera.position.clone(),dir=new THREE.Vector3();camera.getWorldDirection(dir);pos.add(dir.multiplyScalar(7));for(var i=0;i<9;i++){var p=new THREE.Mesh(new THREE.SphereGeometry(.045,6,5),new THREE.MeshBasicMaterial({color:i%2?0x73f4ff:0xffe58a}));p.position.copy(pos);p.userData.v=new THREE.Vector3((Math.random()-.5)*2,Math.random()*1.8,(Math.random()-.5)*2);scene.add(p);setTimeout(function(o){scene.remove(o);o.geometry.dispose();o.material.dispose()},420,p)}}};
+// pw199: ease the camera back after each successful hit
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
@@ -787,7 +788,7 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
   player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-105,Math.min(10,player.z));
   if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
  }
- camera.position.set(player.x,1.65+jump,player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
+ camera.position.set(player.x,1.65+jump,player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch+pw185recoil;pw185recoil*=.78;if(pw185recoil<.001)pw185recoil=0;
  markerObjects.forEach(function(o,i){if(o.visible)o.rotation.y+=dt*.65});
  pw183targets.forEach(function(g,i){if(g.visible)g.position.y=pw191bases[i].y+Math.sin(now*.002+pw191bases[i].phase)*.12});
 pw183targets.forEach(function(g,i){if(g.visible)g.position.x+=Math.sin(now*.0012+i)*.0008});
