@@ -1305,6 +1305,9 @@ var pw393bar=document.createElement("div"),pw393fill=document.createElement("div
 
 // pw394: Add an in-game control reminder in settings
 var pw394help=document.createElement("div");pw394help.textContent="حرکت: جوی‌استیک چپ • چرخش: کشیدن صفحه • شلیک: دکمه راست";pw394help.style.cssText="margin:7px 0;padding:8px;border-radius:8px;background:#0b2635;color:#cfeefa;font:700 10px/1.7 system-ui";pw335panel.appendChild(pw394help);
+
+// pw395: Add a color contrast setting
+var pw395contrast=document.createElement("button");pw395contrast.textContent="کنتراست رابط: عادی";pw395contrast.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw395contrast);var pw395high=false;pw395contrast.onclick=function(){pw395high=!pw395high;document.body.style.filter=pw395high?"contrast(1.12)":"none";pw395contrast.textContent="کنتراست رابط: "+(pw395high?"بالا":"عادی")};
 })();
 
  }
