@@ -215,6 +215,13 @@ for(var mhz of [-38,-87]){
  cover.position.set(3,.04,mhz);cover.receiveShadow=true;scene.add(cover);
  var rimLine=new THREE.Mesh(new THREE.TorusGeometry(.49,.025,6,32),curbMat);
  rimLine.rotation.x=Math.PI/2;rimLine.position.set(3,.067,mhz);scene.add(rimLine);
+ // Recessed grip bars make the utility cover read as cast metal
+ for(var grip=0;grip<12;grip++){
+  var angle=grip*Math.PI/6;
+  var bar=new THREE.Mesh(new THREE.BoxGeometry(.19,.012,.035),curbMat);
+  bar.position.set(3+Math.cos(angle)*.3,.067,mhz+Math.sin(angle)*.3);
+  bar.rotation.y=-angle;scene.add(bar);
+ }
 }
 
 function facadeTexture(seed){
