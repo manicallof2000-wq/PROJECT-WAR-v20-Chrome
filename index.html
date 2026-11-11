@@ -1404,6 +1404,9 @@ var pw426shadow=document.createElement("button");pw426shadow.textContent="سای
 
 // pw427: Add a fog visibility toggle
 var pw427fog=document.createElement("button");pw427fog.textContent="مه محیط: روشن";pw427fog.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw427fog);var pw427fogOn=true,pw427fogOriginal=scene.fog;pw427fog.onclick=function(){pw427fogOn=!pw427fogOn;scene.fog=pw427fogOn?pw427fogOriginal:null;pw427fog.textContent="مه محیط: "+(pw427fogOn?"روشن":"خاموش")};
+
+// pw428: Add an automatic graphics preset
+var pw428auto=document.createElement("button");pw428auto.textContent="گرافیک: خودکار";pw428auto.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw428auto);var pw428high=true;pw428auto.onclick=function(){pw428high=!pw428high;var ratio=Math.min(devicePixelRatio||1,pw428high?1.6:1);renderer.setPixelRatio(ratio);renderer.setSize(innerWidth,innerHeight,false);renderer.shadowMap.enabled=pw428high&&pw426on;pw428auto.textContent="گرافیک: "+(pw428high?"کیفیت":"روان");toast("پروفایل گرافیک اعمال شد")};
 })();
 
  }
