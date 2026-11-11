@@ -1618,6 +1618,12 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape"){pw335panel.
 // pw498: Add final compact styling for the new mission and diagnostics panels
 var pw498style=document.createElement("style");pw498style.textContent="#pw416dash{box-sizing:border-box}#pw416dash>div{overflow-wrap:anywhere}#pw335panel button,#pw416dashBtn{cursor:pointer}#pw335panel button:focus-visible{outline:2px solid #b8f6ff;outline-offset:2px}@media(max-width:420px){#pw416dash{max-width:58vw!important}#pw335panel{max-width:86vw}}";document.head.appendChild(pw498style);
 
+// pw500: Mobile HUD spacing and touch layout polish
+var pw500style=document.createElement("style");
+pw500style.textContent="#hud{align-items:flex-start;flex-wrap:wrap}#hud .pill{min-width:0;white-space:nowrap}#joy,#fire,#jump,#run{touch-action:none;-webkit-tap-highlight-color:transparent}@media(max-width:420px){#hud{left:7px;right:7px;gap:4px}#hud .pill{padding:6px 8px;font-size:11px;border-radius:10px}#joy{width:108px;height:108px;left:14px;bottom:max(16px,env(safe-area-inset-bottom))}#nub{left:30px;top:30px;width:44px;height:44px}#fire{right:82px;width:78px;height:78px;bottom:max(16px,env(safe-area-inset-bottom))}#jump{right:17px;bottom:max(106px,calc(env(safe-area-inset-bottom) + 106px));width:50px;height:50px}#run{right:94px;bottom:max(99px,calc(env(safe-area-inset-bottom) + 99px));width:48px;height:48px}#pause{right:8px;top:98px}#map{right:8px;top:143px;width:92px;height:92px}#sound{right:8px;top:242px}}@media(max-height:520px){#joy{width:88px;height:88px}#nub{left:24px;top:24px;width:36px;height:36px}#fire{width:66px;height:66px}#jump{bottom:92px}#run{bottom:88px}}";
+document.head.appendChild(pw500style);
+pw425version.textContent="PROJECT WAR • ARCADE UPDATE 5.00";
+
 // pw499: Finalize the 60-stage arcade release
 pw425version.textContent="PROJECT WAR • ARCADE UPDATE 4.99";pw380brief.textContent="مأموریت آماده است • نسخه ۴.۹۹";pw416dashBtn.textContent="آمار ▾";pw416dashBtn.setAttribute("aria-label","نمایش یا مخفی‌کردن آمار بازی");
 })();
