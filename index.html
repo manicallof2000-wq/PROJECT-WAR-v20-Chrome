@@ -1539,6 +1539,9 @@ var pw471fast=document.createElement("button");pw471fast.textContent="گرافی
 
 // pw472: Add a one-tap high-detail graphics preset
 var pw472high=document.createElement("button");pw472high.textContent="گرافیک با جزئیات بیشتر";pw472high.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw472high);pw472high.onclick=function(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.shadowMap.enabled=true;renderer.setSize(innerWidth,innerHeight,false);pw428high=true;pw428auto.textContent="گرافیک: جزئیات بیشتر";toast("جزئیات گرافیکی بیشتر فعال شد")};
+
+// pw473: Add a compact audio status label
+var pw473audio=document.createElement("div");pw473audio.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw473audio);setInterval(function(){pw473audio.textContent="صدای رابط: "+(pw450soundOn?"روشن":"خاموش")},1000);
 })();
 
  }
