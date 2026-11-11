@@ -1554,6 +1554,9 @@ var pw476list=document.createElement("div");pw476list.style.cssText="padding:6px
 
 // pw477: Add a match medal progress hint
 var pw477medal=document.createElement("div");pw477medal.style.cssText="padding:6px;margin:4px 0;background:#292015;color:#ffe7b7;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw477medal);setInterval(function(){pw477medal.textContent="پیشرفت مدال دقت: "+Math.min(10,pw327hits)+"/۱۰"},900);
+
+// pw478: Add a compact wave milestone tracker
+var pw478wave=document.createElement("div");pw478wave.style.cssText="padding:6px;margin:4px 0;background:#18253b;color:#e2eaff;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw478wave);setInterval(function(){pw478wave.textContent="تا موج بعد: "+(5-(pw194wave%5))+" موج"},1300);
 })();
 
  }
