@@ -1058,6 +1058,9 @@ var pw313style=document.createElement("style");pw313style.textContent="#world{he
 
 // pw314: HUD top safe viewport
 var pw314style=document.createElement("style");pw314style.textContent="@supports(top:env(safe-area-inset-top)){#hud{top:max(9px,env(safe-area-inset-top))}}";document.head.appendChild(pw314style);
+
+// pw315: Joystick left safe viewport
+var pw315style=document.createElement("style");pw315style.textContent="#joy{left:max(18px,env(safe-area-inset-left))}";document.head.appendChild(pw315style);
 requestAnimationFrame(frame);updateHud();
 })();
 
