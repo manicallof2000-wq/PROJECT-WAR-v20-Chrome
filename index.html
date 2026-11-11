@@ -1104,6 +1104,9 @@ var pw326rank=document.createElement("div");pw326rank.id="pw326rank";pw326rank.t
 
 // pw327: Track arcade shots and hits
 var pw327shots=0,pw327hits=0,pw327base=pw183fire;pw183fire=function(){if(playing&&!paused&&pw187ammo>0)pw327shots++;var before=score;pw327base();if(score>before){pw327hits++;if(pw327accuracy)pw327accuracy.textContent="دقت "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪"}};var pw327accuracy=document.createElement("div");pw327accuracy.id="pw327accuracy";pw327accuracy.textContent="دقت ۰٪";pw327accuracy.style.cssText="position:fixed;left:10px;top:124px;z-index:14;padding:6px 9px;border-radius:9px;background:#071b2bd9;border:1px solid #6beafa66;color:#c9f8ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw327accuracy);
+
+// pw328: Add persistent player level and XP
+var pw328xp=0,pw328level=1;try{pw328xp=Number(localStorage.getItem("pw_xp")||0)||0}catch(e){}pw328level=1+Math.floor(pw328xp/600);function pw328award(n){pw328xp+=n;pw328level=1+Math.floor(pw328xp/600);try{localStorage.setItem("pw_xp",String(pw328xp))}catch(e){}if(pw326rank)pw326rank.textContent="رتبه "+pw328level+" • XP "+pw328xp}if(pw326rank)pw326rank.textContent="رتبه "+pw328level+" • XP "+pw328xp;
 })();
 
  }
