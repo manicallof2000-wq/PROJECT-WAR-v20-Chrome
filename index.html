@@ -1557,6 +1557,9 @@ var pw477medal=document.createElement("div");pw477medal.style.cssText="padding:6
 
 // pw478: Add a compact wave milestone tracker
 var pw478wave=document.createElement("div");pw478wave.style.cssText="padding:6px;margin:4px 0;background:#18253b;color:#e2eaff;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw478wave);setInterval(function(){pw478wave.textContent="تا موج بعد: "+(5-(pw194wave%5))+" موج"},1300);
+
+// pw479: Add a settings shortcut from the dashboard
+var pw479settings=document.createElement("button");pw479settings.textContent="رفتن به تنظیمات";pw479settings.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw479settings);pw479settings.onclick=function(){pw335panel.style.display="block";pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"};
 })();
 
  }
