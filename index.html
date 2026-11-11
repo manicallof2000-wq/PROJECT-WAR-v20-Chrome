@@ -1173,6 +1173,9 @@ var pw349medal=document.createElement("div");pw349medal.id="pw349medal";pw349med
 
 // pw350: Add selectable training difficulty
 var pw350mode=document.createElement("button");pw350mode.textContent="سختی: عادی";pw350mode.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #d5a65c;border-radius:8px;background:#352817;color:#ffe7bb;font:800 10px system-ui";pw335panel.appendChild(pw350mode);var pw350difficulty="normal";pw350mode.addEventListener("click",function(){pw350difficulty=pw350difficulty==="normal"?"easy":pw350difficulty==="easy"?"hard":"normal";pw350mode.textContent="سختی: "+(pw350difficulty==="easy"?"آسان":pw350difficulty==="hard"?"سخت":"عادی");pw183targets.forEach(function(t){t.scale.setScalar(pw350difficulty==="easy"?1.25:pw350difficulty==="hard"?.82:1)});toast("درجه سختی تغییر کرد")});
+
+// pw351: Add a saved difficulty preference
+try{var pw351saved=localStorage.getItem("pw_difficulty");if(pw351saved==="easy"||pw351saved==="hard"){pw350difficulty=pw351saved;pw350mode.textContent="سختی: "+(pw351saved==="easy"?"آسان":"سخت");pw183targets.forEach(function(t){t.scale.setScalar(pw351saved==="easy"?1.25:.82)})}}catch(e){}pw350mode.addEventListener("click",function(){try{localStorage.setItem("pw_difficulty",pw350difficulty)}catch(e){}});
 })();
 
  }
