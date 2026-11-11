@@ -164,10 +164,35 @@ function roundedBuilding(b,i){
  var buildingMesh=new THREE.Mesh(geo,[facade,sides]);buildingMesh.castShadow=true;buildingMesh.receiveShadow=true;scene.add(buildingMesh);
  slab(w+.18,.22,d+.18,new THREE.MeshStandardMaterial({color:0x59666a,roughness:.9}),b[0],h+.08,b[1]);
  var ledgeMat=new THREE.MeshStandardMaterial({color:0xb0b4aa,roughness:.8});
- for(var level=3;level<h;level+=3.2)slab(w+.16,.11,d+.16,ledgeMat,b[0],level,b[1]);
+ var balconyMetal=new THREE.MeshStandardMaterial({color:0x333d40,metalness:.55,roughness:.4});
+ for(var level=3;level<h;level+=3.2){
+  slab(w+.16,.11,d+.16,ledgeMat,b[0],level,b[1]);
+  var balconyZ=b[1]+d/2+.58;
+  slab(w*.56,.13,.95,ledgeMat,b[0],level+.18,balconyZ);
+  slab(w*.56,.07,.07,balconyMetal,b[0],level+1.12,balconyZ+.43);
+  for(var post=-2;post<=2;post++)slab(.055,.9,.055,balconyMetal,b[0]+post*w*.14,level+.68,balconyZ+.43);
+ }
+ var shopGlass=new THREE.MeshStandardMaterial({color:0x6d9ca5,metalness:.25,roughness:.2,transparent:true,opacity:.82,emissive:0x172d32});
+ slab(w*.72,1.9,.08,shopGlass,b[0],1.15,b[1]+d/2+.055);
+ slab(w*.78,.18,.55,new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.7}),b[0],2.25,b[1]+d/2+.3);
 }
 var buildings=[[-16,-19,9,10,7],[16,-23,10,12,8],[-19,-43,10,13,8],[19,-48,11,11,8],[-14,-69,8,14,7],[15,-73,9,13,7],[-22,-91,12,16,10],[23,-96,13,15,9]];
 buildings.forEach(roundedBuilding);
+function parkedCar(x,z,color,flip){
+ var group=new THREE.Group(),paint=new THREE.MeshStandardMaterial({color:color,metalness:.48,roughness:.28}),glass=new THREE.MeshStandardMaterial({color:0x294654,metalness:.45,roughness:.18}),rubber=new THREE.MeshStandardMaterial({color:0x171b1e,roughness:.95}),rim=new THREE.MeshStandardMaterial({color:0x9ca8a9,metalness:.8,roughness:.25});
+ function part(geo,mat,px,py,pz){var m=new THREE.Mesh(geo,mat);m.position.set(px,py,pz);m.castShadow=true;m.receiveShadow=true;group.add(m);return m}
+ part(new THREE.BoxGeometry(2.05,.58,4.15),paint,0,.72,0);
+ part(new THREE.BoxGeometry(1.72,.68,2.05),glass,0,1.28,-.18);
+ part(new THREE.BoxGeometry(1.82,.12,1.65),paint,0,1.66,-.2);
+ for(var wx of [-.94,.94])for(var wz of [-1.35,1.35]){
+  var wheel=part(new THREE.CylinderGeometry(.39,.39,.2,18),rubber,wx,.48,wz);wheel.rotation.z=Math.PI/2;
+  var hub=part(new THREE.CylinderGeometry(.19,.19,.205,16),rim,wx,.48,wz);hub.rotation.z=Math.PI/2;
+ }
+ var lamp=new THREE.MeshStandardMaterial({color:0xffe6b5,emissive:0xffd18a,emissiveIntensity:.55});
+ part(new THREE.BoxGeometry(.42,.16,.06),lamp,-.62,.83,2.09);part(new THREE.BoxGeometry(.42,.16,.06),lamp,.62,.83,2.09);
+ group.position.set(x,0,z);if(flip)group.rotation.y=Math.PI;scene.add(group);
+}
+parkedCar(-7.6,-28,0x536d78,false);parkedCar(7.5,-61,0x8c5144,true);parkedCar(-7.4,-88,0x858b83,false);
 var bark=new THREE.MeshStandardMaterial({color:0x66503a,roughness:1}),leaves=[0x456d48,0x527b4c,0x3f6749].map(function(c){return new THREE.MeshStandardMaterial({color:c,roughness:1})});
 function tree(x,z,size){
  slab(.28*size,2.1*size,.28*size,bark,x,1.05*size,z);
