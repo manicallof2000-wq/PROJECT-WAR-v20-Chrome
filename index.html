@@ -756,7 +756,7 @@ var pw185oldFire=pw183fire;pw183fire=function(){var before=score;pw185oldFire();
 var pw186lastShot=0,pw186baseFire=pw183fire;pw183fire=function(){var now=performance.now();if(now-pw186lastShot<220)return;pw186lastShot=now;pw186baseFire()};
 // pw187: add an arcade energy counter to the HUD
 var pw187ammo=18,pw187maxAmmo=18,pw187ammoEl=document.createElement("div");pw187ammoEl.id="pw187ammo";pw187ammoEl.textContent="ENERGY 18 / 18";pw187ammoEl.style.cssText="position:fixed;right:18px;bottom:18px;z-index:8;color:#d8fbff;background:#071b2bd9;border:1px solid #58d9e8;border-radius:10px;padding:7px 11px;font:900 11px Arial;letter-spacing:1px;pointer-events:none";document.body.appendChild(pw187ammoEl);
-var pw187fire=pw183fire;pw183fire=function(){if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}var old=score;pw187ammo--;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187fire();};
+var pw187fire=pw183fire;pw183fire=function(){if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}if(performance.now()-pw186lastShot<220)return;pw187ammo--;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187fire();};
 // pw188: add a touch-friendly energy reload control
 var pw188reload=document.createElement("button");pw188reload.id="pw188reload";pw188reload.textContent="شارژ";pw188reload.style.cssText="position:fixed;right:20px;bottom:82px;z-index:9;border:1px solid #8cebf2;border-radius:12px;background:#12394beF;color:#eaffff;padding:9px 14px;font-weight:900;touch-action:manipulation";document.body.appendChild(pw188reload);pw188reload.addEventListener("pointerdown",function(e){e.preventDefault();if(!playing||paused||pw187ammo===pw187maxAmmo)return;pw188reload.disabled=true;toast("درحال شارژ انرژی...");setTimeout(function(){pw187ammo=pw187maxAmmo;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw188reload.disabled=false;beep(520,.12);toast("شارژ کامل شد")},850)});
 // pw189: show a short cyan pulse when the arcade blaster fires
@@ -798,7 +798,7 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
  camera.position.set(player.x,1.65+jump,player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch+pw185recoil;pw185recoil*=.78;if(pw185recoil<.001)pw185recoil=0;
  markerObjects.forEach(function(o,i){if(o.visible)o.rotation.y+=dt*.65});
  pw183targets.forEach(function(g,i){if(g.visible)g.position.y=pw191bases[i].y+Math.sin(now*.002+pw191bases[i].phase)*.12});
-pw183targets.forEach(function(g,i){if(g.visible)g.position.x+=Math.sin(now*.0012+i)*.0008});
+pw183targets.forEach(function(g,i){if(g.visible)g.position.x=pw191bases[i].x+Math.sin(now*.0012+i)*.28});
  if(pw196cross){pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
  if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
