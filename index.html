@@ -1152,6 +1152,9 @@ var pw342targets=document.createElement("div");pw342targets.id="pw342targets";pw
 
 // pw343: Add low-energy visual warning
 var pw343ammoWarn=document.createElement("div");pw343ammoWarn.id="pw343warn";pw343ammoWarn.style.cssText="position:fixed;right:10px;bottom:270px;z-index:15;color:#ffc58a;font:900 10px system-ui;opacity:0;pointer-events:none";document.body.appendChild(pw343ammoWarn);var pw343baseFire=pw183fire;pw183fire=function(){pw343baseFire();if(pw187ammo<=4){pw343ammoWarn.textContent="انرژی رو به پایان";pw343ammoWarn.style.opacity="1"}else pw343ammoWarn.style.opacity="0"};
+
+// pw344: Add achievement toast for first clean streak
+var pw344unlocked=false,pw344base=pw183fire;pw183fire=function(){var before=score;pw344base();if(score>before&&pw330combo>=5&&!pw344unlocked){pw344unlocked=true;toast("دستاورد باز شد: تمرکز عالی");pw326rank.style.borderColor="#ffe18a"}};
 })();
 
  }
