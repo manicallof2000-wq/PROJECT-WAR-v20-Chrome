@@ -1341,6 +1341,9 @@ var pw405medals=0;try{pw405medals=Number(localStorage.getItem("pw_medals")||0)||
 
 // pw406: Award a medal for high-accuracy practice
 var pw406base=pw183fire;pw183fire=function(){var b=score;pw406base();if(score>b&&pw327shots>=10&&pw327hits/Math.max(1,pw327shots)>=.8){if(!pw406awarded){pw406awarded=true;pw405medals++;try{localStorage.setItem("pw_medals",String(pw405medals))}catch(e){}pw405medalEl.textContent="مدال‌ها: "+pw405medals;toast("مدال دقت باز شد")}}};var pw406awarded=false;
+
+// pw407: Add a target practice streak challenge
+var pw407streakBtn=document.createElement("button");pw407streakBtn.textContent="چالش زنجیره ۵تایی";pw407streakBtn.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#352817;color:#ffe7bb;border:1px solid #d5a65c;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw407streakBtn);pw407streakBtn.onclick=function(){pw330combo=0;pw330badge.textContent="COMBO ×0";toast("۵ هدف پشت‌سرهم را ثبت کن")};
 })();
 
  }
