@@ -786,7 +786,8 @@ var pw205transition=false;
 var pw194wave=1,pw194fire=pw183fire;pw183fire=function(){var before=score;pw194fire();if(score>before&&!pw205transition&&pw183targets.every(function(g){return g.userData.hit})){pw205transition=true;pw194wave++;if(pw195waveEl)pw195waveEl.textContent="WAVE "+pw194wave;
 if(pw202hud)pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING  /  WAVE "+pw194wave;
 // pw217: append the saved arcade record to the training label
-pw202hud.textContent+="  /  BEST "+(typeof pw216best==="number"?pw216best:0);setTimeout(function(){pw183targets.forEach(function(g){g.userData.hit=false;g.visible=true});pw205transition=false;toast("موج "+pw194wave+" شروع شد")},900)}};
+pw202hud.textContent+="  /  BEST "+(typeof pw216best==="number"?pw216best:0);setTimeout(function(){// pw225: shift the drone formation slightly on each new wave
+pw183targets.forEach(function(g,i){g.userData.hit=false;g.visible=true;var shift=Math.sin(pw194wave*.85+i)*1.8;g.position.x=pw191bases[i].x+shift;g.position.z=pw191bases[i].z-(pw194wave%3)*1.2;pw191bases[i].x=g.position.x;pw191bases[i].z=g.position.z;});pw205transition=false;toast("موج "+pw194wave+" شروع شد")},900)}};
 // pw195: display the current arcade wave beside the energy counter
 var pw195waveEl=document.createElement("div");pw195waveEl.style.cssText="position:fixed;right:18px;bottom:55px;z-index:8;color:#9af5ff;font:900 11px Arial;letter-spacing:1px;text-shadow:0 1px 5px #001";pw195waveEl.textContent="WAVE 1";document.body.appendChild(pw195waveEl);
 // pw196: tint the reticle when a training drone is under the crosshair
