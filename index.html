@@ -1040,6 +1040,9 @@ var pw307style=document.createElement("style");pw307style.textContent="@media(or
 
 // pw308: Landscape minimap position
 var pw308style=document.createElement("style");pw308style.textContent="@media(orientation:landscape) and (max-height:500px){#map{right:8px;top:74px}}";document.head.appendChild(pw308style);
+
+// pw309: Controls safe stacking
+var pw309style=document.createElement("style");pw309style.textContent="#fire,#jump,#run{isolation:isolate}";document.head.appendChild(pw309style);
 requestAnimationFrame(frame);updateHud();
 })();
 
