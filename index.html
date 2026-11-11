@@ -1548,6 +1548,9 @@ var pw474quiet=document.createElement("button");pw474quiet.textContent="حالت
 
 // pw475: Add a button to restore default HUD visibility
 var pw475hud=document.createElement("button");pw475hud.textContent="بازگردانی نمایش HUD";pw475hud.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw475hud);pw475hud.onclick=function(){document.getElementById("hud").style.opacity="1";pw358hudOn=true;pw358hud.textContent="نمایش اطلاعات: روشن";pw454on=false;pw454quiet.textContent="رابط خلوت: خاموش";toast("نمایش رابط بازگردانی شد")};
+
+// pw476: Add a target list status summary
+var pw476list=document.createElement("div");pw476list.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw476list);setInterval(function(){var all=pw183targets.length,done=pw183targets.filter(function(t){return !t.visible}).length;pw476list.textContent="هدف‌ها: "+done+" / "+all+" ثبت‌شده"},900);
 })();
 
  }
