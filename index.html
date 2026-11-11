@@ -197,10 +197,10 @@ function roundedBuilding(b,i){
  shape.lineTo(w/2,h-r);shape.quadraticCurveTo(w/2,h,w/2-r,h);
  shape.lineTo(-w/2+r,h);shape.quadraticCurveTo(-w/2,h,-w/2,h-r);
  shape.lineTo(-w/2,r);shape.quadraticCurveTo(-w/2,0,-w/2+r,0);
- var geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSegments:3,steps:1,bevelSize:.12,bevelThickness:.12,curveSegments:5});
+ var geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.18,bevelThickness:.16,curveSegments:8});
  geo.translate(0,0,-d/2);
- var facade=new THREE.MeshStandardMaterial({map:facadeTexture(i),roughness:.82});
- var sides=new THREE.MeshStandardMaterial({color:[0x777f7c,0x89877f,0x758087][i%3],roughness:.9});
+ var facade=new THREE.MeshStandardMaterial({map:facadeTexture(i),color:0xf4f2eb,roughness:.74,metalness:.025});
+ var sides=new THREE.MeshStandardMaterial({color:[0x777f7c,0x89877f,0x758087][i%3],roughness:.82,metalness:.015});
  var buildingMesh=new THREE.Mesh(geo,[facade,sides]);buildingMesh.castShadow=true;buildingMesh.receiveShadow=true;scene.add(buildingMesh);
  slab(w+.18,.22,d+.18,new THREE.MeshStandardMaterial({color:0x59666a,roughness:.9}),b[0],h+.08,b[1]);
  var ledgeMat=new THREE.MeshStandardMaterial({color:0xb0b4aa,roughness:.8});
