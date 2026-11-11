@@ -1614,6 +1614,9 @@ try{var pw496idx=Number(localStorage.getItem("pw_mission_objective"));if(Number.
 
 // pw497: Add an escape-key quick close for overlays
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){pw335panel.style.display="none";pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"}});
+
+// pw498: Add final compact styling for the new mission and diagnostics panels
+var pw498style=document.createElement("style");pw498style.textContent="#pw416dash{box-sizing:border-box}#pw416dash>div{overflow-wrap:anywhere}#pw335panel button,#pw416dashBtn{cursor:pointer}#pw335panel button:focus-visible{outline:2px solid #b8f6ff;outline-offset:2px}@media(max-width:420px){#pw416dash{max-width:58vw!important}#pw335panel{max-width:86vw}}";document.head.appendChild(pw498style);
 })();
 
  }
