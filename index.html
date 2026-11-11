@@ -458,6 +458,18 @@ for(var postZ of [-24,-50,-78,-101]){
   postTop.position.set(postX,.94,postZ);scene.add(postTop);
  }
 }
+// Distant low-contrast skyline creates depth beyond the main street
+var distantMats=[0x667d86,0x71858a,0x7b8988].map(function(c){return new THREE.MeshStandardMaterial({color:c,roughness:1,metalness:0})});
+for(var farB=0;farB<14;farB++){
+ var fw=5+(farB%4)*2.2,fh=13+(farB*7%19),fd=7+(farB%3)*2;
+ var fx=(farB%2===0?-1:1)*(27+(farB%5)*5),fz=-128-Math.floor(farB/2)*6;
+ var distant=new THREE.Mesh(new THREE.BoxGeometry(fw,fh,fd),distantMats[farB%3]);
+ distant.position.set(fx,fh/2-0.2,fz);distant.receiveShadow=true;scene.add(distant);
+ if(farB%3===0){
+  var crownBlock=new THREE.Mesh(new THREE.BoxGeometry(fw*.45,2,fd*.5),distantMats[(farB+1)%3]);
+  crownBlock.position.set(fx,fh+0.8,fz);scene.add(crownBlock);
+ }
+}
 var markerObjects=[];
 points.forEach(function(p){
  var group=new THREE.Group();group.position.set(p.x,1.35,p.z);
