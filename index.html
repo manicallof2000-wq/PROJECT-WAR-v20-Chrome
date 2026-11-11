@@ -1155,6 +1155,9 @@ var pw343ammoWarn=document.createElement("div");pw343ammoWarn.id="pw343warn";pw3
 
 // pw344: Add achievement toast for first clean streak
 var pw344unlocked=false,pw344base=pw183fire;pw183fire=function(){var before=score;pw344base();if(score>before&&pw330combo>=5&&!pw344unlocked){pw344unlocked=true;toast("دستاورد باز شد: تمرکز عالی");pw326rank.style.borderColor="#ffe18a"}};
+
+// pw345: Add timed arcade challenge
+var pw345time=90,pw345start=performance.now(),pw345clock=document.createElement("div");pw345clock.id="pw345clock";pw345clock.textContent="زمان چالش: ۹۰";pw345clock.style.cssText="position:fixed;left:10px;top:190px;z-index:14;padding:6px 9px;border:1px solid #ffce7866;border-radius:9px;background:#261c13dd;color:#ffe4ad;font:900 10px system-ui;pointer-events:none";document.body.appendChild(pw345clock);
 })();
 
  }
