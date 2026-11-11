@@ -859,7 +859,8 @@ if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter
 if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
 // pw226: refresh nearest drone range
 // pw245: make the range readout clearer
-if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)near=Math.min(near,camera.position.distanceTo(g.position))});pw226range.textContent=near<Infinity?"فاصله "+Math.round(near)+" m":"میدان خالی";}
+// pw254: distance-aware range color
+if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)near=Math.min(near,camera.position.distanceTo(g.position))});pw226range.textContent=near<Infinity?"فاصله "+Math.round(near)+" m":"میدان خالی";pw226range.style.color=near<12?"#8fffd5":near<28?"#b9e9f2":"#ffd39a";}
 // pw243: give drone wings subtle hover movement
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
