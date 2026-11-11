@@ -1521,6 +1521,9 @@ var pw465color=document.createElement("button");pw465color.textContent="رنگ �
 
 // pw466: Add a minimap size selector
 var pw466mapsize=document.createElement("button");pw466mapsize.textContent="اندازه نقشه: عادی";pw466mapsize.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw466mapsize);var pw466large=false;pw466mapsize.onclick=function(){pw466large=!pw466large;var el=document.getElementById("map");if(el){el.style.transform=pw466large?"scale(1.2)":"scale(1)";el.style.transformOrigin="top right"}pw466mapsize.textContent="اندازه نقشه: "+(pw466large?"بزرگ":"عادی")};
+
+// pw467: Add a minimap opacity control
+var pw467mapopacity=document.createElement("button");pw467mapopacity.textContent="شفافیت نقشه: ۱۰۰٪";pw467mapopacity.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw467mapopacity);var pw467op=1;pw467mapopacity.onclick=function(){pw467op=pw467op<=.4?1:pw467op-.2;var el=document.getElementById("map");if(el)el.style.opacity=pw467op;pw467mapopacity.textContent="شفافیت نقشه: "+Math.round(pw467op*100)+"٪"};
 })();
 
  }
