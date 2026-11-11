@@ -1350,6 +1350,9 @@ var pw408respawn=document.createElement("div");pw408respawn.textContent="هدف�
 
 // pw409: Add a second training profile preset
 var pw409profile=document.createElement("button");pw409profile.textContent="پروفایل: متعادل";pw409profile.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw409profile);var pw409mode=0;pw409profile.onclick=function(){pw409mode=(pw409mode+1)%3;pw363sens=[.75,1,1.35][pw409mode];camera.fov=[62,68,78][pw409mode];camera.updateProjectionMatrix();pw409profile.textContent="پروفایل: "+["دقیق","متعادل","گسترده"][pw409mode]};
+
+// pw410: Add a saved profile preset
+try{var p=Number(localStorage.getItem("pw_profile")||1);if(p>=0&&p<=2){pw409mode=p;pw409profile.textContent="پروفایل: "+["دقیق","متعادل","گسترده"][p];pw363sens=[.75,1,1.35][p];camera.fov=[62,68,78][p];camera.updateProjectionMatrix()}}catch(e){}pw409profile.addEventListener("click",function(){try{localStorage.setItem("pw_profile",String(pw409mode))}catch(e){}});
 })();
 
  }
