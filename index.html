@@ -563,6 +563,8 @@ canvas.addEventListener("pointermove",function(e){if(lookId!==e.pointerId||!play
 function stopLook(){lookId=null}canvas.addEventListener("pointerup",stopLook);canvas.addEventListener("pointercancel",stopLook);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
+ // Browsers can suspend rendering while the page is hidden; reset the clock on return
+ if(document.hidden)return;
  if(playing&&!paused){elapsed=(now-startedAt)/1000;var secs=Math.floor(elapsed),mm=String(Math.floor(secs/60)).padStart(2,"0"),ss=String(secs%60).padStart(2,"0");document.getElementById("timer").textContent=mm+":"+ss;
   var speed=running?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
   player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(joyY*co-joyX*si)*speed*dt;
