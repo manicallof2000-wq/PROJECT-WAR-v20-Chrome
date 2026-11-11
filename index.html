@@ -260,9 +260,29 @@ function parkedCar(x,z,color,flip){
  part(new THREE.BoxGeometry(.34,.12,.06),chrome,-.62,.83,2.13);
  part(new THREE.BoxGeometry(.34,.12,.06),chrome,.62,.83,2.13);
  for(var wx of [-.94,.94])for(var wz of [-1.35,1.35]){
-  var wheel=part(new THREE.CylinderGeometry(.39,.39,.2,18),rubber,wx,.48,wz);wheel.rotation.z=Math.PI/2;
-  var hub=part(new THREE.CylinderGeometry(.19,.19,.205,16),rim,wx,.48,wz);hub.rotation.z=Math.PI/2;
+  var wheel=part(new THREE.CylinderGeometry(.39,.39,.2,24),rubber,wx,.48,wz);wheel.rotation.z=Math.PI/2;
+  var hub=part(new THREE.CylinderGeometry(.2,.2,.215,24),rim,wx,.48,wz);hub.rotation.z=Math.PI/2;
+  var hubCap=part(new THREE.CylinderGeometry(.075,.075,.225,16),chrome,wx,.48,wz);hubCap.rotation.z=Math.PI/2;
+  var tireRing=part(new THREE.TorusGeometry(.315,.025,8,24),rubber,wx*1.006,.48,wz);tireRing.rotation.y=Math.PI/2;
  }
+ // Refined front fascia, windshield, roof and body panel details
+ var grille=new THREE.MeshStandardMaterial({color:0x17262c,metalness:.55,roughness:.42});
+ part(new THREE.BoxGeometry(.72,.2,.055),grille,0,.68,2.105);
+ for(var gi=0;gi<5;gi++)part(new THREE.BoxGeometry(.035,.14,.018),chrome,-.25+gi*.125,.68,2.14);
+ part(new THREE.BoxGeometry(1.52,.48,.07),glass,0,1.37,.91).rotation.x=-.28;
+ part(new THREE.BoxGeometry(1.52,.43,.07),glass,0,1.36,-1.18).rotation.x=.25;
+ part(new THREE.BoxGeometry(1.62,.07,1.48),paint,0,1.72,-.18);
+ for(var pillarX of [-.78,.78]){
+  part(new THREE.BoxGeometry(.075,.48,.09),paint,pillarX,1.38,.88).rotation.x=-.28;
+  part(new THREE.BoxGeometry(.075,.44,.09),paint,pillarX,1.36,-1.15).rotation.x=.25;
+ }
+ var seam=new THREE.MeshStandardMaterial({color:0x26343a,metalness:.35,roughness:.58});
+ for(var sx of [-.9,.9]){
+  part(new THREE.BoxGeometry(.018,.42,.018),seam,sx,.93,.42);
+  part(new THREE.BoxGeometry(.018,.42,.018),seam,sx,.93,-.82);
+ }
+ part(new THREE.BoxGeometry(.62,.13,.035),chrome,0,.49,2.19);
+ part(new THREE.BoxGeometry(.56,.17,.035),chrome,0,.49,-2.18);
  var lamp=new THREE.MeshStandardMaterial({color:0xffe6b5,emissive:0xffd18a,emissiveIntensity:.55});
  part(new THREE.BoxGeometry(.42,.16,.06),lamp,-.62,.83,2.09);part(new THREE.BoxGeometry(.42,.16,.06),lamp,.62,.83,2.09);
  group.position.set(x,0,z);if(flip)group.rotation.y=Math.PI;scene.add(group);
