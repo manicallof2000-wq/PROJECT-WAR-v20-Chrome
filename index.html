@@ -648,6 +648,7 @@ var pw120grid=new THREE.MeshStandardMaterial({color:0x9eafb0,metalness:.72,rough
 var pw121foot=new THREE.MeshStandardMaterial({color:0x697477,metalness:.48,roughness:.52});buildings.forEach(function(b){for(var x of [-.3,.3])slab(.12,.24,.12,pw121foot,b[0]+b[2]*.27+x,b[3]+.35,b[1]-.18)});
 var pw122ring=new THREE.MeshStandardMaterial({color:0x899693,metalness:.7,roughness:.3});buildings.forEach(function(b){var r=new THREE.Mesh(new THREE.TorusGeometry(.45,.025,6,24),pw122ring);r.position.set(b[0]+b[2]*.27,b[3]+.9,b[1]-.18);r.rotation.x=Math.PI/2;scene.add(r)});
 var pw123rail=new THREE.MeshStandardMaterial({color:0x59666a,metalness:.7,roughness:.32});buildings.forEach(function(b,i){if(i%2===0){var z=b[1]-.55;for(var x of [-1,1])slab(.045,.65,.045,pw123rail,b[0]+x*1.1,b[3]+.8,z);slab(2.2,.045,.045,pw123rail,b[0],b[3]+1.12,z)}});
+var pw124lamp=new THREE.MeshStandardMaterial({color:0xffdca0,emissive:0xffb85c,emissiveIntensity:.8});buildings.forEach(function(b,i){if(i%3===1){var m=new THREE.Mesh(new THREE.SphereGeometry(.09,8,6),pw124lamp);m.position.set(b[0],b[3]+.55,b[1]);scene.add(m)}});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
