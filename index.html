@@ -1095,6 +1095,9 @@ var pw323layout=document.createElement("style");
 pw323layout.textContent="#fire{right:max(94px,calc(env(safe-area-inset-right) + 94px))}#jump{right:max(26px,calc(env(safe-area-inset-right) + 26px))}#run{right:max(111px,calc(env(safe-area-inset-right) + 111px))}#pause{right:max(10px,calc(env(safe-area-inset-right) + 10px))}#sound{right:max(10px,calc(env(safe-area-inset-right) + 10px))}#pw187ammo{right:max(18px,calc(env(safe-area-inset-right) + 18px))}#pw188reload{right:max(20px,calc(env(safe-area-inset-right) + 20px))}@media(max-width:360px){#fire{right:max(84px,calc(env(safe-area-inset-right) + 84px))}}";
 document.head.appendChild(pw323layout);
 requestAnimationFrame(frame);updateHud();
+
+// pw325: Add compact arcade mission panel
+var pw325panel=document.createElement("div");pw325panel.id="pw325panel";pw325panel.textContent="ماموریت: پهپادهای تمرینی را پیدا کن";pw325panel.style.cssText="position:fixed;left:10px;top:58px;z-index:14;max-width:62vw;padding:7px 10px;border:1px solid #72d9e777;border-radius:10px;background:#071b2bd9;color:#e6fbff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw325panel);
 })();
 
  }
