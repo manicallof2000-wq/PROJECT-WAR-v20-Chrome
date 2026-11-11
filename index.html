@@ -1560,6 +1560,9 @@ var pw478wave=document.createElement("div");pw478wave.style.cssText="padding:6px
 
 // pw479: Add a settings shortcut from the dashboard
 var pw479settings=document.createElement("button");pw479settings.textContent="رفتن به تنظیمات";pw479settings.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw479settings);pw479settings.onclick=function(){pw335panel.style.display="block";pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"};
+
+// pw480: Add a safe dashboard reset for layout and HUD
+var pw480reset=document.createElement("button");pw480reset.textContent="بازنشانی چیدمان رابط";pw480reset.style.cssText="width:100%;padding:7px;margin:4px 0;background:#4a2828;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw480reset);pw480reset.onclick=function(){pw416dash.style.width="min(210px,56vw)";pw416dash.style.maxHeight="48vh";pw416dash.style.fontSize="11px";pw416dash.style.display="none";pw416dashBtn.style.display="block";pw416dashBtn.textContent="آمار ▾";document.getElementById("hud").style.opacity="1";toast("چیدمان رابط بازنشانی شد")};
 })();
 
  }
