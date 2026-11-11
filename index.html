@@ -1296,6 +1296,9 @@ var pw390completed=0;try{pw390completed=Number(localStorage.getItem("pw_challeng
 
 // pw391: Add a quick settings close button
 var pw391close=document.createElement("button");pw391close.textContent="بستن تنظیمات";pw391close.style.cssText="display:block;width:100%;margin:7px 0 0;padding:8px;background:#3a2525;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw391close);pw391close.onclick=function(){pw335panel.style.display="none"};
+
+// pw392: Add a quick settings open shortcut
+var pw392open=document.createElement("button");pw392open.textContent="⚙";pw392open.setAttribute("aria-label","باز کردن تنظیمات");pw392open.style.cssText="position:fixed;left:10px;bottom:16px;z-index:25;width:42px;height:42px;border:1px solid #83d8e8;border-radius:12px;background:#102c3ddd;color:white;font-size:19px";document.body.appendChild(pw392open);pw392open.onclick=function(){pw335panel.style.display=pw335panel.style.display==="none"?"block":"none"};
 })();
 
  }
