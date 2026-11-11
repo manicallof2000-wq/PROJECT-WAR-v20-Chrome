@@ -1482,6 +1482,9 @@ var pw452theme=document.createElement("button");pw452theme.textContent="رنگ �
 
 // pw453: Persist the selected interface theme
 try{pw452alt=localStorage.getItem("pw_theme_alt")==="1";pw452theme.textContent="رنگ رابط: "+(pw452alt?"بنفش":"آبی");pw335panel.style.borderColor=pw452alt?"#b78cff":"#55dff2"}catch(e){}pw452theme.addEventListener("click",function(){try{localStorage.setItem("pw_theme_alt",pw452alt?"1":"0")}catch(e){}});
+
+// pw454: Add a settings reset confirmation
+var pw454reset=document.createElement("button");pw454reset.textContent="بازنشانی تنظیمات ظاهری";pw454reset.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#3a2525;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw454reset);pw454reset.onclick=function(){if(!confirm("تنظیمات نمایشی به حالت اولیه برگردد؟"))return;pw395high=false;document.body.style.filter="none";pw396on=true;pw341cross.style.display="block";pw397large=false;pw426on=true;renderer.shadowMap.enabled=true;pw427fogOn=true;scene.fog=pw427fogOriginal;pw453mapOn=true;var m=document.getElementById("map");if(m)m.style.display="block";toast("تنظیمات ظاهری بازنشانی شد")};
 })();
 
  }
