@@ -708,6 +708,9 @@ for(var b of buildings){for(var side of [-1,1]){var o=new THREE.Mesh(new THREE.B
 // pw171: slim sill ledges beneath selected windows
 var pw171mat=new THREE.MeshStandardMaterial({color:0xb5b4a8,roughness:.78});
 for(var b of buildings)for(var level=2.6;level<b[3]-1;level+=3.2){var o=new THREE.Mesh(new THREE.BoxGeometry(b[2]*.72,.09,.22),pw171mat);o.position.set(b[0],level,b[1]-b[4]/2-.13);scene.add(o)}
+// pw172: dark soil accents inside balcony planters
+var pw172mat=new THREE.MeshStandardMaterial({color:0x453b2d,roughness:1});
+for(var b of buildings)for(var level=4;level<b[3]-1;level+=3.2){var o=new THREE.Mesh(new THREE.BoxGeometry(.72,.045,.26),pw172mat);o.position.set(b[0],level,b[1]-b[4]/2-.48);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
