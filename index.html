@@ -786,6 +786,8 @@ window.addEventListener("keydown",function(e){if((e.key==="r"||e.key==="R")&&pla
 var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fire();if(score>old)pw201pulse=1};
 // pw202: keep training HUD labels synchronized with wave and ammo state
 var pw202hud=document.createElement("div");pw202hud.style.cssText="position:fixed;left:14px;top:14px;z-index:8;color:#a9f4f3;font:800 9px Arial;letter-spacing:1.4px;text-shadow:0 1px 5px #001;pointer-events:none";pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING";document.body.appendChild(pw202hud);
+// pw204: add a clear target count separate from the legacy marker count
+var pw204count=document.createElement("div");pw204count.style.cssText="position:fixed;left:14px;top:44px;z-index:8;color:#e8fbff;background:#071b2bd9;border:1px solid #58d9e866;border-radius:8px;padding:5px 8px;font:800 10px Arial;pointer-events:none";pw204count.textContent="DRONES 0 / 5";document.body.appendChild(pw204count);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
