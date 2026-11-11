@@ -1248,6 +1248,9 @@ var pw374style=document.createElement("style");pw374style.textContent="#fire,#ju
 
 // pw375: Add daily training objective
 var pw375daily=document.createElement('div');pw375daily.textContent='تمرین امروز: ثبت ۵ هدف';pw375daily.style.cssText='margin-top:8px;padding:7px;border-radius:8px;background:#183345;color:#d8f8ff;font:800 10px system-ui';pw335panel.appendChild(pw375daily);
+
+// pw376: Add daily objective progress
+var pw376dailyBtn=document.createElement('button');pw376dailyBtn.textContent='وضعیت تمرین امروز';pw376dailyBtn.style.cssText='display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui';pw335panel.appendChild(pw376dailyBtn);pw376dailyBtn.onclick=function(){pw375daily.textContent='تمرین امروز: '+Math.min(5,pw327hits)+' از ۵ هدف ثبت شد'};
 })();
 
  }
