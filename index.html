@@ -1046,6 +1046,9 @@ var pw309style=document.createElement("style");pw309style.textContent="#fire,#ju
 
 // pw310: Start dialog mobile scroll
 var pw310style=document.createElement("style");pw310style.textContent=".dialog{overscroll-behavior:contain}";document.head.appendChild(pw310style);
+
+// pw311: Control focus consistency
+var pw311style=document.createElement("style");pw311style.textContent="#jump:focus-visible,#run:focus-visible{outline:2px solid #b8f7ff;outline-offset:3px}";document.head.appendChild(pw311style);
 requestAnimationFrame(frame);updateHud();
 })();
 
