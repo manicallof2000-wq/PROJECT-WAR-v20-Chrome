@@ -1449,6 +1449,9 @@ var pw441targets=document.createElement("div");pw441targets.style.cssText="paddi
 
 // pw442: Add a live wave number to the dashboard
 var pw442wave=document.createElement("div");pw442wave.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw442wave);setInterval(function(){pw442wave.textContent="موج فعلی: "+pw194wave},800);
+
+// pw443: Add a live score readout to the dashboard
+var pw443score=document.createElement("div");pw443score.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw443score);setInterval(function(){pw443score.textContent="امتیاز فعلی: "+score},500);
 })();
 
  }
