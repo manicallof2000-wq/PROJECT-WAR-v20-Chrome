@@ -905,6 +905,9 @@ var pw252style=document.createElement("style");pw252style.textContent="#joy,#fir
 
 // pw263: HUD glass clarity
 var pw263style=document.createElement("style");pw263style.textContent="#hud .pill{backdrop-filter:blur(14px) saturate(1.25);-webkit-backdrop-filter:blur(14px) saturate(1.25)}";document.head.appendChild(pw263style);
+
+// pw264: HUD number stability
+var pw264style=document.createElement("style");pw264style.textContent="#hud .pill{font-variant-numeric:tabular-nums;letter-spacing:.15px}";document.head.appendChild(pw264style);
 requestAnimationFrame(frame);updateHud();
 })();
 
