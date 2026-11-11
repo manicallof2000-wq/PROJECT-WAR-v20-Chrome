@@ -684,6 +684,9 @@ var pw147stone=new THREE.MeshStandardMaterial({color:0xaaa99e,roughness:.94});fo
 // pw163: small reflective studs along crossing edges
 var pw163mat=new THREE.MeshStandardMaterial({color:0xd8d0a8,metalness:.35,roughness:.42,emissive:0x242016});
 for(var z of [-27,-76])for(var x=-5;x<=5;x+=1){var o=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,.025,10),pw163mat);o.position.set(x*1.82,.065,z-1.15);scene.add(o)}
+// pw164: fine expansion joints along the sidewalk
+var pw164mat=new THREE.MeshStandardMaterial({color:0x777e79,roughness:.96});
+for(var side of [-1,1])for(var z=-101;z<-10;z+=8){var o=new THREE.Mesh(new THREE.BoxGeometry(2.95,.009,.035),pw164mat);o.position.set(side*12.55,.101,z);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
