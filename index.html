@@ -1061,6 +1061,9 @@ var pw314style=document.createElement("style");pw314style.textContent="@supports
 
 // pw315: Joystick left safe viewport
 var pw315style=document.createElement("style");pw315style.textContent="#joy{left:max(18px,env(safe-area-inset-left))}";document.head.appendChild(pw315style);
+
+// pw316: Right controls safe viewport
+var pw316style=document.createElement("style");pw316style.textContent="#fire,#jump,#run,#pause,#sound{right:max(10px,env(safe-area-inset-right))}";document.head.appendChild(pw316style);
 requestAnimationFrame(frame);updateHud();
 })();
 
