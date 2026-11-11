@@ -613,6 +613,7 @@ var pw85trim=new THREE.MeshStandardMaterial({color:0xc3b58e,metalness:.38,roughn
 var pw86rim=new THREE.MeshStandardMaterial({color:0xb6b5a8,roughness:.86});var pw86ring=new THREE.Mesh(new THREE.TorusGeometry(.84,.09,8,32),pw86rim);pw86ring.rotation.x=Math.PI/2;pw86ring.position.set(-13.5,.34,-93);scene.add(pw86ring);
 var pw87leaf=new THREE.MeshStandardMaterial({color:0x607b51,roughness:.95});for(var x of [-1,1])for(var z=-25;z>-100;z-=19){var pw87c=new THREE.Mesh(new THREE.SphereGeometry(1.05,9,7),pw87leaf);pw87c.scale.set(1.05,1.15,.95);pw87c.position.set(x*15.1,4.25,z);pw87c.castShadow=true;scene.add(pw87c)}
 var pw88bark=new THREE.MeshStandardMaterial({color:0x66513d,roughness:1});for(var x of [-1,1])for(var z=-25;z>-100;z-=19){var pw88tr=new THREE.Mesh(new THREE.CylinderGeometry(.07,.12,2.2,7),pw88bark);pw88tr.position.set(x*15.1,2.1,z);scene.add(pw88tr);}
+var pw89brick=new THREE.MeshStandardMaterial({color:0x997a61,roughness:.9});for(var x of [-1,1])for(var z=-50;z>-74;z-=1.2)slab(.7,.18,.12,pw89brick,x*14.25,.2,z);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
