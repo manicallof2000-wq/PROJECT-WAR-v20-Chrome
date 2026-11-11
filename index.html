@@ -1410,6 +1410,9 @@ var pw428auto=document.createElement("button");pw428auto.textContent="گرافی
 
 // pw429: Add a dashboard auto-close when resuming gameplay
 var pw429start=startGame;startGame=function(e){var r=pw429start(e);pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾";pw335panel.style.display="none";return r};
+
+// pw430: Add a visible pause/resume status in the dashboard
+var pw430pause=document.createElement("div");pw430pause.textContent="بازی آماده است";pw430pause.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#0c2937;color:#dff8ff;font:800 10px system-ui";pw416dash.appendChild(pw430pause);document.getElementById("pause").addEventListener("click",function(){pw430pause.textContent=paused?"بازی متوقف است":"بازی در جریان است"});
 })();
 
  }
