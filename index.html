@@ -561,6 +561,7 @@ var lookId=null,lastX=0,lastY=0;
 canvas.addEventListener("pointerdown",function(e){if(e.clientX<W*.42&&e.clientY>H*.55)return;lookId=e.pointerId;lastX=e.clientX;lastY=e.clientY});
 canvas.addEventListener("pointermove",function(e){if(lookId!==e.pointerId||!playing||paused)return;player.yaw-=(e.clientX-lastX)*.004;player.pitch=Math.max(-.45,Math.min(.45,player.pitch-(e.clientY-lastY)*.002));lastX=e.clientX;lastY=e.clientY});
 function stopLook(){lookId=null}canvas.addEventListener("pointerup",stopLook);canvas.addEventListener("pointercancel",stopLook);
+var pw37Mat=new THREE.MeshPhysicalMaterial({color:0x8199a0,metalness:.28,roughness:.12,transparent:true,opacity:.34,clearcoat:1});for(var pw37i=0;pw37i<4;pw37i++){var pw37p=new THREE.Mesh(new THREE.CircleGeometry(.65+pw37i*.13,28),pw37Mat);pw37p.rotation.x=-Math.PI/2;pw37p.scale.set(1.7,.62,1);pw37p.position.set((pw37i%2?1:-1)*(7.8+pw37i*.5),.018,-24-pw37i*17);scene.add(pw37p);}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
