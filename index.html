@@ -97,12 +97,18 @@ function box(x,z,w,h,d,base){
 function shade(hex,f){var n=parseInt(hex.slice(1),16),r=Math.min(255,((n>>16)&255)*f),g=Math.min(255,((n>>8)&255)*f),b=Math.min(255,(n&255)*f);return "rgb("+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"}
 function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
 function draw(){
- var sky=ctx.createLinearGradient(0,0,0,H*.78);sky.addColorStop(0,"#397fae");sky.addColorStop(.48,"#83c4df");sky.addColorStop(1,"#e5dfc8");ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);\n  var sunGlow=ctx.createRadialGradient(W*.78,H*.17,2,W*.78,H*.17,Math.min(W,H)*.23);sunGlow.addColorStop(0,"#fff7d9aa");sunGlow.addColorStop(.35,"#fff0c044");sunGlow.addColorStop(1,"#fff0c000");ctx.fillStyle=sunGlow;ctx.fillRect(0,0,W,H*.65);ctx.fillStyle="#fff3d5";ctx.beginPath();ctx.arc(W*.78,H*.17,Math.max(13,Math.min(W,H)*.035),0,Math.PI*2);ctx.fill();
+ var sky=ctx.createLinearGradient(0,0,0,H*.78);sky.addColorStop(0,"#397fae");sky.addColorStop(.48,"#83c4df");sky.addColorStop(1,"#e5dfc8");ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+  var sunGlow=ctx.createRadialGradient(W*.78,H*.17,2,W*.78,H*.17,Math.min(W,H)*.23);sunGlow.addColorStop(0,"#fff7d9aa");sunGlow.addColorStop(.35,"#fff0c044");sunGlow.addColorStop(1,"#fff0c000");ctx.fillStyle=sunGlow;ctx.fillRect(0,0,W,H*.65);ctx.fillStyle="#fff3d5";ctx.beginPath();ctx.arc(W*.78,H*.17,Math.max(13,Math.min(W,H)*.035),0,Math.PI*2);ctx.fill();
   var hz=H*.43+player.pitch*H*.65;
  poly([[-500,0,-100],[500,0,-100],[500,0,50],[-500,0,50]],"#687a59");
  // ground and asphalt lane
  ctx.fillStyle="#647b53";ctx.fillRect(0,hz,W,H-hz);
- poly([[-11,.01,-110],[11,.01,-110],[45,.01,18],[-45,.01,18]],"#303a42");\n  // layered distant skyline and soft atmospheric haze\n  var haze=ctx.createLinearGradient(0,hz-65,0,hz+35);haze.addColorStop(0,"#d8e9e477");haze.addColorStop(1,"#d8e9e400");ctx.fillStyle=haze;ctx.fillRect(0,hz-65,W,100);\n  ctx.fillStyle="#657b7a";for(var si=0;si<12;si++){var sw=W/15,sh=18+(si*37%43);ctx.fillRect(si*sw-W*.02,hz-sh,sw*.72,sh)}\n  // subtle road reflectors\n  for(var rz=-14;rz>-100;rz-=8){var rp=project(0,.055,rz);if(rp){var rw=Math.max(1,Math.min(5,rp.scale*.035));ctx.fillStyle="#f4e7b4aa";ctx.fillRect(rp.x-rw/2,rp.y-rw*.6,rw,rw*1.2)}}
+ poly([[-11,.01,-110],[11,.01,-110],[45,.01,18],[-45,.01,18]],"#303a42");
+  // layered distant skyline and soft atmospheric haze
+  var haze=ctx.createLinearGradient(0,hz-65,0,hz+35);haze.addColorStop(0,"#d8e9e477");haze.addColorStop(1,"#d8e9e400");ctx.fillStyle=haze;ctx.fillRect(0,hz-65,W,100);
+  ctx.fillStyle="#657b7a";for(var si=0;si<12;si++){var sw=W/15,sh=18+(si*37%43);ctx.fillRect(si*sw-W*.02,hz-sh,sw*.72,sh)}
+  // subtle road reflectors
+  for(var rz=-14;rz>-100;rz-=8){var rp=project(0,.055,rz);if(rp){var rw=Math.max(1,Math.min(5,rp.scale*.035));ctx.fillStyle="#f4e7b4aa";ctx.fillRect(rp.x-rw/2,rp.y-rw*.6,rw,rw*1.2)}}
  poly([[-11,.025,-110],[-10.7,.025,-110],[-44,.025,18],[-45,.025,18]],"#c2b889");
  poly([[10.7,.025,-110],[11,.025,-110],[45,.025,18],[44,.025,18]],"#c2b889");
  for(var z=-12;z>-100;z-=12){poly([[-.08,.04,z],[.08,.04,z],[.08,.04,z-5],[-.08,.04,z-5]],"#d6d0a7")}
@@ -114,7 +120,9 @@ function draw(){
  for(var i=0;i<5;i++){var bx=(i-2)*4.7,bz=-9-(i%2)*1.4,p1=project(bx,0,bz),p2=project(bx,1.05,bz);if(p1&&p2){var w=Math.max(8,Math.min(90,p1.scale*1.65));roundRect(p1.x-w/2,p2.y,w,Math.max(5,p1.y-p2.y),Math.min(8,w*.12),i%2?"#8e9997":"#59676c");ctx.fillStyle="#bdc2bc";ctx.fillRect(p1.x-w/2,p2.y,w,Math.max(2,w*.035))}}
  // luminous checkpoints
  points.forEach(function(pt,i){if(pt.done)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var r=Math.max(4,Math.min(42,p.scale*.55));ctx.save();ctx.shadowBlur=Math.min(28,r*1.4);ctx.shadowColor="#ffd400";ctx.fillStyle="#ffd400";ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle="#ffffff";ctx.lineWidth=Math.max(1,r*.12);ctx.beginPath();ctx.arc(p.x,p.y,r*1.45,0,Math.PI*2);ctx.stroke();ctx.restore()});
-  // soft cinematic edge shading for stronger depth\n  var vignette=ctx.createRadialGradient(W*.5,H*.48,Math.min(W,H)*.22,W*.5,H*.48,Math.max(W,H)*.76);vignette.addColorStop(0,"#06131a00");vignette.addColorStop(.72,"#06131a12");vignette.addColorStop(1,"#06131a70");ctx.fillStyle=vignette;ctx.fillRect(0,0,W,H);\n  // stylized sci-fi game blaster; vertical touch-look moves it up and down
+  // soft cinematic edge shading for stronger depth
+  var vignette=ctx.createRadialGradient(W*.5,H*.48,Math.min(W,H)*.22,W*.5,H*.48,Math.max(W,H)*.76);vignette.addColorStop(0,"#06131a00");vignette.addColorStop(.72,"#06131a12");vignette.addColorStop(1,"#06131a70");ctx.fillStyle=vignette;ctx.fillRect(0,0,W,H);
+  // stylized sci-fi game blaster; vertical touch-look moves it up and down
   var gunY=H*.88-player.pitch*150+jump*24;ctx.save();ctx.translate(W*.73,gunY);ctx.rotate(-.08);
   ctx.fillStyle="#263744";ctx.beginPath();ctx.moveTo(-W*.10,55);ctx.lineTo(-W*.075,-15);ctx.lineTo(-W*.025,-31);ctx.lineTo(W*.095,-25);ctx.lineTo(W*.12,8);ctx.lineTo(W*.075,30);ctx.lineTo(W*.06,65);ctx.closePath();ctx.fill();
   ctx.fillStyle="#71858a";ctx.fillRect(-W*.018,-78,W*.035,83);ctx.fillStyle="#a8b8b3";ctx.fillRect(-W*.012,-91,W*.024,22);
