@@ -880,6 +880,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  var pw240style=document.createElement("style");pw240style.textContent="@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}";document.head.appendChild(pw240style);
 var pw249pause=document.getElementById("pause");pw249pause.setAttribute("aria-pressed","false");pw249pause.addEventListener("click",function(){this.textContent=paused?"▶":"Ⅱ";this.setAttribute("aria-pressed",paused?"true":"false")});
 // pw249: reflect pause state in the pause control
+var pw250sound=document.getElementById("sound");pw250sound.setAttribute("aria-pressed","true");pw250sound.addEventListener("click",function(){this.setAttribute("aria-pressed",soundOn?"true":"false");this.setAttribute("aria-label",soundOn?"صدا روشن است":"صدا خاموش است")});
+// pw250: expose sound state to accessibility tools
 requestAnimationFrame(frame);updateHud();
 })();
 
