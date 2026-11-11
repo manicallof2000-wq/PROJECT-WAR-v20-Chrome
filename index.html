@@ -130,7 +130,7 @@ function draw(){
   ctx.fillStyle="#52d8c8";ctx.fillRect(W*.012,-48,W*.012,12);ctx.restore();
 
 }
-function activateMarker(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dist=Math.hypot(pt.x-player.x,pt.z-player.z);if(dist>95)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var dx=Math.abs(p.x-W/2),dy=Math.abs(p.y-H*.45);if(dx<=10&&dy<=5){var screenDist=dx*dx+dy*dy;if(screenDist<best){best=screenDist;nearest=pt}}});if(nearest){nearest.done=true;found++;score+=100;beep(660,.16);setTimeout(function(){beep(880,.2)},100);toast("نقطه نورانی فعال شد +۱۰۰");updateHud()}else{beep(180,.08);toast("نشانگر وسط صفحه را دقیقاً روی نقطه بگذار")}}
+function activateMarker(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dist=Math.hypot(pt.x-player.x,pt.z-player.z);if(dist>95)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var dx=Math.abs(p.x-W/2),dy=Math.abs(p.y-H*.45);if(dx<=10&&dy<=5){var screenDist=dx*dx+dy*dy;if(screenDist<best){best=screenDist;nearest=pt}}});if(nearest){nearest.done=true;found++;score+=100;beep(660,.16);setTimeout(function(){beep(880,.2)},100);toast("نقطه نورانی فعال شد +۱۰۰");updateHud()}else{} }
 document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();activateMarker()});
 document.getElementById("sound").addEventListener("click",function(){soundOn=!soundOn;this.textContent=soundOn?"♫":"♪";toast(soundOn?"صدا روشن شد":"صدا خاموش شد")});
 document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
