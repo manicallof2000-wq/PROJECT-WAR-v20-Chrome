@@ -55,8 +55,29 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
   <button id="start" type="button" onclick="startGame(event)" ontouchend="startGame(event)">شروع بازی</button>
  </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
 <script>
+(function(){
+ function showLoadError(message){
+  var overlay=document.getElementById("overlay");
+  if(overlay){
+   overlay.style.display="grid";
+   var title=document.getElementById("title"),desc=overlay.querySelector(".desc"),btn=document.getElementById("start");
+   if(title)title.textContent="بارگذاری بازی ناموفق بود";
+   if(desc)desc.textContent=message||"اتصال اینترنت یا پشتیبانی WebGL را بررسی کن و دوباره تلاش کن.";
+   if(btn){btn.textContent="تلاش دوباره";btn.onclick=function(){location.reload()};}
+  }
+ }
+ function loadThree(urls,index){
+  if(index>=urls.length){showLoadError("کتابخانه سه‌بعدی بارگذاری نشد. اینترنت گوشی را بررسی کن و صفحه را دوباره باز کن.");return;}
+  var script=document.createElement("script");
+  script.src=urls[index];script.async=true;
+  script.onload=function(){try{bootGame()}catch(err){console.error(err);showLoadError("مرورگر نتوانست محیط سه‌بعدی را اجرا کند. Chrome را به‌روز کن یا صفحه را دوباره بارگذاری کن.")}};
+  script.onerror=function(){loadThree(urls,index+1)};
+  document.head.appendChild(script);
+ }
+ function bootGame(){
+
 (function(){
 "use strict";
 var canvas=document.getElementById("world"),overlay=document.getElementById("overlay"),startBtn=document.getElementById("start");
@@ -164,6 +185,14 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
  renderer.render(scene,camera);drawMap()
 }
 requestAnimationFrame(frame);updateHud();
+})();
+
+ }
+ loadThree([
+  "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js",
+  "https://unpkg.com/three@0.160.0/build/three.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"
+ ],0);
 })();
 </script>
 </body>
