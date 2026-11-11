@@ -1134,6 +1134,9 @@ var pw336quality=document.createElement("button");pw336quality.textContent="کی
 
 // pw337: Add field-of-view preference
 var pw337fov=document.createElement("button");pw337fov.textContent="زاویه دید: استاندارد";pw337fov.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw337fov);var pw337wide=false;pw337fov.addEventListener("click",function(){pw337wide=!pw337wide;camera.fov=pw337wide?78:68;camera.updateProjectionMatrix();pw337fov.textContent="زاویه دید: "+(pw337wide?"باز":"استاندارد")});
+
+// pw338: Add minimap visibility toggle
+var pw338map=document.createElement("button");pw338map.textContent="نقشه کوچک: روشن";pw338map.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw338map);var pw338mapOn=true;pw338map.addEventListener("click",function(){pw338mapOn=!pw338mapOn;document.getElementById("map").style.display=pw338mapOn?"block":"none";pw338map.textContent="نقشه کوچک: "+(pw338mapOn?"روشن":"خاموش")});
 })();
 
  }
