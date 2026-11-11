@@ -1434,6 +1434,9 @@ var pw436land=document.createElement("style");pw436land.textContent="@media(orie
 
 // pw437: Prevent accidental page scrolling during gameplay
 var pw437touch=document.createElement("style");pw437touch.textContent="html,body{overscroll-behavior:none}canvas{touch-action:none}#joy,#fire,#jump,#run,#pause,#sound,#pw188reload{user-select:none;-webkit-user-select:none}";document.head.appendChild(pw437touch);
+
+// pw438: Add clear keyboard focus styling to game menus
+var pw438focus=document.createElement("style");pw438focus.textContent="#pw335panel button:focus-visible,#pw416dashBtn:focus-visible,#pw392open:focus-visible{outline:2px solid #b8f6ff;outline-offset:3px;filter:brightness(1.2)}#pw335panel button:active{transform:scale(.98)}";document.head.appendChild(pw438focus);
 })();
 
  }
