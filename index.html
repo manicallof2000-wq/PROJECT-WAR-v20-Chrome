@@ -25,7 +25,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172a38;fon
 .dialog{width:min(430px,100%);background:#0b1d2bf2;border:1px solid #ffffff45;border-radius:22px;padding:23px;box-shadow:0 18px 60px #0009}
 .logo{font-size:12px;letter-spacing:3px;color:#63ebd1;font-weight:900}
 h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deebf2}
-#start{border:0;border-radius:13px;background:linear-gradient(135deg,#67f1c5,#43b8e6);color:#082033;padding:14px 32px;font-size:18px;font-weight:900;margin-top:12px;min-width:175px;touch-action:manipulation}
+#start{position:relative;z-index:1002;pointer-events:auto;border:0;border-radius:13px;background:linear-gradient(135deg,#67f1c5,#43b8e6);color:#082033;padding:14px 32px;font-size:18px;font-weight:900;margin-top:12px;min-width:175px;min-height:52px;touch-action:manipulation}
 #toast{position:fixed;z-index:20;left:50%;top:45%;transform:translate(-50%,-50%);background:#071c2cf2;color:#fff;border-radius:13px;padding:11px 17px;opacity:0;transition:opacity .2s;pointer-events:none;font-weight:900}
 #cross{position:fixed;left:50%;top:45%;width:17px;height:17px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 5px #00121c,0 0 14px #7ce9ff99;pointer-events:none}#cross:after{content:"";position:absolute;left:50%;top:50%;width:3px;height:3px;border-radius:50%;background:#ffd400;transform:translate(-50%,-50%)}
 #map{position:fixed;right:10px;top:153px;width:104px;height:104px;border:1px solid #ffffff88;border-radius:14px;background:#071722cc;pointer-events:none}
@@ -69,7 +69,7 @@ function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,2)
 addEventListener("resize",resize);resize();
 function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;startedAt=performance.now()-elapsed*1000;overlay.style.display="none";statusEl.textContent="درحال بازی";taskEl.textContent="ماموریت: ۵ نقطه نورانی را فعال کن";return false}
 window.startGame=startGame;
-["click","pointerup","touchend"].forEach(function(ev){startBtn.addEventListener(ev,startGame,{passive:false})});
+startBtn.addEventListener("click",startGame);startBtn.addEventListener("touchend",function(e){e.preventDefault();startGame(e)},{passive:false});
 function toast(t){toastEl.textContent=t;toastEl.style.opacity="1";clearTimeout(toast.timer);toast.timer=setTimeout(function(){toastEl.style.opacity="0"},1100)}
 function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";if(score>best){best=score;try{window.localStorage.setItem("pw_best",String(best))}catch(storageError){}}toast("مرحله کامل شد! رکورد: "+best)}}
 function beep(freq,duration){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration)}catch(e){}}
@@ -95,7 +95,7 @@ function box(x,z,w,h,d,base){
  }
 }
 function shade(hex,f){var n=parseInt(hex.slice(1),16),r=Math.min(255,((n>>16)&255)*f),g=Math.min(255,((n>>8)&255)*f),b=Math.min(255,(n&255)*f);return "rgb("+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"}
-function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();if(ctx.roundRect){ctx.roundRect(x,y,w,h,r)}else{r=Math.min(r,w/2,h/2);ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y)}ctx.fill()}
 function draw(){
  var sky=ctx.createLinearGradient(0,0,0,H*.78);sky.addColorStop(0,"#397fae");sky.addColorStop(.48,"#83c4df");sky.addColorStop(1,"#e5dfc8");ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
   var sunGlow=ctx.createRadialGradient(W*.78,H*.17,2,W*.78,H*.17,Math.min(W,H)*.23);sunGlow.addColorStop(0,"#fff7d9aa");sunGlow.addColorStop(.35,"#fff0c044");sunGlow.addColorStop(1,"#fff0c000");ctx.fillStyle=sunGlow;ctx.fillRect(0,0,W,H*.65);ctx.fillStyle="#fff3d5";ctx.beginPath();ctx.arc(W*.78,H*.17,Math.max(13,Math.min(W,H)*.035),0,Math.PI*2);ctx.fill();
