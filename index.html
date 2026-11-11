@@ -563,7 +563,8 @@ function activateMarker(){if(!playing||paused)return;camera.updateMatrixWorld();
 document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();pw183fire()});
 document.getElementById("sound").addEventListener("click",function(){soundOn=!soundOn;this.textContent=soundOn?"♫":"♪";toast(soundOn?"صدا روشن شد":"صدا خاموش شد")});
 document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
-var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false})});
+// pw223: reflect sprint stamina in the run control
+var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true;runBtn.style.filter="brightness(1.35)";});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false;runBtn.style.filter="none"})});
 document.getElementById("pause").addEventListener("click",function(){if(!playing)return;paused=!paused;statusEl.textContent=paused?"مکث":"درحال بازی";overlay.style.display=paused?"grid":"none";document.getElementById("title").textContent=paused?"بازی متوقف شد":"گشت‌وگذار شهری";startBtn.textContent=paused?"ادامه بازی":"شروع بازی"});
 var joy=document.getElementById("joy"),nub=document.getElementById("nub"),joyId=null;
 function joyMove(e){var r=joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.min(42,Math.hypot(dx,dy)),a=Math.atan2(dy,dx),x=Math.cos(a)*d,y=Math.sin(a)*d;nub.style.transform="translate("+x+"px,"+y+"px)";joyX=x/42;joyY=y/42}
