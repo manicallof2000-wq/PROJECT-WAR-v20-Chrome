@@ -1401,6 +1401,9 @@ var pw425version=document.createElement("div");pw425version.textContent="PROJECT
 
 // pw426: Add a real-time shadow quality toggle
 var pw426shadow=document.createElement("button");pw426shadow.textContent="سایه‌ها: روشن";pw426shadow.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw426shadow);var pw426on=true;pw426shadow.onclick=function(){pw426on=!pw426on;renderer.shadowMap.enabled=pw426on;scene.traverse(function(o){if(o.isLight&&o.shadow)o.castShadow=pw426on});pw426shadow.textContent="سایه‌ها: "+(pw426on?"روشن":"خاموش")};
+
+// pw427: Add a fog visibility toggle
+var pw427fog=document.createElement("button");pw427fog.textContent="مه محیط: روشن";pw427fog.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw427fog);var pw427fogOn=true,pw427fogOriginal=scene.fog;pw427fog.onclick=function(){pw427fogOn=!pw427fogOn;scene.fog=pw427fogOn?pw427fogOriginal:null;pw427fog.textContent="مه محیط: "+(pw427fogOn?"روشن":"خاموش")};
 })();
 
  }
