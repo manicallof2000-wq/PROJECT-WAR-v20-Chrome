@@ -1491,6 +1491,9 @@ var pw455count=document.createElement("div");pw455count.textContent="هدف‌ه
 
 // pw456: Add a clear all-targets-ready status
 var pw456ready=document.createElement("div");pw456ready.textContent="وضعیت هدف‌ها: آماده";pw456ready.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw445brief.appendChild(pw456ready);setInterval(function(){var n=pw183targets.filter(function(t){return t.visible}).length;pw456ready.textContent=n?"وضعیت هدف‌ها: "+n+" فعال":"وضعیت هدف‌ها: همه ثبت شدند"},600);
+
+// pw457: Add a quick mission restart button
+var pw457restart=document.createElement("button");pw457restart.textContent="شروع دوباره مأموریت";pw457restart.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#174334;color:#e2fff1;border:1px solid #68dca8;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw457restart);pw457restart.onclick=function(){if(typeof startGame==="function"){startGame();pw183targets.forEach(function(t){t.visible=true;t.userData.hit=false});toast("مأموریت از نو آغاز شد")}};
 })();
 
  }
