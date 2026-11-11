@@ -814,6 +814,7 @@ var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fir
 // pw202: keep training HUD labels synchronized with wave and ammo state
 // pw215: show the current arcade hit streak
 // pw226: compact range readout for the nearest active practice drone
+var pw253lock=document.createElement("div");pw253lock.textContent="آماده";pw253lock.style.cssText="position:fixed;left:50%;top:calc(45% - 28px);transform:translateX(-50%);z-index:8;color:#b7d2dc;font:900 9px Arial;letter-spacing:1px;pointer-events:none";document.body.appendChild(pw253lock);
 var pw226range=document.createElement("div");pw226range.style.cssText="position:fixed;right:18px;top:16px;z-index:8;color:#a8f3ff;font:800 9px Arial;pointer-events:none";pw226range.textContent="RANGE --";document.body.appendChild(pw226range);
 var pw215combo=document.createElement("div");pw215combo.style.cssText="position:fixed;left:14px;top:72px;z-index:8;color:#ffe5a0;font:900 10px Arial;pointer-events:none";pw215combo.textContent="COMBO x0";document.body.appendChild(pw215combo);
 // pw216: persist the best arcade score independently from legacy objectives
@@ -850,7 +851,8 @@ pw183targets.forEach(function(g,i){if(g.visible)g.position.x=pw191bases[i].x+Mat
 pw183targets.forEach(function(g){if(g.visible&&g.children[1])g.children[1].rotation.z+=dt*.48;if(g.visible&&g.children[2])g.children[2].rotation.y=Math.sin(now*.003+g.userData.index)*.035});
  // pw241: suppress target lock feedback outside active play
 // pw244: smooth the target-lock reticle transition
- if(pw196cross){pw196cross.style.transition="border-color .12s ease,box-shadow .12s ease,transform .08s ease";pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
+ // pw253: live target-lock state
+ if(pw196cross){pw196cross.style.transition="border-color .12s ease,box-shadow .12s ease,transform .08s ease";pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw253lock.textContent=aimHit?"هدف در نشانه":"آماده";pw253lock.style.color=aimHit?"#8efff4":"#b7d2dc";pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
  // pw207: keep the dedicated drone counter synchronized
 if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
