@@ -208,6 +208,26 @@ function roundedBuilding(b,i){
  var shopGlass=new THREE.MeshStandardMaterial({color:0x6d9ca5,metalness:.25,roughness:.2,transparent:true,opacity:.82,emissive:0x172d32});
  slab(w*.72,1.9,.08,shopGlass,b[0],1.15,b[1]+d/2+.055);
  slab(w*.78,.18,.55,new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.7}),b[0],2.25,b[1]+d/2+.3);
+
+ // Exterior air-conditioning units and compact wall lights
+ var acCase=new THREE.MeshStandardMaterial({color:0xb9c0bd,metalness:.28,roughness:.62});
+ var acDark=new THREE.MeshStandardMaterial({color:0x465257,metalness:.35,roughness:.72});
+ var wallLamp=new THREE.MeshStandardMaterial({color:0xffe4a4,emissive:0xffc36a,emissiveIntensity:.75});
+ for(var floorY=3.45;floorY<h-1;floorY+=3.2){
+  for(var sideX of [-1,1]){
+   var ax=b[0]+sideX*w*.34,az=b[1]+d/2+.19;
+   slab(.82,.46,.34,acCase,ax,floorY,az);
+   slab(.58,.25,.025,acDark,ax,floorY,az+.185);
+   for(var vent=0;vent<4;vent++)slab(.48,.018,.018,acCase,ax,floorY-.09+vent*.06,az+.205);
+   slab(.06,.12,.06,acCase,ax+sideX*.46,floorY-.28,az-.04);
+  }
+  slab(.18,.32,.12,wallLamp,b[0],floorY+.95,b[1]+d/2+.1);
+ }
+ // Small rooftop service housings
+ for(var roofBox=0;roofBox<2;roofBox++){
+  slab(.8,.58,.72,acCase,b[0]-.8+roofBox*1.6,h+.43,b[1]);
+  slab(.62,.08,.56,acDark,b[0]-.8+roofBox*1.6,h+.75,b[1]);
+ }
 }
 var buildings=[[-16,-19,9,10,7],[16,-23,10,12,8],[-19,-43,10,13,8],[19,-48,11,11,8],[-14,-69,8,14,7],[15,-73,9,13,7],[-22,-91,12,16,10],[23,-96,13,15,9]];
 buildings.forEach(roundedBuilding);
