@@ -1467,6 +1467,9 @@ var pw447difficulty=document.createElement("div");pw447difficulty.style.cssText=
 
 // pw448: Add a quick toggle for mission card visibility
 var pw448toggle=document.createElement("button");pw448toggle.textContent="نمایش مأموریت: روشن";pw448toggle.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw448toggle);var pw448visible=true;pw448toggle.onclick=function(){pw448visible=!pw448visible;pw445brief.style.display=pw448visible?"block":"none";pw448toggle.textContent="نمایش مأموریت: "+(pw448visible?"روشن":"خاموش")};
+
+// pw449: Add an accessible dashboard label
+pw416dash.setAttribute("role","region");pw416dash.setAttribute("aria-label","آمار و وضعیت بازی");pw416dashBtn.setAttribute("aria-expanded","false");var pw449toggle=pw416dashBtn.onclick;pw416dashBtn.onclick=function(){pw449toggle();pw416dashBtn.setAttribute("aria-expanded",pw416dash.style.display==="block"?"true":"false")};
 })();
 
  }
