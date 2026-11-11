@@ -1383,6 +1383,9 @@ document.addEventListener("keydown",function(e){if(e.key==="Tab"&&e.altKey){e.pr
 
 // pw420: Add a single compact mission progress tile
 var pw420mission=document.createElement("div");pw420mission.textContent="پیشرفت مأموریت: ۰٪";pw420mission.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw416dash.appendChild(pw420mission);setInterval(function(){pw420mission.textContent="پیشرفت مأموریت: "+Math.round(pw327hits/Math.max(1,pw183targets.length)*100)+"٪"},500);
+
+// pw421: Add a settings panel control section
+var pw421section=document.createElement("div");pw421section.textContent="— تنظیمات گیم‌پلی —";pw421section.style.cssText="margin:9px 0 4px;padding-top:7px;border-top:1px solid #47717d;color:#9fdce8;font:900 10px system-ui";pw335panel.appendChild(pw421section);
 })();
 
  }
