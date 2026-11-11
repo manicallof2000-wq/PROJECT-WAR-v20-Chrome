@@ -1263,6 +1263,9 @@ var pw379summary=document.createElement('button');pw379summary.textContent='خل
 
 // pw380: Add a compact mission briefing card
 var pw380brief=document.createElement("div");pw380brief.id="pw380brief";pw380brief.textContent="ماموریت فعال • میدان تمرین شهری";pw380brief.style.cssText="position:fixed;left:10px;top:402px;z-index:14;padding:7px 10px;border:1px solid #67d7e977;border-radius:9px;background:#071b2be8;color:#e7fbff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw380brief);
+
+// pw381: Add objective completion feedback
+var pw381base=pw183fire;pw183fire=function(){var before=score;pw381base();if(score>before&&pw380brief)pw380brief.textContent="ماموریت فعال • "+pw327hits+" هدف ثبت شد"};
 })();
 
  }
