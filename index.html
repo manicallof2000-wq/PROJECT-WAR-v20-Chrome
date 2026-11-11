@@ -1143,6 +1143,9 @@ var pw339motion=document.createElement("button");pw339motion.textContent="لرز
 
 // pw340: Add arcade hit confirmation marker
 var pw340hit=document.createElement("div");pw340hit.id="pw340hit";pw340hit.textContent="✦";pw340hit.style.cssText="position:fixed;left:50%;top:45%;transform:translate(-50%,-50%) scale(.5);z-index:18;color:#8effdf;font:900 36px Arial;opacity:0;pointer-events:none;text-shadow:0 0 12px #36e9ff";document.body.appendChild(pw340hit);var pw340base=pw183fire;pw183fire=function(){var before=score;pw340base();if(score>before){pw340hit.style.opacity="1";pw340hit.style.transform="translate(-50%,-50%) scale(1)";clearTimeout(pw340hit._timer);pw340hit._timer=setTimeout(function(){pw340hit.style.opacity="0";pw340hit.style.transform="translate(-50%,-50%) scale(.5)"},180)}};
+
+// pw341: Add crosshair hit color feedback
+var pw341cross=document.getElementById("cross"),pw341base=pw183fire;pw183fire=function(){var before=score;pw341base();if(score>before){pw341cross.style.borderColor="#78ffd2";pw341cross.style.boxShadow="0 0 8px #2affbf,0 0 20px #2affbf";clearTimeout(pw341cross._t);pw341cross._t=setTimeout(function(){pw341cross.style.borderColor="#fff";pw341cross.style.boxShadow="0 0 5px #00121c,0 0 14px #7ce9ff99"},170)}};
 })();
 
  }
