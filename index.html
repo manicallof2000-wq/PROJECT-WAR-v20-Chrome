@@ -624,6 +624,7 @@ var pw96ring=new THREE.MeshStandardMaterial({color:0xb8b9a8,metalness:.68,roughn
 var pw97metal=new THREE.MeshStandardMaterial({color:0x596367,metalness:.7,roughness:.48});for(var x of [-1,1])for(var z of [-33,-61,-89]){slab(.42,.025,.32,pw97metal,x*12.9,.12,z);for(var i=0;i<3;i++)slab(.025,.012,.25,curbMat,x*12.9-.12+i*.12,.14,z)}
 var pw98guard=new THREE.MeshStandardMaterial({color:0x89938d,metalness:.38,roughness:.62});for(var x of [-1,1]){slab(.82,.05,.05,pw98guard,x*14.1,1.18,-38.7);slab(.05,.9,.05,pw98guard,x*14.5,.7,-38.7)}
 var pw99foot=new THREE.MeshStandardMaterial({color:0x777b72,roughness:.9});for(var x of [-1,1]){slab(1.05,.1,1.05,pw99foot,x*13.35,.08,-34);}
+var pw100base=new THREE.MeshStandardMaterial({color:0x969b91,roughness:.9});slab(1.25,.08,.72,pw100base,13.55,.08,-94);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
