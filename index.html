@@ -1158,6 +1158,9 @@ var pw344unlocked=false,pw344base=pw183fire;pw183fire=function(){var before=scor
 
 // pw345: Add timed arcade challenge
 var pw345time=90,pw345start=performance.now(),pw345clock=document.createElement("div");pw345clock.id="pw345clock";pw345clock.textContent="زمان چالش: ۹۰";pw345clock.style.cssText="position:fixed;left:10px;top:190px;z-index:14;padding:6px 9px;border:1px solid #ffce7866;border-radius:9px;background:#261c13dd;color:#ffe4ad;font:900 10px system-ui;pointer-events:none";document.body.appendChild(pw345clock);
+
+// pw346: Update challenge countdown while playing
+var pw346tick=setInterval(function(){if(!playing||paused)return;var left=Math.max(0,pw345time-Math.floor((performance.now()-pw345start)/1000));pw345clock.textContent="زمان چالش: "+left;if(left===0){pw345clock.textContent="زمان چالش تمام شد";pw345clock.style.color="#ffb1a1";clearInterval(pw346tick)}},500);
 })();
 
  }
