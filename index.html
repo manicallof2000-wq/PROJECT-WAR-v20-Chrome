@@ -754,6 +754,9 @@ var pw185recoil=0;
 var pw185oldFire=pw183fire;pw183fire=function(){var before=score;pw185oldFire();if(score>before)pw185recoil=Math.min(.045,pw185recoil+.018)};
 // pw186: prevent repeated pointer events from firing too rapidly
 var pw186lastShot=0,pw186baseFire=pw183fire;pw183fire=function(){var now=performance.now();if(now-pw186lastShot<220)return;pw186lastShot=now;pw186baseFire()};
+// pw187: add an arcade energy counter to the HUD
+var pw187ammo=18,pw187maxAmmo=18,pw187ammoEl=document.createElement("div");pw187ammoEl.id="pw187ammo";pw187ammoEl.textContent="ENERGY 18 / 18";pw187ammoEl.style.cssText="position:fixed;right:18px;bottom:18px;z-index:8;color:#d8fbff;background:#071b2bd9;border:1px solid #58d9e8;border-radius:10px;padding:7px 11px;font:900 11px Arial;letter-spacing:1px;pointer-events:none";document.body.appendChild(pw187ammoEl);
+var pw187fire=pw183fire;pw183fire=function(){if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}var old=score;pw187ammo--;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187fire();};
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
