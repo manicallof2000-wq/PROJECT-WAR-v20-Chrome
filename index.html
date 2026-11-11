@@ -1119,6 +1119,9 @@ var pw331base=pw183fire;pw183fire=function(){var before=score;pw331base();if(sco
 
 // pw332: Add saved personal best panel
 var pw332best=document.createElement("div");pw332best.id="pw332best";var pw332value=0;try{pw332value=Number(localStorage.getItem("pw_arcade_best")||0)||0}catch(e){}pw332best.textContent="رکورد "+pw332value;pw332best.style.cssText="position:fixed;right:10px;top:95px;z-index:14;padding:6px 9px;border:1px solid #79d8ef66;border-radius:9px;background:#071b2bd9;color:#d5f8ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw332best);
+
+// pw333: Persist best score and update record panel
+var pw333base=pw183fire;pw183fire=function(){pw333base();if(score>pw332value){pw332value=score;try{localStorage.setItem("pw_arcade_best",String(score))}catch(e){}if(pw332best)pw332best.textContent="رکورد "+pw332value}};
 })();
 
  }
