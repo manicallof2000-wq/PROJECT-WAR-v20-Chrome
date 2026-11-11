@@ -780,6 +780,8 @@ var pw198fire=pw183fire;pw183fire=function(){var old=score;pw198fire();if(score>
 // pw199: ease the camera back after each successful hit
 // pw200: support the R key as an optional desktop reload shortcut
 window.addEventListener("keydown",function(e){if((e.key==="r"||e.key==="R")&&playing&&!paused&&pw187ammo<pw187maxAmmo){e.preventDefault();pw188reload.click()}});
+// pw201: pulse the reticle briefly after a successful arcade hit
+var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fire();if(score>old)pw201pulse=1};
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
@@ -795,6 +797,7 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
  pw183targets.forEach(function(g,i){if(g.visible)g.position.y=pw191bases[i].y+Math.sin(now*.002+pw191bases[i].phase)*.12});
 pw183targets.forEach(function(g,i){if(g.visible)g.position.x+=Math.sin(now*.0012+i)*.0008});
  if(pw196cross){pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
+if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
  if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
