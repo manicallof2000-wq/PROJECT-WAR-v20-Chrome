@@ -998,6 +998,9 @@ var pw293style=document.createElement("style");pw293style.textContent="#start{ma
 
 // pw294: Start button touch size
 var pw294style=document.createElement("style");pw294style.textContent="@media(pointer:coarse){#start{min-height:54px;padding-inline:34px}}";document.head.appendChild(pw294style);
+
+// pw295: HUD compact landscape pills
+var pw295style=document.createElement("style");pw295style.textContent="@media(orientation:landscape) and (max-height:500px){#hud .pill{font-size:10px;padding:4px 7px}}";document.head.appendChild(pw295style);
 requestAnimationFrame(frame);updateHud();
 })();
 
