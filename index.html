@@ -88,20 +88,35 @@ var player={x:0,z:8,yaw:0,pitch:0};
 var savedBest=0;try{savedBest=Number(localStorage.getItem("pw_best")||0)||0}catch(e){}
 var best=savedBest;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
-var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,48,145);
-var camera=new THREE.PerspectiveCamera(68,W/H,.1,220);camera.position.set(0,1.65,8);
-var skyCanvas=document.createElement("canvas");skyCanvas.width=1024;skyCanvas.height=512;
-var skyCtx=skyCanvas.getContext("2d"),skyGrad=skyCtx.createLinearGradient(0,0,0,512);
-skyGrad.addColorStop(0,"#244b78");skyGrad.addColorStop(.42,"#6eaccb");skyGrad.addColorStop(.78,"#b9d8df");skyGrad.addColorStop(1,"#e5d9bd");
-skyCtx.fillStyle=skyGrad;skyCtx.fillRect(0,0,1024,512);
-var sunGlow=skyCtx.createRadialGradient(245,190,8,245,190,170);
-sunGlow.addColorStop(0,"rgba(255,244,211,.9)");sunGlow.addColorStop(.12,"rgba(255,230,180,.38)");sunGlow.addColorStop(1,"rgba(255,230,180,0)");
-skyCtx.fillStyle=sunGlow;skyCtx.fillRect(70,15,350,350);
-skyCtx.save();skyCtx.filter="blur(15px)";
-for(var cloud=0;cloud<17;cloud++){var cx=(cloud*173+70)%1120,cy=95+(cloud*47)%185;skyCtx.fillStyle="rgba(255,255,255,.12)";skyCtx.beginPath();skyCtx.ellipse(cx,cy,55+(cloud%4)*17,9+(cloud%3)*5,0,0,Math.PI*2);skyCtx.fill()}
+var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x9bbfce,58,175);
+var camera=new THREE.PerspectiveCamera(68,W/H,.1,240);camera.position.set(0,1.65,8);
+var skyCanvas=document.createElement("canvas");skyCanvas.width=1536;skyCanvas.height=768;
+var skyCtx=skyCanvas.getContext("2d"),skyGrad=skyCtx.createLinearGradient(0,0,0,768);
+skyGrad.addColorStop(0,"#1d3c65");skyGrad.addColorStop(.28,"#477fa6");skyGrad.addColorStop(.62,"#91bfd0");skyGrad.addColorStop(.84,"#c9d9d6");skyGrad.addColorStop(1,"#e9d9bd");
+skyCtx.fillStyle=skyGrad;skyCtx.fillRect(0,0,1536,768);
+var sunGlow=skyCtx.createRadialGradient(355,260,10,355,260,260);
+sunGlow.addColorStop(0,"rgba(255,248,225,.96)");sunGlow.addColorStop(.16,"rgba(255,231,187,.42)");sunGlow.addColorStop(1,"rgba(255,230,180,0)");
+skyCtx.fillStyle=sunGlow;skyCtx.fillRect(80,0,560,540);
+// Layered, soft-edged cloud banks with shaded undersides
+skyCtx.save();skyCtx.filter="blur(24px)";
+for(var cloud=0;cloud<34;cloud++){
+ var cx=(cloud*211+45)%1600,cy=105+(cloud*67)%260,wide=65+(cloud%5)*28,tall=13+(cloud%4)*9;
+ skyCtx.fillStyle="rgba(255,255,255,"+(.075+(cloud%4)*.018)+")";
+ skyCtx.beginPath();skyCtx.ellipse(cx,cy,wide,tall,0,0,Math.PI*2);skyCtx.fill();
+}
+skyCtx.filter="blur(10px)";
+for(var cloud2=0;cloud2<22;cloud2++){
+ var x2=(cloud2*283+130)%1600,y2=145+(cloud2*53)%205;
+ skyCtx.fillStyle="rgba(255,250,239,.11)";
+ skyCtx.beginPath();skyCtx.ellipse(x2,y2,42+(cloud2%4)*19,8+(cloud2%3)*6,0,0,Math.PI*2);skyCtx.fill();
+}
 skyCtx.restore();
-var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;
-var skyDome=new THREE.Mesh(new THREE.SphereGeometry(170,40,24),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
+// Fine atmospheric haze along the horizon
+var haze=skyCtx.createLinearGradient(0,470,0,768);
+haze.addColorStop(0,"rgba(237,225,199,0)");haze.addColorStop(1,"rgba(240,224,195,.42)");
+skyCtx.fillStyle=haze;skyCtx.fillRect(0,430,1536,338);
+var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;skyTexture.anisotropy=8;
+var skyDome=new THREE.Mesh(new THREE.SphereGeometry(190,48,32),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
 skyDome.frustumCulled=false;scene.add(skyDome);
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
