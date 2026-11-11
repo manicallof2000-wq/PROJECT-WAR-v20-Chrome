@@ -655,6 +655,7 @@ var pw127clamp=new THREE.MeshStandardMaterial({color:0xb0b9b3,metalness:.78,roug
 var pw128trim=new THREE.MeshStandardMaterial({color:0x87918d,metalness:.28,roughness:.72});buildings.forEach(function(b){for(var x of [-1,1])slab(.08,b[3]*.65,.08,pw128trim,b[0]+x*(b[2]/2+.03),b[3]*.48,b[1])});
 var pw129band=new THREE.MeshStandardMaterial({color:0xb2afa2,roughness:.82});buildings.forEach(function(b){for(var y=3;y<b[3];y+=3.2)slab(b[2]*.08,.07,b[4]+.1,pw129band,b[0]-b[2]/2-.03,y,b[1])});
 var pw130shade=new THREE.MeshStandardMaterial({color:0x536c75,roughness:.62});buildings.slice(0,6).forEach(function(b){slab(b[2]*.48,.08,.45,pw130shade,b[0],2.25,b[1]+b[4]/2+.35)});
+var pw131base=new THREE.MeshStandardMaterial({color:0x48585d,metalness:.55,roughness:.42});buildings.forEach(function(b){var z=b[1]+b[4]/2+.18;for(var y of [2.8,6.2])slab(.3,.12,.08,pw131base,b[0],y-.12,z)});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
