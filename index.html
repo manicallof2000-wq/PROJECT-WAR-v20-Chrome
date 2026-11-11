@@ -1185,6 +1185,9 @@ var pw353env=document.createElement("div");pw353env.id="pw353env";pw353env.textC
 
 // pw354: Add adaptive drone spacing for later waves
 var pw354base=pw183fire;pw183fire=function(){var old=pw194wave;pw354base();if(pw194wave>old){var spread=1+Math.min(.18,(pw194wave-1)*.025);pw183targets.forEach(function(t,i){t.position.x=pw191bases[i].x*spread});toast("چیدمان موج جدید آماده شد")}};
+
+// pw355: Reset timed challenge when a new round starts
+var pw355start=startGame;startGame=function(e){var result=pw355start(e);pw345start=performance.now();pw347done=false;pw345clock.textContent="زمان چالش: ۹۰";pw345clock.style.color="#ffe4ad";pw349medal.textContent="مدال چالش: قفل";pw348fill.style.width="100%";return result};
 })();
 
  }
