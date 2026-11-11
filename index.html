@@ -1233,6 +1233,9 @@ var pw369core=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.Mesh
 
 // pw370: Add emitter flash when firing
 var pw370flash=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),new THREE.MeshBasicMaterial({color:0xb5ffff,transparent:true,opacity:.9}));pw370flash.position.set(0,.02,-.34);pw370flash.visible=false;pw368emitter.add(pw370flash);var pw370base=pw183fire;pw183fire=function(){var before=score;pw370base();if(playing&&!paused&&pw187ammo>=0){pw370flash.visible=true;clearTimeout(pw370flash._t);pw370flash._t=setTimeout(function(){pw370flash.visible=false},65)}};
+
+// pw371: Add a live arcade scoreboard
+var pw371board=document.createElement("div");pw371board.id="pw371board";pw371board.textContent="امتیاز "+score+" | موج "+pw194wave+" | هدف "+pw327hits;pw371board.style.cssText="position:fixed;right:10px;top:227px;z-index:14;padding:7px 10px;border:1px solid #7bd8ee66;border-radius:9px;background:#071b2bd9;color:#e6fbff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw371board);var pw371base=pw183fire;pw183fire=function(){pw371base();pw371board.textContent="امتیاز "+score+" | موج "+pw194wave+" | هدف "+pw327hits};
 })();
 
  }
