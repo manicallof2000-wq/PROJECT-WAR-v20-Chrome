@@ -732,6 +732,9 @@ for(var b of buildings){var o=new THREE.Mesh(new THREE.BoxGeometry(2.8,.12,.24),
 // pw179: alternating paving accents beside the small plaza
 var pw179mats=[new THREE.MeshStandardMaterial({color:0x9a9b91,roughness:.94}),new THREE.MeshStandardMaterial({color:0xb0aa98,roughness:.94})];
 for(var k=0;k<12;k++){var o=new THREE.Mesh(new THREE.BoxGeometry(.72,.035,.72),pw179mats[k%2]);o.position.set(-4.2+(k%4)*.82,.035,-56-Math.floor(k/4)*.82);scene.add(o)}
+// pw180: concentric low-profile ripple rings on the fountain surface
+var pw180mat=new THREE.MeshBasicMaterial({color:0xb8dce0,transparent:true,opacity:.42,side:THREE.DoubleSide});
+for(var r of [.28,.52,.76]){var o=new THREE.Mesh(new THREE.RingGeometry(r,r+.035,32),pw180mat);o.rotation.x=-Math.PI/2;o.position.set(0,.52,-61);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
