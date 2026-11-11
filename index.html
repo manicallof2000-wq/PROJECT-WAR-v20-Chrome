@@ -1338,6 +1338,9 @@ var pw404grade=document.createElement("div");pw404grade.textContent="رتبه ا
 
 // pw405: Add a saved medal collection count
 var pw405medals=0;try{pw405medals=Number(localStorage.getItem("pw_medals")||0)||0}catch(e){}var pw405medalEl=document.createElement("div");pw405medalEl.textContent="مدال‌ها: "+pw405medals;pw405medalEl.style.cssText="position:fixed;left:10px;top:542px;z-index:14;color:#ffe8b0;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw405medalEl);
+
+// pw406: Award a medal for high-accuracy practice
+var pw406base=pw183fire;pw183fire=function(){var b=score;pw406base();if(score>b&&pw327shots>=10&&pw327hits/Math.max(1,pw327shots)>=.8){if(!pw406awarded){pw406awarded=true;pw405medals++;try{localStorage.setItem("pw_medals",String(pw405medals))}catch(e){}pw405medalEl.textContent="مدال‌ها: "+pw405medals;toast("مدال دقت باز شد")}}};var pw406awarded=false;
 })();
 
  }
