@@ -846,7 +846,8 @@ pw183targets.forEach(function(g,i){if(g.visible)g.position.x=pw191bases[i].x+Mat
 // pw242: rotate active drone stabilizer rings
 pw183targets.forEach(function(g){if(g.visible&&g.children[1])g.children[1].rotation.z+=dt*.48;if(g.visible&&g.children[2])g.children[2].rotation.y=Math.sin(now*.003+g.userData.index)*.035});
  // pw241: suppress target lock feedback outside active play
- if(pw196cross){pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
+// pw244: smooth the target-lock reticle transition
+ if(pw196cross){pw196cross.style.transition="border-color .12s ease,box-shadow .12s ease,transform .08s ease";pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
  // pw207: keep the dedicated drone counter synchronized
 if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
