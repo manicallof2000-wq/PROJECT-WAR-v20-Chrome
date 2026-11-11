@@ -1001,6 +1001,9 @@ var pw294style=document.createElement("style");pw294style.textContent="@media(po
 
 // pw295: HUD compact landscape pills
 var pw295style=document.createElement("style");pw295style.textContent="@media(orientation:landscape) and (max-height:500px){#hud .pill{font-size:10px;padding:4px 7px}}";document.head.appendChild(pw295style);
+
+// pw296: Mobile portrait minimap
+var pw296style=document.createElement("style");pw296style.textContent="@media(orientation:portrait) and (max-width:520px){#map{top:146px}}";document.head.appendChild(pw296style);
 requestAnimationFrame(frame);updateHud();
 })();
 
