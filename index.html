@@ -1398,6 +1398,9 @@ try{pw423on=localStorage.getItem("pw_visual_fx")!=="0";pw423visual.textContent="
 
 // pw425: Add a compact game version label
 var pw425version=document.createElement("div");pw425version.textContent="PROJECT WAR • ARCADE v4.25";pw425version.style.cssText="margin:6px 0;text-align:center;color:#82c8d8;font:700 9px system-ui;letter-spacing:.4px";pw335panel.appendChild(pw425version);
+
+// pw426: Add a real-time shadow quality toggle
+var pw426shadow=document.createElement("button");pw426shadow.textContent="سایه‌ها: روشن";pw426shadow.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw426shadow);var pw426on=true;pw426shadow.onclick=function(){pw426on=!pw426on;renderer.shadowMap.enabled=pw426on;scene.traverse(function(o){if(o.isLight&&o.shadow)o.castShadow=pw426on});pw426shadow.textContent="سایه‌ها: "+(pw426on?"روشن":"خاموش")};
 })();
 
  }
