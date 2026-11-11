@@ -765,7 +765,8 @@ var pw186lastShot=0,pw186baseFire=pw183fire;pw183fire=function(){var now=perform
 var pw187ammo=18,pw187maxAmmo=18,pw187ammoEl=document.createElement("div");pw187ammoEl.id="pw187ammo";pw187ammoEl.textContent="ENERGY 18 / 18";pw187ammoEl.style.cssText="position:fixed;right:18px;bottom:18px;z-index:8;color:#d8fbff;background:#071b2bd9;border:1px solid #58d9e8;border-radius:10px;padding:7px 11px;font:900 11px Arial;letter-spacing:1px;pointer-events:none";document.body.appendChild(pw187ammoEl);
 // pw246: guard firing while the game is inactive
 var pw187fire=pw183fire;pw183fire=function(){if(!playing||paused)return;if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}if(performance.now()-pw186lastShot<220)return;pw187ammo--;// pw208: warn when energy reserve is low
-pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187ammoEl.style.borderColor=pw187ammo<=4?"#ffb45d":"#58d9e8";if(pw187ammo<=4)toast("انرژی کم است");pw187fire();};
+// pw247: show a distinct low-energy state
+pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187ammoEl.style.borderColor=pw187ammo<=4?"#ffb45d":"#58d9e8";pw187ammoEl.style.color=pw187ammo<=4?"#ffd09b":"#d8fbff";if(pw187ammo<=4)toast("انرژی کم است");pw187fire();};
 // pw188: add a touch-friendly energy reload control
 // pw209: visual reload progress indicator
 var pw209bar=document.createElement("div"),pw209fill=document.createElement("div");pw209bar.style.cssText="position:fixed;right:20px;bottom:70px;width:76px;height:5px;background:#19313b;border-radius:5px;overflow:hidden;z-index:9;pointer-events:none";pw209fill.style.cssText="width:0;height:100%;background:#70f0e4";pw209bar.appendChild(pw209fill);document.body.appendChild(pw209bar);
