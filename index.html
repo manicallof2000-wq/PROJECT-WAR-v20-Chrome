@@ -802,6 +802,8 @@ var pw228banner=document.createElement("div");pw228banner.style.cssText="positio
 var pw195waveEl=document.createElement("div");pw195waveEl.style.cssText="position:fixed;right:18px;bottom:55px;z-index:8;color:#9af5ff;font:900 11px Arial;letter-spacing:1px;text-shadow:0 1px 5px #001";pw195waveEl.textContent="WAVE 1";document.body.appendChild(pw195waveEl);
 // pw196: tint the reticle when a training drone is under the crosshair
 var pw196cross=document.getElementById("cross");if(pw196cross)pw196cross.style.transition="border-color .08s,box-shadow .08s";
+// pw256: scale reticle dimensions gently with viewport width
+var pw256style=document.createElement("style");pw256style.textContent="@media(max-width:420px){#cross{width:15px;height:15px;border-width:2px}}@media(min-width:900px){#cross{width:19px;height:19px}}";document.head.appendChild(pw256style);
 // pw197: show a compact training objective tracker
 var pw197mission=document.createElement("div");pw197mission.style.cssText="position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:8;color:#e5fbff;background:#071b2bd9;border:1px solid #58d9e866;border-radius:9px;padding:6px 10px;font:800 10px Arial;letter-spacing:.5px;pointer-events:none;white-space:nowrap";pw197mission.textContent="TRAINING DRONES  0 / 5";document.body.appendChild(pw197mission);
 // pw198: add a brief abstract cyan spark burst on successful drone hits
