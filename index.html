@@ -1413,6 +1413,9 @@ var pw429start=startGame;startGame=function(e){var r=pw429start(e);pw416dash.sty
 
 // pw430: Add a visible pause/resume status in the dashboard
 var pw430pause=document.createElement("div");pw430pause.textContent="بازی آماده است";pw430pause.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#0c2937;color:#dff8ff;font:800 10px system-ui";pw416dash.appendChild(pw430pause);document.getElementById("pause").addEventListener("click",function(){pw430pause.textContent=paused?"بازی متوقف است":"بازی در جریان است"});
+
+// pw431: Add a fullscreen gameplay button
+var pw431full=document.createElement("button");pw431full.textContent="تمام‌صفحه";pw431full.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw431full);pw431full.onclick=function(){var el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen().then(function(){toast("حالت تمام‌صفحه فعال شد")}).catch(function(){toast("تمام‌صفحه در این مرورگر در دسترس نیست")});else if(document.exitFullscreen)document.exitFullscreen()};
 })();
 
  }
