@@ -280,7 +280,12 @@ function roundedBuilding(b,i){
  }
  var shopGlass=new THREE.MeshPhysicalMaterial({color:0x9bc4d0,metalness:.12,roughness:.12,transparent:true,opacity:.76,clearcoat:1,clearcoatRoughness:.08,reflectivity:.9,emissive:0x10232a});
  slab(w*.72,1.9,.08,shopGlass,b[0],1.15,b[1]+d/2+.055);
- slab(w*.78,.18,.55,new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.7}),b[0],2.25,b[1]+d/2+.3);
+ var awningMat=new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.78});
+ slab(w*.78,.18,.55,awningMat,b[0],2.25,b[1]+d/2+.3);
+ for(var awn=0;awn<7;awn++){
+  var stripeMat=new THREE.MeshStandardMaterial({color:awn%2===0?0xe4dfce:0x596c70,roughness:.86});
+  slab(w*.78/7,.012,.52,stripeMat,b[0]-w*.39+(awn+.5)*w*.78/7,2.35,b[1]+d/2+.3);
+ }
 
  // Exterior air-conditioning units and compact wall lights
  var acCase=new THREE.MeshStandardMaterial({color:0xb9c0bd,metalness:.28,roughness:.62});
