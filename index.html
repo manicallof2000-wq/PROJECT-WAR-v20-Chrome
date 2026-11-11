@@ -1353,6 +1353,9 @@ var pw409profile=document.createElement("button");pw409profile.textContent="پر
 
 // pw410: Add a saved profile preset
 try{var p=Number(localStorage.getItem("pw_profile")||1);if(p>=0&&p<=2){pw409mode=p;pw409profile.textContent="پروفایل: "+["دقیق","متعادل","گسترده"][p];pw363sens=[.75,1,1.35][p];camera.fov=[62,68,78][p];camera.updateProjectionMatrix()}}catch(e){}pw409profile.addEventListener("click",function(){try{localStorage.setItem("pw_profile",String(pw409mode))}catch(e){}});
+
+// pw411: Add a session accuracy bar
+var pw411accbar=document.createElement("div"),pw411accfill=document.createElement("div");pw411accbar.style.cssText="position:fixed;right:10px;top:458px;width:105px;height:5px;background:#253b42;border-radius:5px;overflow:hidden;z-index:14;pointer-events:none";pw411accfill.style.cssText="height:100%;width:0;background:#6ce6c0";pw411accbar.appendChild(pw411accfill);document.body.appendChild(pw411accbar);setInterval(function(){pw411accfill.style.width=Math.round(pw327hits/Math.max(1,pw327shots)*100)+"%"},500);
 })();
 
  }
