@@ -977,6 +977,9 @@ var pw286style=document.createElement("style");pw286style.textContent="#sound[ar
 
 // pw287: Minimap sizing stability
 var pw287style=document.createElement("style");pw287style.textContent="#map{box-sizing:border-box;flex:none}";document.head.appendChild(pw287style);
+
+// pw288: HUD layering
+var pw288style=document.createElement("style");pw288style.textContent="#hud{z-index:10}";document.head.appendChild(pw288style);
 requestAnimationFrame(frame);updateHud();
 })();
 
