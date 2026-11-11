@@ -610,6 +610,7 @@ var pw82handle=new THREE.MeshStandardMaterial({color:0xd1c6a4,metalness:.86,roug
 var pw83glow=new THREE.MeshStandardMaterial({color:0xffe5b2,emissive:0xffd28b,emissiveIntensity:1});for(var x of [-.9,0,.9])slab(.32,.045,.22,pw83glow,14.1,2.38,-82);
 var pw84metal=new THREE.MeshStandardMaterial({color:0x435359,metalness:.62,roughness:.38});for(var x of [-.9,.9])slab(.1,.58,.12,pw84metal,14.1+x,.3,-81.55);
 var pw85trim=new THREE.MeshStandardMaterial({color:0xc3b58e,metalness:.38,roughness:.5});slab(1.08,.045,.035,pw85trim,13.55,.45,-93.7);slab(1.08,.045,.035,pw85trim,13.55,1.78,-93.7);
+var pw86rim=new THREE.MeshStandardMaterial({color:0xb6b5a8,roughness:.86});var pw86ring=new THREE.Mesh(new THREE.TorusGeometry(.84,.09,8,32),pw86rim);pw86ring.rotation.x=Math.PI/2;pw86ring.position.set(-13.5,.34,-93);scene.add(pw86ring);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
