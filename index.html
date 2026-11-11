@@ -1575,6 +1575,9 @@ var pw483last=score;setInterval(function(){if(score>pw483last){pw443score.style.
 
 // pw484: Add a dashboard toggle for the score trend tile
 var pw484trendToggle=document.createElement("button");pw484trendToggle.textContent="نمایش روند امتیاز";pw484trendToggle.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw484trendToggle);pw484trendToggle.onclick=function(){pw481trend.style.display=pw481trend.style.display==="none"?"block":"none"};
+
+// pw485: Add a quick hide-dashboard shortcut button
+var pw485hide=document.createElement("button");pw485hide.textContent="×";pw485hide.setAttribute("aria-label","بستن پنل آمار");pw485hide.style.cssText="float:left;width:27px;height:27px;border:1px solid #7ab9c8;border-radius:8px;background:#183a4a;color:white;font:900 15px system-ui";pw416dash.insertBefore(pw485hide,pw416dash.firstChild);pw485hide.onclick=function(){pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"};
 })();
 
  }
