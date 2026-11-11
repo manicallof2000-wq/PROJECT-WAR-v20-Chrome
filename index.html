@@ -1329,6 +1329,9 @@ var pw401tick=setInterval(function(){if(pw400end>0){var left=Math.max(0,Math.cei
 
 // pw402: Add a personal accuracy record
 var pw402accuracy=0;try{pw402accuracy=Number(localStorage.getItem("pw_accuracy_best")||0)||0}catch(e){}var pw402bestEl=document.createElement("div");pw402bestEl.textContent="بهترین دقت: "+pw402accuracy+"٪";pw402bestEl.style.cssText="position:fixed;right:10px;top:359px;z-index:14;padding:6px 9px;border-radius:8px;background:#102b25dd;color:#caffdf;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw402bestEl);
+
+// pw403: Update and save the accuracy record
+var pw403base=pw183fire;pw183fire=function(){pw403base();var a=Math.round(pw327hits/Math.max(1,pw327shots)*100);if(a>pw402accuracy&&pw327shots>=5){pw402accuracy=a;try{localStorage.setItem("pw_accuracy_best",String(a))}catch(e){}pw402bestEl.textContent="بهترین دقت: "+a+"٪"}};
 })();
 
  }
