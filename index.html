@@ -1476,6 +1476,9 @@ var pw450sound=document.createElement("button");pw450sound.textContent="صدای
 
 // pw451: Restore the sound feedback preference
 try{pw450soundOn=localStorage.getItem("pw_ui_sound")!=="0";pw450sound.textContent="صدای رابط: "+(pw450soundOn?"روشن":"خاموش")}catch(e){}
+
+// pw452: Add a color theme selector
+var pw452theme=document.createElement("button");pw452theme.textContent="رنگ رابط: آبی";pw452theme.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw452theme);var pw452alt=false;pw452theme.onclick=function(){pw452alt=!pw452alt;document.documentElement.style.setProperty("--pw-accent",pw452alt?"#b78cff":"#55dff2");pw335panel.style.borderColor=pw452alt?"#b78cff":"#55dff2";pw452theme.textContent="رنگ رابط: "+(pw452alt?"بنفش":"آبی")};
 })();
 
  }
