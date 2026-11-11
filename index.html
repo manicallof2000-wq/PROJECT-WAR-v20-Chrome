@@ -1509,6 +1509,9 @@ var pw461goal=document.createElement("button");pw461goal.textContent="هدف د�
 
 // pw462: Add a live accuracy goal status
 var pw462goalStatus=document.createElement("div");pw462goalStatus.textContent="وضعیت هدف دقت: در حال تمرین";pw462goalStatus.style.cssText="margin:5px 0;padding:7px;background:#103344;color:#d9f8ff;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw462goalStatus);setInterval(function(){var a=Math.round(pw327hits/Math.max(1,pw327shots)*100);pw462goalStatus.textContent="هدف دقت: "+(pw327shots>=5&&a>=pw461goals[pw461idx]?"تکمیل شد":"در حال تمرین")+" ("+a+"٪)"},700);
+
+// pw463: Add a personal best accuracy reset control
+var pw463reset=document.createElement("button");pw463reset.textContent="پاک‌کردن رکورد دقت";pw463reset.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#3a2525;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw463reset);pw463reset.onclick=function(){if(!confirm("رکورد دقت ذخیره‌شده پاک شود؟"))return;pw402accuracy=0;try{localStorage.removeItem("pw_accuracy_best")}catch(e){}pw402bestEl.textContent="بهترین دقت: ۰٪";toast("رکورد دقت پاک شد")};
 })();
 
  }
