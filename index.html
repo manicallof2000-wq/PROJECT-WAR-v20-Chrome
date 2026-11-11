@@ -1079,6 +1079,9 @@ var pw320style=document.createElement("style");pw320style.textContent="#overlay{
 
 // pw321: Button active contrast
 var pw321style=document.createElement("style");pw321style.textContent=".action:active{filter:brightness(1.2) saturate(1.1)}";document.head.appendChild(pw321style);
+
+// pw322: Final responsive polish
+var pw322style=document.createElement("style");pw322style.textContent="@media(max-width:340px){#hud .pill{font-size:8px;padding:5px 4px}#map{width:76px;height:76px}}";document.head.appendChild(pw322style);
 requestAnimationFrame(frame);updateHud();
 })();
 
