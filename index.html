@@ -422,6 +422,20 @@ streetBench(12.8,-42,false);streetBench(-12.8,-72,true);
 waySign(-13.3,-18,false);waySign(13.3,-99,true);
 var barrierMat=new THREE.MeshStandardMaterial({color:0x69787a,roughness:.72});
 for(var k=0;k<5;k++){var bar=slab(2.7,1.05,.55,barrierMat,(k-2)*4.7,.52,-9-(k%2)*1.4);bar.rotation.y=(k%2?.05:-.05)}
+// Short reflective sidewalk posts add scale and visual rhythm
+var postMat=new THREE.MeshStandardMaterial({color:0x39464a,metalness:.58,roughness:.38});
+var postBand=new THREE.MeshStandardMaterial({color:0xe0d4a7,metalness:.22,roughness:.34,emissive:0x211b0c});
+for(var postZ of [-24,-50,-78,-101]){
+ for(var postSide of [-1,1]){
+  var postX=postSide*11.05;
+  var post=new THREE.Mesh(new THREE.CylinderGeometry(.105,.14,.82,12),postMat);
+  post.position.set(postX,.52,postZ);post.castShadow=true;scene.add(post);
+  var band=new THREE.Mesh(new THREE.CylinderGeometry(.108,.108,.12,12),postBand);
+  band.position.set(postX,.69,postZ);scene.add(band);
+  var postTop=new THREE.Mesh(new THREE.SphereGeometry(.11,10,8),postMat);
+  postTop.position.set(postX,.94,postZ);scene.add(postTop);
+ }
+}
 var markerObjects=[];
 points.forEach(function(p){
  var group=new THREE.Group();group.position.set(p.x,1.35,p.z);
