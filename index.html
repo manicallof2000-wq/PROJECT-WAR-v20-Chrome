@@ -1034,6 +1034,9 @@ var pw305style=document.createElement("style");pw305style.textContent="#hud .pil
 
 // pw306: Dialog responsive viewport
 var pw306style=document.createElement("style");pw306style.textContent="@media(max-height:540px){.dialog{max-height:88vh;overflow-y:auto;overscroll-behavior:contain}}";document.head.appendChild(pw306style);
+
+// pw307: Landscape fire sizing
+var pw307style=document.createElement("style");pw307style.textContent="@media(orientation:landscape) and (max-height:500px){#fire{width:72px;height:72px;font-size:13px}}";document.head.appendChild(pw307style);
 requestAnimationFrame(frame);updateHud();
 })();
 
