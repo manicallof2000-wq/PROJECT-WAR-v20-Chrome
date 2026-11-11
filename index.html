@@ -228,6 +228,9 @@ function facadeTexture(seed){
   var glassGrad=g.createLinearGradient(x,yy,x+w,yy+h);
   glassGrad.addColorStop(0,lit?"#e4d6ad":"#6c98a8");glassGrad.addColorStop(.48,lit?"#b6b09a":"#294b60");glassGrad.addColorStop(1,lit?"#8c9a91":"#182f43");
   g.fillStyle=glassGrad;g.fillRect(x,yy,w,h);
+  // Fine blind lines and occasional warm interior glow behind the glass
+  if(lit){var warm=g.createLinearGradient(x,yy,x,yy+h);warm.addColorStop(0,"rgba(255,222,165,.16)");warm.addColorStop(1,"rgba(255,194,118,.04)");g.fillStyle=warm;g.fillRect(x+2,yy+2,w-4,h-4)}
+  if((row*3+col+seed)%4===0){g.fillStyle="rgba(220,231,226,.16)";for(var blind=0;blind<3;blind++)g.fillRect(x+3,yy+10+blind*8,w-6,1)}
   g.fillStyle="rgba(235,247,248,.24)";g.beginPath();g.moveTo(x+5,yy+3);g.lineTo(x+17,yy+3);g.lineTo(x+7,yy+h-4);g.lineTo(x+4,yy+h-4);g.fill();
   g.fillStyle="rgba(12,25,32,.42)";g.fillRect(x+w/2-1,yy,2,h);
   g.fillStyle="rgba(210,225,225,.45)";g.fillRect(x+2,yy+h-3,w-4,2);
