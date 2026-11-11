@@ -618,6 +618,7 @@ var pw90tile=new THREE.MeshStandardMaterial({color:0xaaa99e,roughness:.94});for(
 var pw91lamp=new THREE.MeshStandardMaterial({color:0x8fc5c5,emissive:0x367c82,emissiveIntensity:.8});var pw91m=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),pw91lamp);pw91m.position.set(13.55,2.12,-94);scene.add(pw91m);
 var pw92vent=new THREE.MeshStandardMaterial({color:0x303e42,metalness:.55,roughness:.5});for(var i=0;i<5;i++)slab(.8,.025,.035,pw92vent,13.55,.0+2.09,-94.3+i*.13);
 var pw93foot=new THREE.MeshStandardMaterial({color:0x747c78,roughness:.9});for(var x of [-1,1]){var m=new THREE.Mesh(new THREE.CylinderGeometry(.16,.22,.22,10),pw93foot);m.position.set(x*10.25,.11,-31);scene.add(m)}
+var pw94line=new THREE.MeshStandardMaterial({color:0xb9c9c5,metalness:.28,roughness:.5});for(var x of [-1,1]){slab(.9,.025,.015,pw94line,x*10.25,2.85,-30.93);slab(.65,.025,.015,pw94line,x*10.25,2.68,-30.93)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
