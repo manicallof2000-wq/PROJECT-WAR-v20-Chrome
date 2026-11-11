@@ -1323,6 +1323,9 @@ var pw399stats=document.createElement("div");pw399stats.textContent="آمار ت
 
 // pw400: Add a quick target practice mode
 var pw400practice=document.createElement("button");pw400practice.textContent="تمرین سریع ۳۰ ثانیه‌ای";pw400practice.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#174334;color:#e2fff1;border:1px solid #68dca8;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw400practice);var pw400end=0;pw400practice.onclick=function(){pw400end=performance.now()+30000;pw345start=performance.now();pw345time=30;pw345clock.style.display="block";pw345clock.textContent="تمرین سریع: ۳۰";toast("تمرین سریع شروع شد")};
+
+// pw401: Add a quick-practice countdown display
+var pw401tick=setInterval(function(){if(pw400end>0){var left=Math.max(0,Math.ceil((pw400end-performance.now())/1000));pw345clock.textContent="تمرین سریع: "+left;if(left===0){pw400end=0;toast("تمرین سریع تمام شد • امتیاز "+score)}}},200);
 })();
 
  }
