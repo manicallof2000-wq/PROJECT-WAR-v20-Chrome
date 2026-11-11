@@ -853,7 +853,8 @@ if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw2
 if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
 if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
 // pw226: refresh nearest drone range
-if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)near=Math.min(near,camera.position.distanceTo(g.position))});pw226range.textContent=near<Infinity?"RANGE "+Math.round(near)+" m":"RANGE CLEAR";}
+// pw245: make the range readout clearer
+if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)near=Math.min(near,camera.position.distanceTo(g.position))});pw226range.textContent=near<Infinity?"فاصله "+Math.round(near)+" m":"میدان خالی";}
 // pw243: give drone wings subtle hover movement
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
