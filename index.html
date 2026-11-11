@@ -118,8 +118,14 @@ envCtx.fillStyle="rgba(255,245,220,.9)";envCtx.fillRect(65,58,92,54);envCtx.fill
 envCtx.fillStyle="rgba(42,66,78,.42)";envCtx.fillRect(0,155,512,34);
 var envTexture=new THREE.CanvasTexture(envCanvas);envTexture.mapping=THREE.EquirectangularReflectionMapping;envTexture.colorSpace=THREE.SRGBColorSpace;
 
-scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
-var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(isMobileDevice?1536:2048,isMobileDevice?1536:2048);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
+scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,1.75));
+var sun=new THREE.DirectionalLight(0xffe5bd,2.7);sun.position.set(-18,48,-12);sun.castShadow=true;
+sun.shadow.mapSize.set(isMobileDevice?1536:3072,isMobileDevice?1536:3072);
+sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=36;sun.shadow.camera.bottom=-36;
+sun.shadow.camera.near=.5;sun.shadow.camera.far=125;sun.shadow.bias=-.00018;sun.shadow.normalBias=.018;
+sun.shadow.radius=isMobileDevice?3:4;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
+var skyFill=new THREE.DirectionalLight(0xb9dcf2,.55);skyFill.position.set(22,18,24);scene.add(skyFill);
+var warmBounce=new THREE.DirectionalLight(0xffd8b0,.22);warmBounce.position.set(-12,7,30);scene.add(warmBounce);
 function makeSurfaceTexture(kind){
  var c=document.createElement("canvas");c.width=1024;c.height=1024;var g=c.getContext("2d");g.scale(2,2);
  g.fillStyle=kind==="road"?"#343b40":"#71805c";g.fillRect(0,0,512,512);
