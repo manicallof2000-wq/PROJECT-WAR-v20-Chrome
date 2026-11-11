@@ -1344,6 +1344,9 @@ var pw406base=pw183fire;pw183fire=function(){var b=score;pw406base();if(score>b&
 
 // pw407: Add a target practice streak challenge
 var pw407streakBtn=document.createElement("button");pw407streakBtn.textContent="چالش زنجیره ۵تایی";pw407streakBtn.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#352817;color:#ffe7bb;border:1px solid #d5a65c;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw407streakBtn);pw407streakBtn.onclick=function(){pw330combo=0;pw330badge.textContent="COMBO ×0";toast("۵ هدف پشت‌سرهم را ثبت کن")};
+
+// pw408: Add a target respawn feedback label
+var pw408respawn=document.createElement("div");pw408respawn.textContent="هدف‌ها آماده‌اند";pw408respawn.style.cssText="position:fixed;right:10px;top:425px;z-index:14;padding:6px 9px;border-radius:8px;background:#0c2730dd;color:#c9f7ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw408respawn);var pw408last=0;setInterval(function(){var left=pw183targets.filter(function(t){return !t.userData.hit}).length;if(left!==pw408last){pw408last=left;pw408respawn.textContent=left?"هدف باقی‌مانده: "+left:"همه هدف‌ها ثبت شدند!"}},400);
 })();
 
  }
