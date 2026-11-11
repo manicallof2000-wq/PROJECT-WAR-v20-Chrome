@@ -1506,6 +1506,9 @@ var pw460rank=document.createElement("div");pw460rank.textContent="رتبه: —
 
 // pw461: Add a training accuracy goal selector
 var pw461goal=document.createElement("button");pw461goal.textContent="هدف دقت: ۷۰٪";pw461goal.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw461goal);var pw461goals=[50,70,85,95],pw461idx=1;pw461goal.onclick=function(){pw461idx=(pw461idx+1)%pw461goals.length;pw461goal.textContent="هدف دقت: "+pw461goals[pw461idx]+"٪"};
+
+// pw462: Add a live accuracy goal status
+var pw462goalStatus=document.createElement("div");pw462goalStatus.textContent="وضعیت هدف دقت: در حال تمرین";pw462goalStatus.style.cssText="margin:5px 0;padding:7px;background:#103344;color:#d9f8ff;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw462goalStatus);setInterval(function(){var a=Math.round(pw327hits/Math.max(1,pw327shots)*100);pw462goalStatus.textContent="هدف دقت: "+(pw327shots>=5&&a>=pw461goals[pw461idx]?"تکمیل شد":"در حال تمرین")+" ("+a+"٪)"},700);
 })();
 
  }
