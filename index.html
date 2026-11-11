@@ -865,6 +865,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  var pw237style=document.createElement("style");pw237style.textContent="#fire{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))}#pw187ammo{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))!important}#pw188reload{bottom:max(88px,calc(env(safe-area-inset-bottom) + 78px))!important}#pw209bar{bottom:max(76px,calc(env(safe-area-inset-bottom) + 66px))!important}";document.head.appendChild(pw237style);
 // pw238: compact the four-part HUD on narrow phone screens
  var pw238style=document.createElement("style");pw238style.textContent="@media(max-width:520px){#hud{left:6px;right:6px;gap:4px}.pill{padding:7px 6px;font-size:10px;border-radius:10px}#map{width:88px;height:88px;top:148px;right:7px}#sound{top:243px;right:7px}}";document.head.appendChild(pw238style);
+// pw239: provide crisp pressed feedback for all arcade action buttons
+ var pw239style=document.createElement("style");pw239style.textContent=".action,#pause,#sound,#pw188reload{transition:transform .09s ease,filter .09s ease,box-shadow .09s ease}.action:active,#pause:active,#sound:active,#pw188reload:active{transform:scale(.93);filter:brightness(1.3);box-shadow:0 2px 8px #0009}";document.head.appendChild(pw239style);
 requestAnimationFrame(frame);updateHud();
 })();
 
