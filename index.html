@@ -1497,6 +1497,9 @@ var pw457restart=document.createElement("button");pw457restart.textContent="شر
 
 // pw458: Add a session personal best score readout
 var pw458best=document.createElement("div");pw458best.textContent="رکورد این نشست: "+score;pw458best.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#ffe8b0;font:800 10px system-ui";pw416dash.appendChild(pw458best);var pw458max=score;setInterval(function(){pw458max=Math.max(pw458max,score);pw458best.textContent="رکورد این نشست: "+pw458max},500);
+
+// pw459: Add a quick copy score action to the dashboard
+var pw459copy=document.createElement("button");pw459copy.textContent="کپی امتیاز";pw459copy.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw459copy);pw459copy.onclick=function(){var v="PROJECT WAR • امتیاز "+score+" • موج "+pw194wave;if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(function(){toast("امتیاز کپی شد")}).catch(function(){toast(v)});else toast(v)};
 })();
 
  }
