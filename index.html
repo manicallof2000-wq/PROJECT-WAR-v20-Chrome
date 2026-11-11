@@ -1485,6 +1485,9 @@ try{pw452alt=localStorage.getItem("pw_theme_alt")==="1";pw452theme.textContent="
 
 // pw454: Add a settings reset confirmation
 var pw454reset=document.createElement("button");pw454reset.textContent="بازنشانی تنظیمات ظاهری";pw454reset.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#3a2525;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw454reset);pw454reset.onclick=function(){if(!confirm("تنظیمات نمایشی به حالت اولیه برگردد؟"))return;pw395high=false;document.body.style.filter="none";pw396on=true;pw341cross.style.display="block";pw397large=false;pw426on=true;renderer.shadowMap.enabled=true;pw427fogOn=true;scene.fog=pw427fogOriginal;pw453mapOn=true;var m=document.getElementById("map");if(m)m.style.display="block";toast("تنظیمات ظاهری بازنشانی شد")};
+
+// pw455: Add a compact target count in the mission card
+var pw455count=document.createElement("div");pw455count.textContent="هدف‌ها: "+pw183targets.length;pw455count.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw445brief.appendChild(pw455count);setInterval(function(){pw455count.textContent="هدف‌های فعال: "+pw183targets.filter(function(t){return t.visible}).length},600);
 })();
 
  }
