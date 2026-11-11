@@ -702,6 +702,9 @@ for(var side of [-1,1])for(var z of [-16,-36,-57,-78,-96]){var o=new THREE.Mesh(
 // pw169: varied secondary leaf clusters for fuller street trees
 var pw169mat=new THREE.MeshStandardMaterial({color:0x477b53,roughness:.92});
 for(var side of [-1,1])for(var z of [-16,-36,-57,-78,-96])for(var k=0;k<3;k++){var o=new THREE.Mesh(new THREE.IcosahedronGeometry(.48,1),pw169mat);o.position.set(side*15.2+(k-1)*.58,4.9+(k%2)*.28,z+(k-1)*.35);o.scale.set(1.05,.82,1);scene.add(o)}
+// pw170: narrow facade accent strips
+var pw170mat=new THREE.MeshStandardMaterial({color:0x9a9d91,roughness:.8,metalness:.08});
+for(var b of buildings){for(var side of [-1,1]){var o=new THREE.Mesh(new THREE.BoxGeometry(.12,b[3]*.86,.16),pw170mat);o.position.set(b[0]+side*(b[2]/2+.025),b[3]*.5,b[1]);scene.add(o)}}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
