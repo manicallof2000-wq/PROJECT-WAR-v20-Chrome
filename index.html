@@ -88,8 +88,8 @@ var player={x:0,z:8,yaw:0,pitch:0};
 var savedBest=0;try{savedBest=Number(localStorage.getItem("pw_best")||0)||0}catch(e){}
 var best=savedBest;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
-var scene=new THREE.Scene();scene.fog=new THREE.Fog(0xaab9b8,72,155);scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,42,125);
-var camera=new THREE.PerspectiveCamera(72,W/H,.1,180);camera.position.set(0,1.65,8);
+var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,48,145);
+var camera=new THREE.PerspectiveCamera(68,W/H,.1,220);camera.position.set(0,1.65,8);
 var skyCanvas=document.createElement("canvas");skyCanvas.width=1024;skyCanvas.height=512;
 var skyCtx=skyCanvas.getContext("2d"),skyGrad=skyCtx.createLinearGradient(0,0,0,512);
 skyGrad.addColorStop(0,"#244b78");skyGrad.addColorStop(.42,"#6eaccb");skyGrad.addColorStop(.78,"#b9d8df");skyGrad.addColorStop(1,"#e5d9bd");
@@ -105,12 +105,12 @@ var skyDome=new THREE.Mesh(new THREE.SphereGeometry(170,40,24),new THREE.MeshBas
 skyDome.frustumCulled=false;scene.add(skyDome);
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
-var qualityScale=isMobileDevice?1.35:1.75;
+var qualityScale=isMobileDevice?1.6:2.0;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
-var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
+var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(isMobileDevice?1536:2048,isMobileDevice?1536:2048);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
 function makeSurfaceTexture(kind){
  var c=document.createElement("canvas");c.width=512;c.height=512;var g=c.getContext("2d");
  g.fillStyle=kind==="road"?"#343b40":"#71805c";g.fillRect(0,0,512,512);
@@ -184,7 +184,7 @@ function facadeTexture(seed){
   g.fillStyle="#d8e3df55";g.fillRect(x+4,yy+4,4,h-8);g.fillStyle="#172a35";g.fillRect(x+w/2-1,yy,2,h);
   g.fillStyle="#aeb9b2";g.fillRect(x-7,yy+h,w+14,5);
  }
- var tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=4;return tex;
+ var tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return tex;
 }
 function roundedBuilding(b,i){
  var w=b[2],h=b[3],d=b[4],r=Math.min(.42,w*.08,d*.08),shape=new THREE.Shape();
