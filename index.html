@@ -62,7 +62,8 @@ var canvas=document.getElementById("world"),ctx=canvas.getContext("2d",{alpha:fa
 var overlay=document.getElementById("overlay"),startBtn=document.getElementById("start");
 var scoreEl=document.getElementById("score"),countEl=document.getElementById("count"),statusEl=document.getElementById("status"),taskEl=document.getElementById("task"),toastEl=document.getElementById("toast");
 var W=innerWidth,H=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5),playing=false,paused=false,startedAt=0;
-var player={x:0,z:8,y:0,yaw:0,pitch:0},joyX=0,joyY=0,running=false,jump=0,jumpV=0,score=0,found=0,elapsed=0,best=Number(localStorage.getItem("pw_best")||0),soundOn=true,audioCtx=null;
+var savedBest=0;try{savedBest=Number(window.localStorage.getItem("pw_best")||0)||0}catch(storageError){}
+var player={x:0,z:8,y:0,yaw:0,pitch:0},joyX=0,joyY=0,running=false,jump=0,jumpV=0,score=0,found=0,elapsed=0,best=savedBest,soundOn=true,audioCtx=null;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
 function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
 addEventListener("resize",resize);resize();
@@ -70,7 +71,7 @@ function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;
 window.startGame=startGame;
 ["click","pointerup","touchend"].forEach(function(ev){startBtn.addEventListener(ev,startGame,{passive:false})});
 function toast(t){toastEl.textContent=t;toastEl.style.opacity="1";clearTimeout(toast.timer);toast.timer=setTimeout(function(){toastEl.style.opacity="0"},1100)}
-function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";if(score>best){best=score;localStorage.setItem("pw_best",String(best))}toast("مرحله کامل شد! رکورد: "+best)}}
+function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";if(score>best){best=score;try{window.localStorage.setItem("pw_best",String(best))}catch(storageError){}}toast("مرحله کامل شد! رکورد: "+best)}}
 function beep(freq,duration){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration)}catch(e){}}
 function drawMap(){var m=document.getElementById("map"),c=m.getContext("2d");c.clearRect(0,0,208,208);c.fillStyle="#102b37";c.fillRect(0,0,208,208);c.strokeStyle="#526b6e";c.lineWidth=17;c.beginPath();c.moveTo(104,12);c.lineTo(104,196);c.stroke();c.strokeStyle="#d5c99a";c.lineWidth=1;c.setLineDash([5,6]);c.beginPath();c.moveTo(104,12);c.lineTo(104,196);c.stroke();c.setLineDash([]);points.forEach(function(p){var x=104+p.x*2.2,y=18+(8-p.z)*2.2;c.fillStyle=p.done?"#64736e":"#65f4dc";c.beginPath();c.arc(x,y,5,0,Math.PI*2);c.fill()});var px=104+player.x*2.2,py=18+(8-player.z)*2.2;c.save();c.translate(px,py);c.rotate(player.yaw);c.fillStyle="#fff";c.beginPath();c.moveTo(0,-9);c.lineTo(-6,7);c.lineTo(6,7);c.closePath();c.fill();c.restore()}
 function project(x,y,z){
