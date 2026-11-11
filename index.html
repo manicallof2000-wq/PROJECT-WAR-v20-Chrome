@@ -1107,6 +1107,9 @@ var pw327shots=0,pw327hits=0,pw327base=pw183fire;pw183fire=function(){if(playing
 
 // pw328: Add persistent player level and XP
 var pw328xp=0,pw328level=1;try{pw328xp=Number(localStorage.getItem("pw_xp")||0)||0}catch(e){}pw328level=1+Math.floor(pw328xp/600);function pw328award(n){pw328xp+=n;pw328level=1+Math.floor(pw328xp/600);try{localStorage.setItem("pw_xp",String(pw328xp))}catch(e){}if(pw326rank)pw326rank.textContent="رتبه "+pw328level+" • XP "+pw328xp}if(pw326rank)pw326rank.textContent="رتبه "+pw328level+" • XP "+pw328xp;
+
+// pw329: Add hit rewards and mission progress
+var pw329base=pw183fire;pw183fire=function(){var before=score;pw329base();if(score>before){pw328award(35);if(pw325panel)pw325panel.textContent="ماموریت: "+pw183targets.filter(function(t){return t.userData.hit}).length+" از "+pw183targets.length+" هدف";if(pw328level>1&&pw328xp%600<35)toast("ارتقای رتبه! سطح "+pw328level)}};
 })();
 
  }
