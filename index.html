@@ -1299,6 +1299,9 @@ var pw391close=document.createElement("button");pw391close.textContent="بستن
 
 // pw392: Add a quick settings open shortcut
 var pw392open=document.createElement("button");pw392open.textContent="⚙";pw392open.setAttribute("aria-label","باز کردن تنظیمات");pw392open.style.cssText="position:fixed;left:10px;bottom:16px;z-index:25;width:42px;height:42px;border:1px solid #83d8e8;border-radius:12px;background:#102c3ddd;color:white;font-size:19px";document.body.appendChild(pw392open);pw392open.onclick=function(){pw335panel.style.display=pw335panel.style.display==="none"?"block":"none"};
+
+// pw393: Add a compact objective completion bar
+var pw393bar=document.createElement("div"),pw393fill=document.createElement("div");pw393bar.style.cssText="position:fixed;left:10px;top:515px;width:110px;height:5px;background:#263b45;border-radius:5px;overflow:hidden;z-index:14;pointer-events:none";pw393fill.style.cssText="height:100%;width:0;background:#69e8bd";pw393bar.appendChild(pw393fill);document.body.appendChild(pw393bar);var pw393tick=setInterval(function(){pw393fill.style.width=Math.min(100,pw327hits/Math.max(1,pw183targets.length)*100)+"%"},400);
 })();
 
  }
