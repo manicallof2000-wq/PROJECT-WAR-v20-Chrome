@@ -368,7 +368,13 @@ var bark=new THREE.MeshStandardMaterial({color:0x66503a,roughness:1}),leaves=[0x
 function tree(x,z,size){
  slab(.28*size,2.1*size,.28*size,bark,x,1.05*size,z);
  var crown=new THREE.Mesh(new THREE.SphereGeometry(.95*size,12,10),leaves[Math.floor(Math.abs(x+z))%3]);crown.position.set(x,2.45*size,z);scene.add(crown);
- var crown2=new THREE.Mesh(new THREE.SphereGeometry(.68*size,10,8),leaves[(Math.floor(Math.abs(x+z))+1)%3]);crown2.position.set(x+.38*size,2.85*size,z-.12*size);scene.add(crown2);
+ var crown2=new THREE.Mesh(new THREE.SphereGeometry(.68*size,12,10),leaves[(Math.floor(Math.abs(x+z))+1)%3]);crown2.position.set(x+.38*size,2.85*size,z-.12*size);scene.add(crown2);
+ // Smaller offset foliage clusters break the perfectly round silhouette
+ for(var leafPart=0;leafPart<3;leafPart++){
+  var cluster=new THREE.Mesh(new THREE.SphereGeometry((.42+(leafPart%2)*.08)*size,10,8),leaves[(leafPart+Math.floor(Math.abs(x+z)))%3]);
+  cluster.position.set(x+[-.48,.48,.02][leafPart]*size,2.35+[.12,.2,.62][leafPart]*size,z+[.12,-.16,.28][leafPart]*size);
+  cluster.castShadow=true;cluster.receiveShadow=true;scene.add(cluster);
+ }
 }
 [[-8,-13,1.1],[8,-18,1.25],[-9,-34,.9],[10,-39,1.2],[-8,-57,1.15],[9,-64,1.1],[-11,-83,1.3],[12,-88,1.2]].forEach(function(t){tree(t[0],t[1],t[2])});
 var metal=new THREE.MeshStandardMaterial({color:0x303d43,metalness:.65,roughness:.35}),lampGlow=new THREE.MeshStandardMaterial({color:0xffe5a5,emissive:0xffc46b,emissiveIntensity:1.5});
