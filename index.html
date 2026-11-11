@@ -1503,6 +1503,9 @@ var pw459copy=document.createElement("button");pw459copy.textContent="کپی ا�
 
 // pw460: Add a live session rank tile
 var pw460rank=document.createElement("div");pw460rank.textContent="رتبه: —";pw460rank.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw416dash.appendChild(pw460rank);setInterval(function(){var a=pw327hits/Math.max(1,pw327shots);pw460rank.textContent="رتبه: "+(pw327shots<5?"—":a>=.85?"S":a>=.7?"A":a>=.5?"B":"C")},700);
+
+// pw461: Add a training accuracy goal selector
+var pw461goal=document.createElement("button");pw461goal.textContent="هدف دقت: ۷۰٪";pw461goal.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw461goal);var pw461goals=[50,70,85,95],pw461idx=1;pw461goal.onclick=function(){pw461idx=(pw461idx+1)%pw461goals.length;pw461goal.textContent="هدف دقت: "+pw461goals[pw461idx]+"٪"};
 })();
 
  }
