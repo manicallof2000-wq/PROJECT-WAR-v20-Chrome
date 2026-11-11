@@ -1416,6 +1416,9 @@ var pw430pause=document.createElement("div");pw430pause.textContent="بازی آ
 
 // pw431: Add a fullscreen gameplay button
 var pw431full=document.createElement("button");pw431full.textContent="تمام‌صفحه";pw431full.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw431full);pw431full.onclick=function(){var el=document.documentElement;if(!document.fullscreenElement&&el.requestFullscreen)el.requestFullscreen().then(function(){toast("حالت تمام‌صفحه فعال شد")}).catch(function(){toast("تمام‌صفحه در این مرورگر در دسترس نیست")});else if(document.exitFullscreen)document.exitFullscreen()};
+
+// pw432: Pause gameplay when the app goes to background
+document.addEventListener("visibilitychange",function(){if(document.hidden&&playing&&!paused){paused=true;statusEl.textContent="مکث";overlay.style.display="grid";document.getElementById("title").textContent="بازی متوقف شد";startBtn.textContent="ادامه بازی";if(pw382pause)pw382pause.textContent="Ⅱ مکث";if(pw413status)pw413status.textContent="وضعیت: مکث"}});
 })();
 
  }
