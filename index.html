@@ -763,7 +763,8 @@ var pw185oldFire=pw183fire;pw183fire=function(){var before=score;pw185oldFire();
 var pw186lastShot=0,pw186baseFire=pw183fire;pw183fire=function(){var now=performance.now();if(now-pw186lastShot<220)return;pw186lastShot=now;pw186baseFire()};
 // pw187: add an arcade energy counter to the HUD
 var pw187ammo=18,pw187maxAmmo=18,pw187ammoEl=document.createElement("div");pw187ammoEl.id="pw187ammo";pw187ammoEl.textContent="ENERGY 18 / 18";pw187ammoEl.style.cssText="position:fixed;right:18px;bottom:18px;z-index:8;color:#d8fbff;background:#071b2bd9;border:1px solid #58d9e8;border-radius:10px;padding:7px 11px;font:900 11px Arial;letter-spacing:1px;pointer-events:none";document.body.appendChild(pw187ammoEl);
-var pw187fire=pw183fire;pw183fire=function(){if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}if(performance.now()-pw186lastShot<220)return;pw187ammo--;// pw208: warn when energy reserve is low
+// pw246: guard firing while the game is inactive
+var pw187fire=pw183fire;pw183fire=function(){if(!playing||paused)return;if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}if(performance.now()-pw186lastShot<220)return;pw187ammo--;// pw208: warn when energy reserve is low
 pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187ammoEl.style.borderColor=pw187ammo<=4?"#ffb45d":"#58d9e8";if(pw187ammo<=4)toast("انرژی کم است");pw187fire();};
 // pw188: add a touch-friendly energy reload control
 // pw209: visual reload progress indicator
