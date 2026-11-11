@@ -1170,6 +1170,9 @@ var pw348bar=document.createElement("div"),pw348fill=document.createElement("div
 
 // pw349: Add a challenge medal on success
 var pw349medal=document.createElement("div");pw349medal.id="pw349medal";pw349medal.textContent="مدال چالش: قفل";pw349medal.style.cssText="position:fixed;left:10px;top:235px;z-index:14;padding:6px 9px;border:1px solid #a9a9a966;border-radius:9px;background:#17232ddd;color:#cbd5da;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw349medal);var pw349base=pw183fire;pw183fire=function(){var before=score;pw349base();if(score>before&&pw347done)pw349medal.textContent="مدال چالش: طلایی"};
+
+// pw350: Add selectable training difficulty
+var pw350mode=document.createElement("button");pw350mode.textContent="سختی: عادی";pw350mode.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #d5a65c;border-radius:8px;background:#352817;color:#ffe7bb;font:800 10px system-ui";pw335panel.appendChild(pw350mode);var pw350difficulty="normal";pw350mode.addEventListener("click",function(){pw350difficulty=pw350difficulty==="normal"?"easy":pw350difficulty==="easy"?"hard":"normal";pw350mode.textContent="سختی: "+(pw350difficulty==="easy"?"آسان":pw350difficulty==="hard"?"سخت":"عادی");pw183targets.forEach(function(t){t.scale.setScalar(pw350difficulty==="easy"?1.25:pw350difficulty==="hard"?.82:1)});toast("درجه سختی تغییر کرد")});
 })();
 
  }
