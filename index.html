@@ -723,6 +723,9 @@ for(var side of [-1,1])for(var z of [-34,-54,-82]){var o=new THREE.Mesh(new THRE
 // pw176: fine parallel bars on roadside drainage grates
 var pw176mat=new THREE.MeshStandardMaterial({color:0x343d40,metalness:.62,roughness:.68});
 for(var side of [-1,1])for(var z of [-20,-47,-70,-94])for(var k=0;k<5;k++){var o=new THREE.Mesh(new THREE.BoxGeometry(.62,.025,.035),pw176mat);o.position.set(side*10.95,.07,z+(k-2)*.11);scene.add(o)}
+// pw177: subtle dashed center road markings
+var pw177mat=new THREE.MeshStandardMaterial({color:0xd5c99c,roughness:.88});
+for(var z=-13;z>-108;z-=7){var o=new THREE.Mesh(new THREE.BoxGeometry(.095,.018,2.8),pw177mat);o.position.set(0,.035,z);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
