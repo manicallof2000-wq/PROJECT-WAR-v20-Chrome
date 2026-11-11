@@ -1037,6 +1037,9 @@ var pw306style=document.createElement("style");pw306style.textContent="@media(ma
 
 // pw307: Landscape fire sizing
 var pw307style=document.createElement("style");pw307style.textContent="@media(orientation:landscape) and (max-height:500px){#fire{width:72px;height:72px;font-size:13px}}";document.head.appendChild(pw307style);
+
+// pw308: Landscape minimap position
+var pw308style=document.createElement("style");pw308style.textContent="@media(orientation:landscape) and (max-height:500px){#map{right:8px;top:74px}}";document.head.appendChild(pw308style);
 requestAnimationFrame(frame);updateHud();
 })();
 
