@@ -1230,6 +1230,9 @@ var pw368emitter=new THREE.Group();var pw368body=new THREE.Mesh(new THREE.BoxGeo
 
 // pw369: Add pulsing energy core on the emitter
 var pw369core=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.MeshBasicMaterial({color:0x8ffaff}));pw369core.position.set(0,.02,-.245);pw368emitter.add(pw369core);var pw369pulse=0;setInterval(function(){pw369pulse+=.12;var k=.8+Math.sin(pw369pulse)*.2;pw369core.scale.setScalar(k)},55);
+
+// pw370: Add emitter flash when firing
+var pw370flash=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),new THREE.MeshBasicMaterial({color:0xb5ffff,transparent:true,opacity:.9}));pw370flash.position.set(0,.02,-.34);pw370flash.visible=false;pw368emitter.add(pw370flash);var pw370base=pw183fire;pw183fire=function(){var before=score;pw370base();if(playing&&!paused&&pw187ammo>=0){pw370flash.visible=true;clearTimeout(pw370flash._t);pw370flash._t=setTimeout(function(){pw370flash.visible=false},65)}};
 })();
 
  }
