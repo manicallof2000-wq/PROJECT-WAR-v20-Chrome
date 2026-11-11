@@ -770,7 +770,9 @@ pw188reload.disabled=false;pw186lastShot=performance.now()+180;beep(520,.12);toa
 // pw189: show a short cyan pulse when the arcade blaster fires
 var pw189flash=document.createElement("div");pw189flash.style.cssText="position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 72% 72%,#8ffaff55,transparent 32%)";document.body.appendChild(pw189flash);var pw189fire=pw183fire;pw183fire=function(){var old=score;pw189fire();if(score>old){pw189flash.style.opacity=".8";setTimeout(function(){pw189flash.style.opacity="0"},65)}};
 // pw190: reward consecutive drone hits with a small arcade combo bonus
-var pw190combo=0,pw190lastHit=0,pw190fire=pw183fire;pw183fire=function(){var old=score;pw190fire();if(score>old){var now=performance.now();pw190combo=now-pw190lastHit<4500?pw190combo+1:1;pw190lastHit=now;if(pw215combo)pw215combo.textContent="COMBO x"+pw190combo;if(pw190combo>1){var bonus=Math.min(100,pw190combo*25);score+=bonus;toast("کمبو x"+pw190combo+"  +"+bonus);updateHud()}}};
+var pw190combo=0,pw190lastHit=0,pw190fire=pw183fire;pw183fire=function(){var old=score;pw190fire();if(score>old){var now=performance.now();pw190combo=now-pw190lastHit<4500?pw190combo+1:1;pw190lastHit=now;if(pw215combo)pw215combo.textContent="COMBO x"+pw190combo;
+// pw218: clear the displayed streak after its timeout window
+if(pw190combo>0&&performance.now()-pw190lastHit>4500){pw190combo=0;if(pw215combo)pw215combo.textContent="COMBO x0";}if(pw190combo>1){var bonus=Math.min(100,pw190combo*25);score+=bonus;toast("کمبو x"+pw190combo+"  +"+bonus);updateHud()}}};
 // pw191: give active training drones a gentle hovering motion
 // pw203: preserve each drone original coordinates for stable side-to-side drift
 var pw191bases=pw183targets.map(function(g){return {x:g.position.x,y:g.position.y,z:g.position.z,phase:g.userData.index*.9}});
