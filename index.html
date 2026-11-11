@@ -1206,6 +1206,9 @@ var pw360dist=document.createElement("div");pw360dist.textContent="هدف نزد
 
 // pw361: Add crosshair style toggle
 var pw361reticle=document.createElement("button");pw361reticle.textContent="نشانه‌گیر: حلقه";pw361reticle.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw361reticle);var pw361dot=false;pw361reticle.addEventListener("click",function(){pw361dot=!pw361dot;pw341cross.style.borderRadius=pw361dot?"3px":"50%";pw341cross.style.width=pw361dot?"9px":"17px";pw341cross.style.height=pw361dot?"9px":"17px";pw361reticle.textContent="نشانه‌گیر: "+(pw361dot?"چهارگوش":"حلقه")});
+
+// pw362: Add visual drone range pulse
+var pw362pulse=0;setInterval(function(){pw362pulse+=.08;pw183targets.forEach(function(t,i){if(t.visible){var k=1+Math.sin(pw362pulse+i)*.035;t.children[0].scale.setScalar(k)}})},70);
 })();
 
  }
