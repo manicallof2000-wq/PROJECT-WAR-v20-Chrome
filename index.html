@@ -861,6 +861,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  var pw235pills=document.querySelectorAll("#hud .pill");if(pw235pills[1])pw235pills[1].childNodes[0].textContent="اهداف ";if(pw235pills[2])pw235pills[2].childNodes[0].textContent="موج ";
 // pw236: add clear accessible names to all touch controls
  [["joy","کنترل حرکت"],["jump","پرش"],["run","دویدن"],["pause","توقف یا ادامه بازی"],["sound","روشن یا خاموش کردن صدا"]].forEach(function(v){var e=document.getElementById(v[0]);if(e)e.setAttribute("aria-label",v[1])});
+// pw237: keep arcade controls clear of rounded-screen and gesture safe areas
+ var pw237style=document.createElement("style");pw237style.textContent="#fire{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))}#pw187ammo{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))!important}#pw188reload{bottom:max(88px,calc(env(safe-area-inset-bottom) + 78px))!important}#pw209bar{bottom:max(76px,calc(env(safe-area-inset-bottom) + 66px))!important}";document.head.appendChild(pw237style);
 requestAnimationFrame(frame);updateHud();
 })();
 
