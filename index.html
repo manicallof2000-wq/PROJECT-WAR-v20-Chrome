@@ -1052,6 +1052,9 @@ var pw311style=document.createElement("style");pw311style.textContent="#jump:foc
 
 // pw312: Touch button highlight suppression
 var pw312style=document.createElement("style");pw312style.textContent="#start,#fire,#jump,#run,#pause,#sound{ -webkit-tap-highlight-color:transparent}";document.head.appendChild(pw312style);
+
+// pw313: Canvas viewport stability
+var pw313style=document.createElement("style");pw313style.textContent="#world{height:100%;height:100dvh}";document.head.appendChild(pw313style);
 requestAnimationFrame(frame);updateHud();
 })();
 
