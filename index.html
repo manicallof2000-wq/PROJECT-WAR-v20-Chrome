@@ -1551,6 +1551,9 @@ var pw475hud=document.createElement("button");pw475hud.textContent="بازگرد
 
 // pw476: Add a target list status summary
 var pw476list=document.createElement("div");pw476list.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw476list);setInterval(function(){var all=pw183targets.length,done=pw183targets.filter(function(t){return !t.visible}).length;pw476list.textContent="هدف‌ها: "+done+" / "+all+" ثبت‌شده"},900);
+
+// pw477: Add a match medal progress hint
+var pw477medal=document.createElement("div");pw477medal.style.cssText="padding:6px;margin:4px 0;background:#292015;color:#ffe7b7;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw477medal);setInterval(function(){pw477medal.textContent="پیشرفت مدال دقت: "+Math.min(10,pw327hits)+"/۱۰"},900);
 })();
 
  }
