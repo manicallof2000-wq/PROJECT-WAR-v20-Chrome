@@ -87,6 +87,7 @@ var joyX=0,joyY=0,running=false,jump=0,jumpV=0,soundOn=true,audioCtx=null;
 var player={x:0,z:8,yaw:0,pitch:0};
 var savedBest=0;try{savedBest=Number(localStorage.getItem("pw_best")||0)||0}catch(e){}
 var best=savedBest;
+window.addEventListener("error",function(){var o=document.getElementById("overlay");if(o){o.style.display="grid";var t=document.getElementById("title"),d=o.querySelector(".desc"),b=document.getElementById("start");if(t)t.textContent="خطای اجرای بازی";if(d)d.textContent="یک خطای گرافیکی یا اجرایی رخ داد. صفحه را دوباره بارگذاری کن.";if(b){b.textContent="بارگذاری دوباره";b.onclick=function(){location.reload()}}}});
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
 var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x9bbfce,58,175);
 var camera=new THREE.PerspectiveCamera(68,W/H,.1,240);camera.position.set(0,1.65,8);
@@ -115,7 +116,7 @@ skyCtx.restore();
 var haze=skyCtx.createLinearGradient(0,470,0,768);
 haze.addColorStop(0,"rgba(237,225,199,0)");haze.addColorStop(1,"rgba(240,224,195,.42)");
 skyCtx.fillStyle=haze;skyCtx.fillRect(0,430,1536,338);
-var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;skyTexture.anisotropy=8;
+var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;skyTexture.anisotropy=Math.min(isMobileDevice?2:8,renderer.capabilities.getMaxAnisotropy());
 var skyDome=new THREE.Mesh(new THREE.SphereGeometry(190,48,32),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
 skyDome.frustumCulled=false;scene.add(skyDome);
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
@@ -126,7 +127,7 @@ renderer.setClearColor(0x9bbfce,1);
 canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();var o=document.getElementById("overlay");if(o){o.style.display="grid";var t=document.getElementById("title"),d=o.querySelector(".desc");if(t)t.textContent="مشکل گرافیکی";if(d)d.textContent="گرافیک دستگاه متوقف شد؛ صفحه را دوباره بارگذاری کن."}});
 
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled=!isMobileDevice;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 // Lightweight procedural studio environment for more convincing material response
 var envCanvas=document.createElement("canvas");envCanvas.width=512;envCanvas.height=256;
 var envCtx=envCanvas.getContext("2d"),envGrad=envCtx.createLinearGradient(0,0,0,256);
@@ -137,7 +138,7 @@ envCtx.fillStyle="rgba(42,66,78,.42)";envCtx.fillRect(0,155,512,34);
 var envTexture=new THREE.CanvasTexture(envCanvas);envTexture.mapping=THREE.EquirectangularReflectionMapping;envTexture.colorSpace=THREE.SRGBColorSpace;
 
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,1.75));
-var sun=new THREE.DirectionalLight(0xffe5bd,2.7);sun.position.set(-18,48,-12);sun.castShadow=true;
+var sun=new THREE.DirectionalLight(0xffe5bd,2.7);sun.position.set(-18,48,-12);sun.castShadow=!isMobileDevice;
 sun.shadow.mapSize.set(isMobileDevice?1024:2048,isMobileDevice?1024:2048);
 sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=36;sun.shadow.camera.bottom=-36;
 sun.shadow.camera.near=.5;sun.shadow.camera.far=125;sun.shadow.bias=-.00018;sun.shadow.normalBias=.018;
@@ -163,14 +164,14 @@ function makeSurfaceTexture(kind){
   }
   for(var k=0;k<130;k++){g.fillStyle="rgba(15,20,23,.12)";g.beginPath();g.arc(rnd()*512,rnd()*512,rnd()*2+.3,0,Math.PI*2);g.fill()}
  }
- var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(kind==="road"?3:16,kind==="road"?22:18);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(12,renderer.capabilities.getMaxAnisotropy());
+ var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(kind==="road"?3:16,kind==="road"?22:18);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(isMobileDevice?2:12,renderer.capabilities.getMaxAnisotropy());
  var bumpCanvas=document.createElement("canvas");bumpCanvas.width=512;bumpCanvas.height=512;var bg=bumpCanvas.getContext("2d");
  bg.fillStyle="#858585";bg.fillRect(0,0,512,512);
  for(var bn=0;bn<(kind==="road"?26000:18000);bn++){
   var bx=rnd()*512,by=rnd()*512,shade=90+Math.floor(rnd()*90);
   bg.fillStyle="rgb("+shade+","+shade+","+shade+")";bg.fillRect(bx,by,kind==="road"?1+rnd()*2:1,kind==="road"?1:1+rnd()*2);
  }
- var bump=new THREE.CanvasTexture(bumpCanvas);bump.wrapS=bump.wrapT=THREE.RepeatWrapping;bump.repeat.copy(t.repeat);bump.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ var bump=new THREE.CanvasTexture(bumpCanvas);bump.wrapS=bump.wrapT=THREE.RepeatWrapping;bump.repeat.copy(t.repeat);bump.anisotropy=Math.min(isMobileDevice?2:8,renderer.capabilities.getMaxAnisotropy());
  t.userData.bump=bump;return t;
 }
 var grassTex=makeSurfaceTexture("grass"),asphaltTex=makeSurfaceTexture("road");
@@ -542,7 +543,7 @@ points.forEach(function(p){
  group.add(glow);group.add(ring);scene.add(group);markerObjects.push(group);
 });
 var skyLight=new THREE.Mesh(new THREE.SphereGeometry(3,20,12),new THREE.MeshBasicMaterial({color:0xfff0cb}));skyLight.position.set(28,28,-75);scene.add(skyLight);
-function resize(){W=innerWidth;H=innerHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(W,H,false)}
+function resize(){W=Math.max(1,innerWidth);H=Math.max(1,innerHeight);camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false)}
 addEventListener("resize",resize);renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(innerWidth,innerHeight,false);
 function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;startedAt=performance.now()-elapsed*1000;overlay.style.display="none";statusEl.textContent="درحال بازی";return false}
 window.startGame=startGame;startBtn.addEventListener("click",startGame);
