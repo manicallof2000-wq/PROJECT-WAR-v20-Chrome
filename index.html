@@ -1043,6 +1043,9 @@ var pw308style=document.createElement("style");pw308style.textContent="@media(or
 
 // pw309: Controls safe stacking
 var pw309style=document.createElement("style");pw309style.textContent="#fire,#jump,#run{isolation:isolate}";document.head.appendChild(pw309style);
+
+// pw310: Start dialog mobile scroll
+var pw310style=document.createElement("style");pw310style.textContent=".dialog{overscroll-behavior:contain}";document.head.appendChild(pw310style);
 requestAnimationFrame(frame);updateHud();
 })();
 
