@@ -1218,6 +1218,9 @@ var pw364volume=1;var pw364volumeBtn=document.createElement("button");pw364volum
 
 // pw365: Save camera sensitivity preference
 try{pw363sens=Number(localStorage.getItem("pw_sensitivity")||1)||1;pw363sensBtn.textContent="حساسیت دوربین: "+pw363sens.toFixed(2)}catch(e){}var pw365oldSens=pw363sensBtn.onclick;pw363sensBtn.addEventListener("click",function(){try{localStorage.setItem("pw_sensitivity",String(pw363sens))}catch(e){}});
+
+// pw366: Save sound volume preference
+try{pw364volume=Number(localStorage.getItem("pw_volume")||1);if(!isFinite(pw364volume))pw364volume=1;pw364volumeBtn.textContent="بلندی صدا: "+Math.round(pw364volume*100)+"٪"}catch(e){}pw364volumeBtn.addEventListener("click",function(){try{localStorage.setItem("pw_volume",String(pw364volume))}catch(e){}});
 })();
 
  }
