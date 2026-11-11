@@ -1284,6 +1284,9 @@ var pw386wave=pw194wave;setInterval(function(){if(pw194wave>pw386wave){pw386wave
 
 // pw387: Add a saved match counter
 var pw387matches=0;try{pw387matches=Number(localStorage.getItem("pw_matches")||0)||0}catch(e){}var pw387matchEl=document.createElement("div");pw387matchEl.textContent="دورهای ثبت‌شده: "+pw387matches;pw387matchEl.style.cssText="position:fixed;left:10px;top:468px;z-index:14;color:#d9f7ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw387matchEl);var pw387start=startGame;startGame=function(e){var r=pw387start(e);pw387matches++;try{localStorage.setItem("pw_matches",String(pw387matches))}catch(x){}pw387matchEl.textContent="دورهای ثبت‌شده: "+pw387matches;return r};
+
+// pw388: Add a training mode selector
+var pw388mode=document.createElement("button");pw388mode.textContent="حالت تمرین: آزاد";pw388mode.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw388mode);var pw388timed=false;pw388mode.onclick=function(){pw388timed=!pw388timed;pw388mode.textContent="حالت تمرین: "+(pw388timed?"زمان‌دار":"آزاد");pw345clock.style.display=pw388timed?"block":"none";if(pw388timed)pw345start=performance.now()};
 })();
 
  }
