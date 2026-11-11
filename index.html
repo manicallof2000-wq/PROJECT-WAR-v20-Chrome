@@ -1545,6 +1545,9 @@ var pw473audio=document.createElement("div");pw473audio.style.cssText="padding:6
 
 // pw474: Add a dashboard toggle for low-distraction mode
 var pw474quiet=document.createElement("button");pw474quiet.textContent="حالت خلوت";pw474quiet.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw474quiet);pw474quiet.onclick=function(){pw454quiet.click()};
+
+// pw475: Add a button to restore default HUD visibility
+var pw475hud=document.createElement("button");pw475hud.textContent="بازگردانی نمایش HUD";pw475hud.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw475hud);pw475hud.onclick=function(){document.getElementById("hud").style.opacity="1";pw358hudOn=true;pw358hud.textContent="نمایش اطلاعات: روشن";pw454on=false;pw454quiet.textContent="رابط خلوت: خاموش";toast("نمایش رابط بازگردانی شد")};
 })();
 
  }
