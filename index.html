@@ -1377,6 +1377,9 @@ var pw417compact=document.createElement("button");pw417compact.textContent="فش
 
 // pw418: Keep dashboard clear of the game controls
 var pw418style=document.createElement("style");pw418style.textContent="#pw416dashBtn{touch-action:manipulation}@media(max-width:520px){#pw416dash{max-height:38vh;width:min(175px,52vw)!important}#pw416dash button{min-height:34px}}";document.head.appendChild(pw418style);pw416dashBtn.id="pw416dashBtn";
+
+// pw419: Add dashboard visibility keyboard shortcut
+document.addEventListener("keydown",function(e){if(e.key==="Tab"&&e.altKey){e.preventDefault();pw416dashBtn.click()}});
 })();
 
  }
