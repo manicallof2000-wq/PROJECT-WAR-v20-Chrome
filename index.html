@@ -1290,6 +1290,9 @@ var pw388mode=document.createElement("button");pw388mode.textContent="حالت �
 
 // pw389: Add a safe training target reset button
 var pw389reset=document.createElement("button");pw389reset.textContent="بازنشانی هدف‌ها";pw389reset.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw389reset);pw389reset.onclick=function(){pw183targets.forEach(function(t,i){t.userData.hit=false;t.visible=true});pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.length;pw380brief.textContent="ماموریت فعال • هدف‌ها بازنشانی شدند";toast("هدف‌های تمرینی دوباره آماده‌اند")};
+
+// pw390: Add a challenge completion tracker
+var pw390completed=0;try{pw390completed=Number(localStorage.getItem("pw_challenges")||0)||0}catch(e){}var pw390challenge=document.createElement("div");pw390challenge.textContent="چالش‌های کامل‌شده: "+pw390completed;pw390challenge.style.cssText="position:fixed;left:10px;top:492px;z-index:14;color:#ffe5a8;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw390challenge);var pw390base=pw183fire;pw183fire=function(){var b=score;pw390base();if(score>b&&pw347done){pw390completed++;try{localStorage.setItem("pw_challenges",String(pw390completed))}catch(e){}pw390challenge.textContent="چالش‌های کامل‌شده: "+pw390completed}};
 })();
 
  }
