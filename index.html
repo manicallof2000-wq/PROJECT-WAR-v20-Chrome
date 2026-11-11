@@ -547,6 +547,8 @@ points.forEach(function(p){
  var ring=new THREE.Mesh(new THREE.TorusGeometry(.58,.055,10,36),new THREE.MeshBasicMaterial({color:0xffef9a}));
  group.add(glow);group.add(ring);scene.add(group);markerObjects.push(group);
 });
+// pw232: remove legacy collectible-style glowing markers from the combat arena
+markerObjects.forEach(function(o){o.visible=false});
 var skyLight=new THREE.Mesh(new THREE.SphereGeometry(3,20,12),new THREE.MeshBasicMaterial({color:0xfff0cb}));skyLight.position.set(28,28,-75);scene.add(skyLight);
 function resize(){W=Math.max(1,innerWidth);H=Math.max(1,innerHeight);camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false)}
 addEventListener("resize",resize);renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(innerWidth,innerHeight,false);
