@@ -1110,6 +1110,9 @@ var pw328xp=0,pw328level=1;try{pw328xp=Number(localStorage.getItem("pw_xp")||0)|
 
 // pw329: Add hit rewards and mission progress
 var pw329base=pw183fire;pw183fire=function(){var before=score;pw329base();if(score>before){pw328award(35);if(pw325panel)pw325panel.textContent="ماموریت: "+pw183targets.filter(function(t){return t.userData.hit}).length+" از "+pw183targets.length+" هدف";if(pw328level>1&&pw328xp%600<35)toast("ارتقای رتبه! سطح "+pw328level)}};
+
+// pw330: Create combo streak display
+var pw330combo=0,pw330last=0,pw330badge=document.createElement("div");pw330badge.id="pw330combo";pw330badge.textContent="COMBO ×0";pw330badge.style.cssText="position:fixed;right:10px;top:62px;z-index:14;padding:7px 10px;border:1px solid #ffc66b88;border-radius:10px;background:#271b12dd;color:#ffe1a6;font:900 11px Arial;pointer-events:none";document.body.appendChild(pw330badge);
 })();
 
  }
