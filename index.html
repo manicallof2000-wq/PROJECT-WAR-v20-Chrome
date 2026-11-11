@@ -1239,6 +1239,9 @@ var pw371board=document.createElement("div");pw371board.id="pw371board";pw371boa
 
 // pw372: Add unlockable rank titles
 var pw372rankTitle=document.createElement("div");pw372rankTitle.textContent="عنوان: تازه‌وارد";pw372rankTitle.style.cssText="position:fixed;left:10px;top:333px;z-index:14;padding:6px 9px;border:1px solid #e0c47a66;border-radius:9px;background:#241d12dd;color:#ffe8b0;font:900 10px system-ui;pointer-events:none";document.body.appendChild(pw372rankTitle);function pw372refresh(){var title=pw328level>=10?"استاد میدان":pw328level>=5?"تیرانداز ماهر":pw328level>=3?"کارآموز حرفه‌ای":"تازه‌وارد";pw372rankTitle.textContent="عنوان: "+title}pw372refresh();
+
+// pw373: Add responsive arcade interface polish
+var pw373style=document.createElement("style");pw373style.textContent="@media(max-width:520px){#pw325panel,#pw326rank,#pw327accuracy,#pw330combo,#pw332best,#pw334wave,#pw342targets,#pw360dist,#pw371board{font-size:9px!important;padding:5px 7px!important}}@media(max-height:620px){#pw325panel,#pw326rank,#pw327accuracy,#pw330combo,#pw332best,#pw334wave,#pw342targets,#pw360dist,#pw371board{transform:scale(.92);transform-origin:top left}}#pw335settings:focus-visible,#pw335panel button:focus-visible{outline:2px solid #b7f8ff;outline-offset:2px}";document.head.appendChild(pw373style);
 })();
 
  }
