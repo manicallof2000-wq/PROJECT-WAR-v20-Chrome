@@ -180,6 +180,21 @@ for(var side of [-1,1]){
  slab(.28,.24,128,curbMat,side*11.12,.11,-43);
  for(var joint=-104;joint<-8;joint+=4)slab(3.12,.012,.035,new THREE.MeshStandardMaterial({color:0x6f7773,roughness:1}),side*12.55,.102,joint);
 }
+// Tactile paving strips help visually distinguish pedestrian crossing approaches
+var tactileBase=new THREE.MeshStandardMaterial({color:0xb2aa91,roughness:.96});
+var tactileDot=new THREE.MeshStandardMaterial({color:0x77766d,roughness:.9});
+var tactileGeometry=new THREE.CylinderGeometry(.035,.035,.025,8);
+for(var tactileZ of [-29,-78]){
+ for(var tactileSide of [-1,1]){
+  var tx=tactileSide*12.55;
+  slab(1.45,.035,.82,tactileBase,tx,.115,tactileZ);
+  for(var tr=0;tr<4;tr++)for(var tc=0;tc<7;tc++){
+   var dot=new THREE.Mesh(tactileGeometry,tactileDot);
+   dot.position.set(tx-.58+tc*.193,.145,tactileZ-.29+tr*.19);
+   dot.castShadow=false;scene.add(dot);
+  }
+ }
+}
 var lineMat=new THREE.MeshStandardMaterial({color:0xd8d0a8,roughness:.8});
 function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
 slab(.22,.025,115,lineMat,-10.8,.02,-45);slab(.22,.025,115,lineMat,10.8,.02,-45);
