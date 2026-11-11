@@ -859,8 +859,9 @@ pw183targets.forEach(function(g){if(g.visible&&g.children[1])g.children[1].rotat
  if(pw196cross){pw196cross.style.transition="border-color .12s ease,box-shadow .12s ease,transform .08s ease";pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw253lock.textContent=aimHit?"هدف در نشانه":"آماده";pw253lock.style.color=aimHit?"#8efff4":"#b7d2dc";pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
  // pw207: keep the dedicated drone counter synchronized
+// pw259: sync the original top HUD counter with arcade targets
 if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
-if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
+if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";if(countEl)countEl.textContent=String(pw183targets.filter(function(g){return g.userData.hit}).length);
 // pw226: refresh nearest drone range
 // pw245: make the range readout clearer
 // pw254: distance-aware range color
