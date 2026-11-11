@@ -1019,6 +1019,9 @@ var pw300style=document.createElement("style");pw300style.textContent="@media(ma
 
 // pw301: Crosshair high contrast
 var pw301style=document.createElement("style");pw301style.textContent="#cross{outline:1px solid #00131c44;outline-offset:2px}";document.head.appendChild(pw301style);
+
+// pw302: Fire control responsive
+var pw302style=document.createElement("style");pw302style.textContent="@media(max-width:360px){#fire{width:78px;height:78px;right:84px}}";document.head.appendChild(pw302style);
 requestAnimationFrame(frame);updateHud();
 })();
 
