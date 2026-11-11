@@ -280,6 +280,13 @@ function roundedBuilding(b,i){
  }
  var shopGlass=new THREE.MeshPhysicalMaterial({color:0x9bc4d0,metalness:.12,roughness:.12,transparent:true,opacity:.76,clearcoat:1,clearcoatRoughness:.08,reflectivity:.9,emissive:0x10232a});
  slab(w*.72,1.9,.08,shopGlass,b[0],1.15,b[1]+d/2+.055);
+ // Framed shop entrance with slim mullions and a metal pull handle
+ var doorFrame=new THREE.MeshStandardMaterial({color:0x34474d,metalness:.62,roughness:.38});
+ slab(.065,1.92,.11,doorFrame,b[0]-w*.36,.98,b[1]+d/2+.12);
+ slab(.065,1.92,.11,doorFrame,b[0]+w*.36,.98,b[1]+d/2+.12);
+ slab(w*.72,.065,.11,doorFrame,b[0],2.08,b[1]+d/2+.12);
+ slab(.035,1.78,.025,doorFrame,b[0],1.08,b[1]+d/2+.16);
+ slab(.12,.035,.045,doorFrame,b[0]+w*.19,.95,b[1]+d/2+.2);
  var awningMat=new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.78});
  slab(w*.78,.18,.55,awningMat,b[0],2.25,b[1]+d/2+.3);
  for(var awn=0;awn<7;awn++){
