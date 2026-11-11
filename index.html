@@ -729,6 +729,9 @@ for(var z=-13;z>-108;z-=7){var o=new THREE.Mesh(new THREE.BoxGeometry(.095,.018,
 // pw178: border stones around building entrances
 var pw178mat=new THREE.MeshStandardMaterial({color:0x777f7b,roughness:.92});
 for(var b of buildings){var o=new THREE.Mesh(new THREE.BoxGeometry(2.8,.12,.24),pw178mat);o.position.set(b[0],.11,b[1]+b[4]/2+.28);scene.add(o)}
+// pw179: alternating paving accents beside the small plaza
+var pw179mats=[new THREE.MeshStandardMaterial({color:0x9a9b91,roughness:.94}),new THREE.MeshStandardMaterial({color:0xb0aa98,roughness:.94})];
+for(var k=0;k<12;k++){var o=new THREE.Mesh(new THREE.BoxGeometry(.72,.035,.72),pw179mats[k%2]);o.position.set(-4.2+(k%4)*.82,.035,-56-Math.floor(k/4)*.82);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
