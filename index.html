@@ -1254,6 +1254,9 @@ var pw376dailyBtn=document.createElement('button');pw376dailyBtn.textContent='و
 
 // pw377: Add achievement collection panel
 var pw377ach=document.createElement('button');pw377ach.textContent='دستاوردها 🏅';pw377ach.style.cssText='display:block;width:100%;margin:5px 0;padding:8px;background:#352817;color:#ffe7bb;border:1px solid #d5a65c;border-radius:8px;font:800 10px system-ui';pw335panel.appendChild(pw377ach);pw377ach.onclick=function(){toast('دستاوردها: شروع، دقت، کمبو و چالش زمانی')};
+
+// pw378: Add session duration tracker
+var pw378start=performance.now(),pw378time=document.createElement('div');pw378time.textContent='زمان بازی: ۰ دقیقه';pw378time.style.cssText='position:fixed;left:10px;top:366px;z-index:14;padding:6px 9px;border-radius:8px;background:#102b38dd;color:#d9f7ff;font:800 10px system-ui;pointer-events:none';document.body.appendChild(pw378time);setInterval(function(){if(playing&&!paused)pw378time.textContent='زمان بازی: '+Math.floor((performance.now()-pw378start)/60000)+' دقیقه'},5000);
 })();
 
  }
