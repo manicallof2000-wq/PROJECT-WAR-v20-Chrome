@@ -1302,6 +1302,9 @@ var pw392open=document.createElement("button");pw392open.textContent="⚙";pw392
 
 // pw393: Add a compact objective completion bar
 var pw393bar=document.createElement("div"),pw393fill=document.createElement("div");pw393bar.style.cssText="position:fixed;left:10px;top:515px;width:110px;height:5px;background:#263b45;border-radius:5px;overflow:hidden;z-index:14;pointer-events:none";pw393fill.style.cssText="height:100%;width:0;background:#69e8bd";pw393bar.appendChild(pw393fill);document.body.appendChild(pw393bar);var pw393tick=setInterval(function(){pw393fill.style.width=Math.min(100,pw327hits/Math.max(1,pw183targets.length)*100)+"%"},400);
+
+// pw394: Add an in-game control reminder in settings
+var pw394help=document.createElement("div");pw394help.textContent="حرکت: جوی‌استیک چپ • چرخش: کشیدن صفحه • شلیک: دکمه راست";pw394help.style.cssText="margin:7px 0;padding:8px;border-radius:8px;background:#0b2635;color:#cfeefa;font:700 10px/1.7 system-ui";pw335panel.appendChild(pw394help);
 })();
 
  }
