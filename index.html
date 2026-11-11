@@ -807,7 +807,9 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
 pw183targets.forEach(function(g,i){if(g.visible)g.position.x=pw191bases[i].x+Math.sin(now*.0012+i)*.28});
  if(pw196cross){pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
- if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
+ // pw207: keep the dedicated drone counter synchronized
+if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
+if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
 }
