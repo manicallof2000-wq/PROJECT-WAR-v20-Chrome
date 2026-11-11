@@ -440,6 +440,21 @@ function waySign(x,z,flip){
  slab(.68,.045,.11,lampGlow,x+(flip?-.42:.42),2.12,z+.06);
 }
 streetPlanter(-13.15,-31);streetPlanter(13.15,-57);streetPlanter(-13.15,-86);
+// Compact utility cabinets and public litter bins add believable street furniture
+var cabinetMat=new THREE.MeshStandardMaterial({color:0x52666a,metalness:.28,roughness:.68});
+var cabinetDoor=new THREE.MeshStandardMaterial({color:0x26383e,metalness:.34,roughness:.5});
+for(var cab of [{x:-13.25,z:-46},{x:13.25,z:-91}]){
+ slab(.78,1.12,.62,cabinetMat,cab.x,.72,cab.z);
+ slab(.58,.82,.025,cabinetDoor,cab.x,.73,cab.z+.325);
+ slab(.32,.035,.035,postBand,cab.x,.98,cab.z+.35);
+ for(var ventLine=0;ventLine<4;ventLine++)slab(.34,.018,.018,postMat,cab.x,.57+ventLine*.075,cab.z+.35);
+}
+for(var bin of [{x:12.9,z:-30},{x:-12.9,z:-94}]){
+ var binBody=new THREE.Mesh(new THREE.CylinderGeometry(.25,.29,.78,12),cabinetMat);
+ binBody.position.set(bin.x,.48,bin.z);binBody.castShadow=true;scene.add(binBody);
+ var binLid=new THREE.Mesh(new THREE.CylinderGeometry(.28,.28,.08,12),cabinetDoor);
+ binLid.position.set(bin.x,.91,bin.z);scene.add(binLid);
+}
 streetBench(12.8,-42,false);streetBench(-12.8,-72,true);
 waySign(-13.3,-18,false);waySign(13.3,-99,true);
 var barrierMat=new THREE.MeshStandardMaterial({color:0x69787a,roughness:.72});
