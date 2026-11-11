@@ -1272,6 +1272,9 @@ var pw382pause=document.createElement("div");pw382pause.id="pw382pause";pw382pau
 
 // pw383: Add a training target quality-of-hit stat
 var pw383quality=document.createElement("div");pw383quality.textContent="ثبت دقیق: ۰";pw383quality.style.cssText="position:fixed;right:10px;top:260px;z-index:14;padding:6px 9px;border:1px solid #84e6bb66;border-radius:8px;background:#09241ddd;color:#c9ffe2;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw383quality);var pw383base=pw183fire;pw183fire=function(){var b=score;pw383base();if(score>b)pw383quality.textContent="ثبت دقیق: "+pw327hits};
+
+// pw384: Add a score milestone notification
+var pw384milestones=[500,1000,2000,3500,5000],pw384seen={};var pw384base=pw183fire;pw183fire=function(){var b=score;pw384base();pw384milestones.forEach(function(m){if(score>=m&&!pw384seen[m]){pw384seen[m]=true;toast("نشان امتیاز "+m+" باز شد")}})};
 })();
 
  }
