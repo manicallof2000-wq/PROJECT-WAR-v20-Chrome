@@ -1527,6 +1527,9 @@ var pw467mapopacity=document.createElement("button");pw467mapopacity.textContent
 
 // pw468: Add a dashboard density toggle
 var pw468density=document.createElement("button");pw468density.textContent="فاصله آمار: عادی";pw468density.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw468density);var pw468tight=false;pw468density.onclick=function(){pw468tight=!pw468tight;pw416dash.style.gap=pw468tight?"1px":"5px";pw416dash.querySelectorAll("div").forEach(function(el){el.style.margin=pw468tight?"1px 0":"4px 0";el.style.padding=pw468tight?"4px":"7px"});pw468density.textContent="فاصله آمار: "+(pw468tight?"فشرده":"عادی")};
+
+// pw469: Add a quick hide-all-stats control
+var pw469hide=document.createElement("button");pw469hide.textContent="مخفی‌کردن آمار";pw469hide.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw469hide);pw469hide.onclick=function(){pw416dash.style.display="none";pw416dashBtn.style.display="none";pw392open.style.display="block";toast("پنل آمار مخفی شد؛ با دکمه آمار بازش کن")};pw416dashBtn.addEventListener("click",function(){pw416dashBtn.style.display="block"});
 })();
 
  }
