@@ -1251,6 +1251,9 @@ var pw375daily=document.createElement('div');pw375daily.textContent='تمرین 
 
 // pw376: Add daily objective progress
 var pw376dailyBtn=document.createElement('button');pw376dailyBtn.textContent='وضعیت تمرین امروز';pw376dailyBtn.style.cssText='display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui';pw335panel.appendChild(pw376dailyBtn);pw376dailyBtn.onclick=function(){pw375daily.textContent='تمرین امروز: '+Math.min(5,pw327hits)+' از ۵ هدف ثبت شد'};
+
+// pw377: Add achievement collection panel
+var pw377ach=document.createElement('button');pw377ach.textContent='دستاوردها 🏅';pw377ach.style.cssText='display:block;width:100%;margin:5px 0;padding:8px;background:#352817;color:#ffe7bb;border:1px solid #d5a65c;border-radius:8px;font:800 10px system-ui';pw335panel.appendChild(pw377ach);pw377ach.onclick=function(){toast('دستاوردها: شروع، دقت، کمبو و چالش زمانی')};
 })();
 
  }
