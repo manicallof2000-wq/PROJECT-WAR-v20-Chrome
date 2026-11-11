@@ -759,6 +759,8 @@ var pw187ammo=18,pw187maxAmmo=18,pw187ammoEl=document.createElement("div");pw187
 var pw187fire=pw183fire;pw183fire=function(){if(pw187ammo<=0){toast("انرژی تمام شد؛ شارژ کن");return}var old=score;pw187ammo--;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw187fire();};
 // pw188: add a touch-friendly energy reload control
 var pw188reload=document.createElement("button");pw188reload.id="pw188reload";pw188reload.textContent="شارژ";pw188reload.style.cssText="position:fixed;right:20px;bottom:82px;z-index:9;border:1px solid #8cebf2;border-radius:12px;background:#12394beF;color:#eaffff;padding:9px 14px;font-weight:900;touch-action:manipulation";document.body.appendChild(pw188reload);pw188reload.addEventListener("pointerdown",function(e){e.preventDefault();if(!playing||paused||pw187ammo===pw187maxAmmo)return;pw188reload.disabled=true;toast("درحال شارژ انرژی...");setTimeout(function(){pw187ammo=pw187maxAmmo;pw187ammoEl.textContent="ENERGY "+pw187ammo+" / "+pw187maxAmmo;pw188reload.disabled=false;beep(520,.12);toast("شارژ کامل شد")},850)});
+// pw189: show a short cyan pulse when the arcade blaster fires
+var pw189flash=document.createElement("div");pw189flash.style.cssText="position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 72% 72%,#8ffaff55,transparent 32%)";document.body.appendChild(pw189flash);var pw189fire=pw183fire;pw183fire=function(){var old=score;pw189fire();if(score>old){pw189flash.style.opacity=".8";setTimeout(function(){pw189flash.style.opacity="0"},65)}};
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
