@@ -843,6 +843,8 @@ camera.rotation.z=-joyX*.022;camera.rotation.x=player.pitch+pw185recoil;pw185rec
 // pw213: softly pulse the active drone cores
 pw183targets.forEach(function(g,i){if(g.visible&&g.children[0]&&g.children[0].material)g.children[0].material.emissiveIntensity=1.35+Math.sin(now*.004+i)*.45});
 pw183targets.forEach(function(g,i){if(g.visible)g.position.x=pw191bases[i].x+Math.sin(now*.0012+i)*.28});
+// pw242: rotate active drone stabilizer rings
+pw183targets.forEach(function(g){if(g.visible&&g.children[1])g.children[1].rotation.z+=dt*.48});
  // pw241: suppress target lock feedback outside active play
  if(pw196cross){pw183ray.setFromCamera(new THREE.Vector2(0,0),camera);var aimHit=playing&&!paused&&pw183ray.intersectObjects(pw183targets,true).length>0;pw196cross.style.borderColor=aimHit?"#7ffcff":"#ffffff";pw196cross.style.boxShadow=aimHit?"0 0 8px #6ff,0 0 18px #7ff":"0 0 5px #00121c,0 0 14px #7ce9ff99"}
 if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw201pulse*.8)+")";pw201pulse*=.68}else pw196cross.style.transform="translate(-50%,-50%) scale(1)";
