@@ -665,6 +665,7 @@ var pw137plate=new THREE.MeshStandardMaterial({color:0xc9c1a9,metalness:.22,roug
 var pw138foot=new THREE.MeshStandardMaterial({color:0x667276,metalness:.72,roughness:.3});buildings.forEach(function(b,i){if(i%2===0)for(var x of [-.5,.5])slab(.08,.34,.08,pw138foot,b[0]+x,b[3]+.28,b[1]-.55)});
 var pw139band=new THREE.MeshStandardMaterial({color:0x8c9996,metalness:.7,roughness:.32});buildings.forEach(function(b){var r=new THREE.Mesh(new THREE.TorusGeometry(.455,.018,5,20),pw139band);r.position.set(b[0]+b[2]*.27,b[3]+.7,b[1]-.18);r.rotation.x=Math.PI/2;scene.add(r)});
 var pw140base=new THREE.MeshStandardMaterial({color:0x858c84,roughness:.9});buildings.forEach(function(b){for(var x of [-.8,.8])slab(.95,.14,.82,pw140base,b[0]+x,b[3]+.12,b[1])});
+var pw141cap=new THREE.MeshStandardMaterial({color:0x9da7a2,metalness:.48,roughness:.5});buildings.forEach(function(b){for(var x of [-1,1])slab(.55,.06,.44,pw141cap,b[0]+x*1.25,b[3]+.56,b[1]+.65)});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
