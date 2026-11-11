@@ -1197,6 +1197,9 @@ var pw357zoom=document.createElement("button");pw357zoom.textContent="بزرگ�
 
 // pw358: Add HUD visibility option
 var pw358hud=document.createElement("button");pw358hud.textContent="نمایش اطلاعات: روشن";pw358hud.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw358hud);var pw358hudOn=true;pw358hud.addEventListener("click",function(){pw358hudOn=!pw358hudOn;document.getElementById("hud").style.opacity=pw358hudOn?"1":"0";pw358hud.textContent="نمایش اطلاعات: "+(pw358hudOn?"روشن":"خاموش")});
+
+// pw359: Add player profile card
+var pw359profile=document.createElement("div");pw359profile.id="pw359profile";pw359profile.textContent="پروفایل بازیکن • سطح "+pw328level;pw359profile.style.cssText="position:fixed;left:10px;top:300px;z-index:14;padding:7px 10px;border:1px solid #b39aff66;border-radius:9px;background:#17152ddd;color:#e5dcff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw359profile);var pw359base=pw183fire;pw183fire=function(){var before=score;pw359base();if(score>before)pw359profile.textContent="پروفایل • سطح "+pw328level+" • "+pw328xp+" XP"};
 })();
 
  }
