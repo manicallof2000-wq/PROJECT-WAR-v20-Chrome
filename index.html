@@ -1362,6 +1362,9 @@ var pw412rankStyle=document.createElement("style");pw412rankStyle.textContent="#
 
 // pw413: Add a mission status summary
 var pw413status=document.createElement("div");pw413status.textContent="وضعیت: در انتظار شروع";pw413status.style.cssText="position:fixed;left:10px;top:570px;z-index:14;color:#cfeefa;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw413status);var pw413start=startGame;startGame=function(e){var r=pw413start(e);pw413status.textContent="وضعیت: مأموریت فعال";return r};document.getElementById("pause").addEventListener("click",function(){pw413status.textContent=paused?"وضعیت: مکث":"وضعیت: مأموریت فعال"});
+
+// pw414: Add a responsive compact HUD layout
+var pw414style=document.createElement("style");pw414style.textContent="@media(max-width:390px){#pw371board,#pw360dist,#pw342targets,#pw334wave,#pw332best{right:6px!important;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#pw325panel,#pw326rank,#pw327accuracy{left:6px!important;max-width:43vw}}@media(max-height:700px){#pw378time,#pw387matchEl,#pw390challenge,#pw405medalEl,#pw413status{display:none}}";document.head.appendChild(pw414style);
 })();
 
  }
