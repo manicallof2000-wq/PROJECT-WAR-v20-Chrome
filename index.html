@@ -1407,6 +1407,9 @@ var pw427fog=document.createElement("button");pw427fog.textContent="مه محی�
 
 // pw428: Add an automatic graphics preset
 var pw428auto=document.createElement("button");pw428auto.textContent="گرافیک: خودکار";pw428auto.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw428auto);var pw428high=true;pw428auto.onclick=function(){pw428high=!pw428high;var ratio=Math.min(devicePixelRatio||1,pw428high?1.6:1);renderer.setPixelRatio(ratio);renderer.setSize(innerWidth,innerHeight,false);renderer.shadowMap.enabled=pw428high&&pw426on;pw428auto.textContent="گرافیک: "+(pw428high?"کیفیت":"روان");toast("پروفایل گرافیک اعمال شد")};
+
+// pw429: Add a dashboard auto-close when resuming gameplay
+var pw429start=startGame;startGame=function(e){var r=pw429start(e);pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾";pw335panel.style.display="none";return r};
 })();
 
  }
