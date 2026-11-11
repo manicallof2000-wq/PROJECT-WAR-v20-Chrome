@@ -1374,6 +1374,9 @@ var pw416dashBtn=document.createElement("button"),pw416dash=document.createEleme
 
 // pw417: Add dashboard compact mode
 var pw417compact=document.createElement("button");pw417compact.textContent="فشرده‌سازی آمار";pw417compact.style.cssText="display:block;width:100%;margin:5px 0;padding:7px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw417compact);var pw417small=false;pw417compact.onclick=function(){pw417small=!pw417small;pw416dash.style.fontSize=pw417small?"9px":"11px";pw416dash.style.width=pw417small?"min(160px,48vw)":"min(210px,56vw)";pw417compact.textContent=pw417small?"آمار عادی":"فشرده‌سازی آمار"};
+
+// pw418: Keep dashboard clear of the game controls
+var pw418style=document.createElement("style");pw418style.textContent="#pw416dashBtn{touch-action:manipulation}@media(max-width:520px){#pw416dash{max-height:38vh;width:min(175px,52vw)!important}#pw416dash button{min-height:34px}}";document.head.appendChild(pw418style);pw416dashBtn.id="pw416dashBtn";
 })();
 
  }
