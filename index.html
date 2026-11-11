@@ -1470,6 +1470,9 @@ var pw448toggle=document.createElement("button");pw448toggle.textContent="نما
 
 // pw449: Add an accessible dashboard label
 pw416dash.setAttribute("role","region");pw416dash.setAttribute("aria-label","آمار و وضعیت بازی");pw416dashBtn.setAttribute("aria-expanded","false");var pw449toggle=pw416dashBtn.onclick;pw416dashBtn.onclick=function(){pw449toggle();pw416dashBtn.setAttribute("aria-expanded",pw416dash.style.display==="block"?"true":"false")};
+
+// pw450: Add a sound feedback preference
+var pw450sound=document.createElement("button");pw450sound.textContent="صدای رابط: روشن";pw450sound.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw450sound);var pw450soundOn=true;pw450sound.onclick=function(){pw450soundOn=!pw450soundOn;pw450sound.textContent="صدای رابط: "+(pw450soundOn?"روشن":"خاموش");try{localStorage.setItem("pw_ui_sound",pw450soundOn?"1":"0")}catch(e){}};
 })();
 
  }
