@@ -1227,6 +1227,9 @@ var pw367base=pw183fire;pw183fire=function(){var before=score;pw367base();if(sco
 
 // pw368: Add a futuristic energy emitter model
 var pw368emitter=new THREE.Group();var pw368body=new THREE.Mesh(new THREE.BoxGeometry(.22,.18,.48),new THREE.MeshStandardMaterial({color:0x263c4b,metalness:.78,roughness:.28}));pw368body.position.set(0,0,0);pw368emitter.add(pw368body);var pw368ring=new THREE.Mesh(new THREE.TorusGeometry(.105,.025,8,20),new THREE.MeshStandardMaterial({color:0x55eaff,emissive:0x159fc5,emissiveIntensity:1.8,metalness:.4,roughness:.22}));pw368ring.position.set(0,.015,-.23);pw368emitter.add(pw368ring);var pw368grip=new THREE.Mesh(new THREE.BoxGeometry(.15,.22,.17),new THREE.MeshStandardMaterial({color:0x172a36,metalness:.55,roughness:.42}));pw368grip.position.set(0,-.17,.08);pw368emitter.add(pw368grip);pw368emitter.position.set(.48,-.39,-.82);pw368emitter.rotation.set(-.08,-.12,-.08);camera.add(pw368emitter);
+
+// pw369: Add pulsing energy core on the emitter
+var pw369core=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.MeshBasicMaterial({color:0x8ffaff}));pw369core.position.set(0,.02,-.245);pw368emitter.add(pw369core);var pw369pulse=0;setInterval(function(){pw369pulse+=.12;var k=.8+Math.sin(pw369pulse)*.2;pw369core.scale.setScalar(k)},55);
 })();
 
  }
