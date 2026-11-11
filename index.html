@@ -1149,6 +1149,9 @@ var pw341cross=document.getElementById("cross"),pw341base=pw183fire;pw183fire=fu
 
 // pw342: Add visible training target counter
 var pw342targets=document.createElement("div");pw342targets.id="pw342targets";pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.length;pw342targets.style.cssText="position:fixed;right:10px;top:161px;z-index:14;padding:6px 9px;border:1px solid #69e6d288;border-radius:9px;background:#071b2bd9;color:#caffea;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw342targets);var pw342base=pw183fire;pw183fire=function(){var before=score;pw342base();if(score>before)pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.filter(function(t){return !t.userData.hit}).length};
+
+// pw343: Add low-energy visual warning
+var pw343ammoWarn=document.createElement("div");pw343ammoWarn.id="pw343warn";pw343ammoWarn.style.cssText="position:fixed;right:10px;bottom:270px;z-index:15;color:#ffc58a;font:900 10px system-ui;opacity:0;pointer-events:none";document.body.appendChild(pw343ammoWarn);var pw343baseFire=pw183fire;pw183fire=function(){pw343baseFire();if(pw187ammo<=4){pw343ammoWarn.textContent="انرژی رو به پایان";pw343ammoWarn.style.opacity="1"}else pw343ammoWarn.style.opacity="0"};
 })();
 
  }
