@@ -1455,6 +1455,9 @@ var pw443score=document.createElement("div");pw443score.style.cssText="padding:6
 
 // pw444: Add a live accuracy readout to the dashboard
 var pw444acc=document.createElement("div");pw444acc.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw444acc);setInterval(function(){pw444acc.textContent="دقت شلیک: "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪"},700);
+
+// pw445: Add a mission progress meter to the dashboard
+var pw445meter=document.createElement("div"),pw445fill=document.createElement("div");pw445meter.style.cssText="height:6px;margin:6px 0;background:#29414c;border-radius:6px;overflow:hidden";pw445fill.style.cssText="height:100%;width:0;background:#62e4bd;transition:width .2s";pw445meter.appendChild(pw445fill);pw416dash.appendChild(pw445meter);setInterval(function(){pw445fill.style.width=Math.min(100,Math.round(pw327hits/Math.max(1,pw183targets.length)*100))+"%"},500);
 })();
 
  }
