@@ -783,7 +783,8 @@ var pw191bases=pw183targets.map(function(g){return {x:g.position.x,y:g.position.
 // pw194: start a fresh drone wave after all current targets are cleared
 // pw205: prevent duplicate wave transitions
 var pw205transition=false;
-var pw194wave=1,pw194fire=pw183fire;pw183fire=function(){var before=score;pw194fire();if(score>before&&!pw205transition&&pw183targets.every(function(g){return g.userData.hit})){pw205transition=true;pw194wave++;if(pw195waveEl)pw195waveEl.textContent="WAVE "+pw194wave;
+var pw194wave=1,pw194fire=pw183fire;pw183fire=function(){var before=score;pw194fire();if(score>before&&!pw205transition&&pw183targets.every(function(g){return g.userData.hit})){pw205transition=true;pw194wave++;if(pw195waveEl)// pw227: accent the wave label as the training challenge advances
+pw195waveEl.textContent="WAVE "+pw194wave;pw195waveEl.style.color=pw194wave%2?"#9af5ff":"#ffe3a1";
 if(pw202hud)pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING  /  WAVE "+pw194wave;
 // pw217: append the saved arcade record to the training label
 pw202hud.textContent+="  /  BEST "+(typeof pw216best==="number"?pw216best:0);setTimeout(function(){// pw225: shift the drone formation slightly on each new wave
