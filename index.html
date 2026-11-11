@@ -1101,6 +1101,9 @@ var pw325panel=document.createElement("div");pw325panel.id="pw325panel";pw325pan
 
 // pw326: Add player rank display
 var pw326rank=document.createElement("div");pw326rank.id="pw326rank";pw326rank.textContent="رتبه: تازه‌کار";pw326rank.style.cssText="position:fixed;left:10px;top:91px;z-index:14;padding:6px 9px;border-radius:9px;background:#102d3ddd;border:1px solid #e2c77a88;color:#ffe8a8;font:900 10px system-ui;pointer-events:none";document.body.appendChild(pw326rank);
+
+// pw327: Track arcade shots and hits
+var pw327shots=0,pw327hits=0,pw327base=pw183fire;pw183fire=function(){if(playing&&!paused&&pw187ammo>0)pw327shots++;var before=score;pw327base();if(score>before){pw327hits++;if(pw327accuracy)pw327accuracy.textContent="دقت "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪"}};var pw327accuracy=document.createElement("div");pw327accuracy.id="pw327accuracy";pw327accuracy.textContent="دقت ۰٪";pw327accuracy.style.cssText="position:fixed;left:10px;top:124px;z-index:14;padding:6px 9px;border-radius:9px;background:#071b2bd9;border:1px solid #6beafa66;color:#c9f8ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw327accuracy);
 })();
 
  }
