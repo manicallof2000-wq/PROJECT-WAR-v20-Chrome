@@ -1317,6 +1317,9 @@ var pw397scale=document.createElement("button");pw397scale.textContent="اندا
 
 // pw398: Add a shareable score summary button
 var pw398share=document.createElement("button");pw398share.textContent="کپی نتیجه بازی";pw398share.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw398share);pw398share.onclick=function(){var msg="PROJECT WAR | امتیاز: "+score+" | موج: "+pw194wave+" | دقت: "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪";if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(msg).then(function(){toast("نتیجه کپی شد")}).catch(function(){toast(msg)});else toast(msg)};
+
+// pw399: Add a compact training statistics card
+var pw399stats=document.createElement("div");pw399stats.textContent="آمار تمرین: "+pw327shots+" شلیک • "+pw327hits+" ثبت";pw399stats.style.cssText="margin:7px 0;padding:8px;border-radius:8px;background:#0b2635;color:#cfeefa;font:800 10px/1.7 system-ui";pw335panel.appendChild(pw399stats);setInterval(function(){pw399stats.textContent="آمار تمرین: "+pw327shots+" شلیک • "+pw327hits+" ثبت"},800);
 })();
 
  }
