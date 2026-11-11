@@ -764,7 +764,8 @@ var pw189flash=document.createElement("div");pw189flash.style.cssText="position:
 // pw190: reward consecutive drone hits with a small arcade combo bonus
 var pw190combo=0,pw190lastHit=0,pw190fire=pw183fire;pw183fire=function(){var old=score;pw190fire();if(score>old){var now=performance.now();pw190combo=now-pw190lastHit<4500?pw190combo+1:1;pw190lastHit=now;if(pw190combo>1){var bonus=Math.min(100,pw190combo*25);score+=bonus;toast("کمبو x"+pw190combo+"  +"+bonus);updateHud()}}};
 // pw191: give active training drones a gentle hovering motion
-var pw191bases=pw183targets.map(function(g){return {y:g.position.y,phase:g.userData.index*.9}});
+// pw203: preserve each drone original coordinates for stable side-to-side drift
+var pw191bases=pw183targets.map(function(g){return {x:g.position.x,y:g.position.y,z:g.position.z,phase:g.userData.index*.9}});
 // pw192: animate active drones with a restrained hover cycle
 // pw193: give drones a slight arcade side-to-side drift
 // pw194: start a fresh drone wave after all current targets are cleared
