@@ -833,7 +833,8 @@ function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/
   if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0;pw224land.style.opacity=".75";pw224land.style.transform="translate(-50%,-50%) scale(1.25)";setTimeout(function(){pw224land.style.opacity="0";pw224land.style.transform="translate(-50%,-50%) scale(.4)"},180)}}
  }
  // pw222: subtle camera bob while moving on foot
-var pw222moving=Math.abs(joyX)+Math.abs(joyY)>.08;camera.position.set(player.x,1.65+jump+(pw222moving&&playing&&!paused?Math.sin(now*.012)*.025:0),player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;camera.rotation.x=player.pitch+pw185recoil;pw185recoil*=.78;if(pw185recoil<.001)pw185recoil=0;
+var pw222moving=Math.abs(joyX)+Math.abs(joyY)>.08;camera.position.set(player.x,1.65+jump+(pw222moving&&playing&&!paused?Math.sin(now*.012)*.025:0),player.z);camera.rotation.order="YXZ";camera.rotation.y=player.yaw;// pw229: subtle camera lean while strafing for responsive movement feel
+camera.rotation.z=-joyX*.022;camera.rotation.x=player.pitch+pw185recoil;pw185recoil*=.78;if(pw185recoil<.001)pw185recoil=0;
  markerObjects.forEach(function(o,i){if(o.visible)o.rotation.y+=dt*.65});
  pw183targets.forEach(function(g,i){if(g.visible)g.position.y=pw191bases[i].y+Math.sin(now*.002+pw191bases[i].phase)*.12});
 // pw213: softly pulse the active drone cores
