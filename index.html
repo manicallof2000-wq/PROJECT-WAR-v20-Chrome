@@ -1049,6 +1049,9 @@ var pw310style=document.createElement("style");pw310style.textContent=".dialog{o
 
 // pw311: Control focus consistency
 var pw311style=document.createElement("style");pw311style.textContent="#jump:focus-visible,#run:focus-visible{outline:2px solid #b8f7ff;outline-offset:3px}";document.head.appendChild(pw311style);
+
+// pw312: Touch button highlight suppression
+var pw312style=document.createElement("style");pw312style.textContent="#start,#fire,#jump,#run,#pause,#sound{ -webkit-tap-highlight-color:transparent}";document.head.appendChild(pw312style);
 requestAnimationFrame(frame);updateHud();
 })();
 
