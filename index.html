@@ -197,6 +197,24 @@ function facadeTexture(seed){
   g.fillStyle="rgba(12,25,32,.42)";g.fillRect(x+w/2-1,yy,2,h);
   g.fillStyle="rgba(210,225,225,.45)";g.fillRect(x+2,yy+h-3,w-4,2);
   g.fillStyle="#aeb9b2";g.fillRect(x-7,yy+h,w+14,5);
+  // Recessed window frame, upper lintel and subtle reflective highlight
+  g.fillStyle="rgba(25,38,44,.42)";g.fillRect(x-8,yy-8,w+16,3);
+  g.fillStyle="rgba(235,240,232,.5)";g.fillRect(x-6,yy-5,w+12,2);
+  g.fillStyle="rgba(255,255,255,.16)";g.beginPath();g.moveTo(x+w-13,yy+4);g.lineTo(x+w-5,yy+4);g.lineTo(x+w-5,yy+h-5);g.fill();
+ }
+ // Fine architectural panel joints and weathering give the facade more scale
+ for(var band=0;band<8;band++){
+  var by=band*70+66;
+  g.fillStyle="rgba(31,43,47,.12)";g.fillRect(0,by,512,2);
+  g.fillStyle="rgba(245,240,225,.16)";g.fillRect(0,by+2,512,1);
+ }
+ for(var seamX=12;seamX<512;seamX+=49){
+  g.fillStyle="rgba(34,45,48,.055)";g.fillRect(seamX,0,1,512);
+ }
+ for(var grain=0;grain<2200;grain++){
+  var gx=(grain*73+seed*19)%512,gy=(grain*137+seed*31)%512;
+  g.fillStyle=grain%3===0?"rgba(255,255,255,.045)":"rgba(25,35,38,.035)";
+  g.fillRect(gx,gy,1+(grain%3),1);
  }
  var tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return tex;
 }
@@ -208,8 +226,9 @@ function roundedBuilding(b,i){
  shape.lineTo(-w/2,r);shape.quadraticCurveTo(-w/2,0,-w/2+r,0);
  var geo=new THREE.ExtrudeGeometry(shape,{depth:d,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.18,bevelThickness:.16,curveSegments:8});
  geo.translate(0,0,-d/2);
- var facade=new THREE.MeshStandardMaterial({map:facadeTexture(i),color:0xf4f2eb,roughness:.74,metalness:.025});
- var sides=new THREE.MeshStandardMaterial({color:[0x777f7c,0x89877f,0x758087][i%3],roughness:.82,metalness:.015});
+ var facade=new THREE.MeshStandardMaterial({map:facadeTexture(i),color:0xf4f2eb,roughness:.68,metalness:.035});
+ var sides=new THREE.MeshStandardMaterial({color:[0x777f7c,0x89877f,0x758087][i%3],roughness:.78,metalness:.025});
+ facade.map.anisotropy=Math.min(12,renderer.capabilities.getMaxAnisotropy());
  var buildingMesh=new THREE.Mesh(geo,[facade,sides]);buildingMesh.castShadow=true;buildingMesh.receiveShadow=true;scene.add(buildingMesh);
  slab(w+.18,.22,d+.18,new THREE.MeshStandardMaterial({color:0x59666a,roughness:.9}),b[0],h+.08,b[1]);
  var ledgeMat=new THREE.MeshStandardMaterial({color:0xb0b4aa,roughness:.8});
