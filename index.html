@@ -1452,6 +1452,9 @@ var pw442wave=document.createElement("div");pw442wave.style.cssText="padding:6px
 
 // pw443: Add a live score readout to the dashboard
 var pw443score=document.createElement("div");pw443score.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw443score);setInterval(function(){pw443score.textContent="امتیاز فعلی: "+score},500);
+
+// pw444: Add a live accuracy readout to the dashboard
+var pw444acc=document.createElement("div");pw444acc.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw444acc);setInterval(function(){pw444acc.textContent="دقت شلیک: "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪"},700);
 })();
 
  }
