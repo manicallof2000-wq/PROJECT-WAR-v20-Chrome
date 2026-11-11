@@ -109,6 +109,15 @@ var qualityScale=isMobileDevice?1.6:2.0;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+// Lightweight procedural studio environment for more convincing material response
+var envCanvas=document.createElement("canvas");envCanvas.width=512;envCanvas.height=256;
+var envCtx=envCanvas.getContext("2d"),envGrad=envCtx.createLinearGradient(0,0,0,256);
+envGrad.addColorStop(0,"#7895aa");envGrad.addColorStop(.48,"#c5d2d1");envGrad.addColorStop(.72,"#f4dfbd");envGrad.addColorStop(1,"#52616b");
+envCtx.fillStyle=envGrad;envCtx.fillRect(0,0,512,256);
+envCtx.fillStyle="rgba(255,245,220,.9)";envCtx.fillRect(65,58,92,54);envCtx.fillRect(340,76,105,42);
+envCtx.fillStyle="rgba(42,66,78,.42)";envCtx.fillRect(0,155,512,34);
+var envTexture=new THREE.CanvasTexture(envCanvas);envTexture.mapping=THREE.EquirectangularReflectionMapping;envTexture.colorSpace=THREE.SRGBColorSpace;
+
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
 var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(isMobileDevice?1536:2048,isMobileDevice?1536:2048);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
 function makeSurfaceTexture(kind){
@@ -239,13 +248,13 @@ function roundedBuilding(b,i){
 var buildings=[[-16,-19,9,10,7],[16,-23,10,12,8],[-19,-43,10,13,8],[19,-48,11,11,8],[-14,-69,8,14,7],[15,-73,9,13,7],[-22,-91,12,16,10],[23,-96,13,15,9]];
 buildings.forEach(roundedBuilding);
 function parkedCar(x,z,color,flip){
- var group=new THREE.Group(),paint=new THREE.MeshStandardMaterial({color:color,metalness:.48,roughness:.28}),glass=new THREE.MeshStandardMaterial({color:0x294654,metalness:.45,roughness:.18}),rubber=new THREE.MeshStandardMaterial({color:0x171b1e,roughness:.95}),rim=new THREE.MeshStandardMaterial({color:0x9ca8a9,metalness:.8,roughness:.25});
+ var group=new THREE.Group(),paint=new THREE.MeshPhysicalMaterial({color:color,metalness:.52,roughness:.24,clearcoat:.82,clearcoatRoughness:.16,envMap:envTexture,envMapIntensity:.72}),glass=new THREE.MeshPhysicalMaterial({color:0x294654,metalness:.32,roughness:.12,clearcoat:.65,envMap:envTexture,envMapIntensity:.55}),rubber=new THREE.MeshStandardMaterial({color:0x171b1e,roughness:.95}),rim=new THREE.MeshStandardMaterial({color:0x9ca8a9,metalness:.82,roughness:.22,envMap:envTexture,envMapIntensity:.8});
  function part(geo,mat,px,py,pz){var m=new THREE.Mesh(geo,mat);m.position.set(px,py,pz);m.castShadow=true;m.receiveShadow=true;group.add(m);return m}
  part(new THREE.BoxGeometry(2.05,.58,4.15),paint,0,.72,0);
  part(new THREE.BoxGeometry(1.72,.68,2.05),glass,0,1.28,-.18);
  part(new THREE.BoxGeometry(1.82,.12,1.65),paint,0,1.66,-.2);
  // Side glazing, bumpers, mirrors, trim and rear lamps
- var chrome=new THREE.MeshStandardMaterial({color:0xaeb8b8,metalness:.82,roughness:.24});
+ var chrome=new THREE.MeshStandardMaterial({color:0xaeb8b8,metalness:.86,roughness:.2,envMap:envTexture,envMapIntensity:.9});
  var rearLamp=new THREE.MeshStandardMaterial({color:0xc84b3e,emissive:0x4b100b,emissiveIntensity:.45});
  part(new THREE.BoxGeometry(1.92,.16,.14),chrome,0,.55,2.12);
  part(new THREE.BoxGeometry(1.92,.16,.14),chrome,0,.55,-2.12);
