@@ -1010,6 +1010,9 @@ var pw297style=document.createElement("style");pw297style.textContent="@media(ho
 
 // pw298: HUD pill border tuning
 var pw298style=document.createElement("style");pw298style.textContent="#hud .pill{border-width:1px;border-style:solid}";document.head.appendChild(pw298style);
+
+// pw299: Dialog border highlight
+var pw299style=document.createElement("style");pw299style.textContent=".dialog{position:relative;overflow:hidden}.dialog:before{content:\"\";position:absolute;inset:0 18% auto;height:1px;background:linear-gradient(90deg,transparent,#aefaffaa,transparent);pointer-events:none}";document.head.appendChild(pw299style);
 requestAnimationFrame(frame);updateHud();
 })();
 
