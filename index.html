@@ -805,6 +805,8 @@ var pw211confirm=document.createElement("div");pw211confirm.style.cssText="posit
 var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fire();if(score>old){pw201pulse=1;pw211confirm.style.opacity="1";setTimeout(function(){pw211confirm.style.opacity="0"},360)}};
 // pw202: keep training HUD labels synchronized with wave and ammo state
 // pw215: show the current arcade hit streak
+// pw226: compact range readout for the nearest active practice drone
+var pw226range=document.createElement("div");pw226range.style.cssText="position:fixed;right:18px;top:16px;z-index:8;color:#a8f3ff;font:800 9px Arial;pointer-events:none";pw226range.textContent="RANGE --";document.body.appendChild(pw226range);
 var pw215combo=document.createElement("div");pw215combo.style.cssText="position:fixed;left:14px;top:72px;z-index:8;color:#ffe5a0;font:900 10px Arial;pointer-events:none";pw215combo.textContent="COMBO x0";document.body.appendChild(pw215combo);
 // pw216: persist the best arcade score independently from legacy objectives
 var pw216best=0;try{pw216best=Number(localStorage.getItem("pw_arcade_best")||0)||0}catch(e){}
@@ -839,6 +841,8 @@ if(pw201pulse>0){pw196cross.style.transform="translate(-50%,-50%) scale("+(1+pw2
  // pw207: keep the dedicated drone counter synchronized
 if(pw197mission)pw197mission.textContent="TRAINING DRONES  "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
 if(pw204count)pw204count.textContent="DRONES "+pw183targets.filter(function(g){return g.userData.hit}).length+" / 5";
+// pw226: refresh nearest drone range
+if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)near=Math.min(near,camera.position.distanceTo(g.position))});pw226range.textContent=near<Infinity?"RANGE "+Math.round(near)+" m":"RANGE CLEAR";}
  renderer.render(scene,camera);
  mapRefresh+=dt;if(mapRefresh>=.08){drawMap();mapRefresh=0}
 }
