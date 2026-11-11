@@ -882,6 +882,8 @@ var pw249pause=document.getElementById("pause");pw249pause.setAttribute("aria-pr
 // pw249: reflect pause state in the pause control
 var pw250sound=document.getElementById("sound");pw250sound.setAttribute("aria-pressed","true");pw250sound.addEventListener("click",function(){this.setAttribute("aria-pressed",soundOn?"true":"false");this.setAttribute("aria-label",soundOn?"صدا روشن است":"صدا خاموش است")});
 // pw250: expose sound state to accessibility tools
+var pw251run=document.getElementById("run");pw251run.setAttribute("aria-pressed","false");pw251run.addEventListener("pointerdown",function(){this.setAttribute("aria-pressed","true")});["pointerup","pointercancel","pointerleave"].forEach(function(ev){pw251run.addEventListener(ev,function(){this.setAttribute("aria-pressed","false")})});
+// pw251: expose sprint state to accessibility tools
 requestAnimationFrame(frame);updateHud();
 })();
 
