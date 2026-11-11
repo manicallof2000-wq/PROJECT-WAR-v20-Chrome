@@ -878,6 +878,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  var pw239style=document.createElement("style");pw239style.textContent=".action,#pause,#sound,#pw188reload{transition:transform .09s ease,filter .09s ease,box-shadow .09s ease}.action:active,#pause:active,#sound:active,#pw188reload:active{transform:scale(.93);filter:brightness(1.3);box-shadow:0 2px 8px #0009}";document.head.appendChild(pw239style);
 // pw240: respect the device reduced-motion preference for interface transitions
  var pw240style=document.createElement("style");pw240style.textContent="@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}";document.head.appendChild(pw240style);
+var pw249pause=document.getElementById("pause");pw249pause.setAttribute("aria-pressed","false");pw249pause.addEventListener("click",function(){this.textContent=paused?"▶":"Ⅱ";this.setAttribute("aria-pressed",paused?"true":"false")});
+// pw249: reflect pause state in the pause control
 requestAnimationFrame(frame);updateHud();
 })();
 
