@@ -705,6 +705,9 @@ for(var side of [-1,1])for(var z of [-16,-36,-57,-78,-96])for(var k=0;k<3;k++){v
 // pw170: narrow facade accent strips
 var pw170mat=new THREE.MeshStandardMaterial({color:0x9a9d91,roughness:.8,metalness:.08});
 for(var b of buildings){for(var side of [-1,1]){var o=new THREE.Mesh(new THREE.BoxGeometry(.12,b[3]*.86,.16),pw170mat);o.position.set(b[0]+side*(b[2]/2+.025),b[3]*.5,b[1]);scene.add(o)}}
+// pw171: slim sill ledges beneath selected windows
+var pw171mat=new THREE.MeshStandardMaterial({color:0xb5b4a8,roughness:.78});
+for(var b of buildings)for(var level=2.6;level<b[3]-1;level+=3.2){var o=new THREE.Mesh(new THREE.BoxGeometry(b[2]*.72,.09,.22),pw171mat);o.position.set(b[0],level,b[1]-b[4]/2-.13);scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
