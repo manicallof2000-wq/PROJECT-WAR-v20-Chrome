@@ -1314,6 +1314,9 @@ var pw396cross=document.createElement("button");pw396cross.textContent="نشان
 
 // pw397: Add an interface scale toggle
 var pw397scale=document.createElement("button");pw397scale.textContent="اندازه رابط: عادی";pw397scale.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw397scale);var pw397large=false;pw397scale.onclick=function(){pw397large=!pw397large;document.querySelectorAll("#pw325panel,#pw326rank,#pw327accuracy,#pw330combo,#pw332best,#pw334wave,#pw342targets,#pw360dist").forEach(function(el){el.style.fontSize=pw397large?"12px":"10px"});pw397scale.textContent="اندازه رابط: "+(pw397large?"بزرگ":"عادی")};
+
+// pw398: Add a shareable score summary button
+var pw398share=document.createElement("button");pw398share.textContent="کپی نتیجه بازی";pw398share.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw398share);pw398share.onclick=function(){var msg="PROJECT WAR | امتیاز: "+score+" | موج: "+pw194wave+" | دقت: "+Math.round(pw327hits/Math.max(1,pw327shots)*100)+"٪";if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(msg).then(function(){toast("نتیجه کپی شد")}).catch(function(){toast(msg)});else toast(msg)};
 })();
 
  }
