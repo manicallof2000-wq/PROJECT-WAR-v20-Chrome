@@ -1161,6 +1161,9 @@ var pw345time=90,pw345start=performance.now(),pw345clock=document.createElement(
 
 // pw346: Update challenge countdown while playing
 var pw346tick=setInterval(function(){if(!playing||paused)return;var left=Math.max(0,pw345time-Math.floor((performance.now()-pw345start)/1000));pw345clock.textContent="زمان چالش: "+left;if(left===0){pw345clock.textContent="زمان چالش تمام شد";pw345clock.style.color="#ffb1a1";clearInterval(pw346tick)}},500);
+
+// pw347: Reward finishing the timed challenge
+var pw347done=false,pw347base=pw183fire;pw183fire=function(){var before=score;pw347base();if(score>before&&pw183targets.every(function(t){return t.userData.hit})&&!pw347done&&performance.now()-pw345start<90000){pw347done=true;score+=500;pw328award(150);toast("چالش زمانی کامل شد! +۵۰۰");updateHud()}};
 })();
 
  }
