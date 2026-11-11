@@ -121,6 +121,8 @@ var skyDome=new THREE.Mesh(new THREE.SphereGeometry(190,48,32),new THREE.MeshBas
 skyDome.frustumCulled=false;scene.add(skyDome);
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
+// pw255: recover cleanly from browser graphics context loss
+canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();var t=document.getElementById("title"),d=overlay.querySelector(".desc"),b=document.getElementById("start");overlay.style.display="grid";if(t)t.textContent="ارتباط گرافیک قطع شد";if(d)d.textContent="برای راه‌اندازی دوباره میدان تمرین، بازی را بارگذاری کن.";if(b){b.textContent="بارگذاری دوباره";b.onclick=function(){location.reload()}}});
 // High-quality mobile rendering with a controlled shadow budget
 var qualityScale=isMobileDevice?1.5:1.85;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
