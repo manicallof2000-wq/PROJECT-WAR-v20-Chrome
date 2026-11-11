@@ -790,7 +790,9 @@ var pw198fire=pw183fire;pw183fire=function(){var old=score;pw198fire();if(score>
 // pw200: support the R key as an optional desktop reload shortcut
 window.addEventListener("keydown",function(e){if((e.key==="r"||e.key==="R")&&playing&&!paused&&pw187ammo<pw187maxAmmo){e.preventDefault();pw188reload.click()}});
 // pw201: pulse the reticle briefly after a successful arcade hit
-var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fire();if(score>old)pw201pulse=1};
+// pw211: small hit-confirmation label for arcade target practice
+var pw211confirm=document.createElement("div");pw211confirm.style.cssText="position:fixed;left:50%;top:calc(45% + 28px);transform:translateX(-50%);z-index:8;color:#9ffaff;font:900 9px Arial;letter-spacing:2px;opacity:0;pointer-events:none";pw211confirm.textContent="TARGET HIT";document.body.appendChild(pw211confirm);
+var pw201pulse=0,pw201fire=pw183fire;pw183fire=function(){var old=score;pw201fire();if(score>old){pw201pulse=1;pw211confirm.style.opacity="1";setTimeout(function(){pw211confirm.style.opacity="0"},360)}};
 // pw202: keep training HUD labels synchronized with wave and ammo state
 var pw202hud=document.createElement("div");pw202hud.style.cssText="position:fixed;left:14px;top:14px;z-index:8;color:#a9f4f3;font:800 9px Arial;letter-spacing:1.4px;text-shadow:0 1px 5px #001;pointer-events:none";pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING";document.body.appendChild(pw202hud);
 // pw204: add a clear target count separate from the legacy marker count
