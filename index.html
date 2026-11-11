@@ -914,6 +914,9 @@ var pw265style=document.createElement("style");pw265style.textContent="#hud .pil
 
 // pw266: Crosshair visibility
 var pw266style=document.createElement("style");pw266style.textContent="#cross{filter:drop-shadow(0 0 3px #00131d);will-change:transform}";document.head.appendChild(pw266style);
+
+// pw267: Crosshair mobile scale
+var pw267style=document.createElement("style");pw267style.textContent="@media(max-width:520px){#cross{width:19px;height:19px}}";document.head.appendChild(pw267style);
 requestAnimationFrame(frame);updateHud();
 })();
 
