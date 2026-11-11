@@ -372,8 +372,17 @@ function parkedCar(x,z,color,flip){
  }
  part(new THREE.BoxGeometry(.62,.13,.035),chrome,0,.49,2.19);
  part(new THREE.BoxGeometry(.56,.17,.035),chrome,0,.49,-2.18);
- var lamp=new THREE.MeshStandardMaterial({color:0xffe6b5,emissive:0xffd18a,emissiveIntensity:.55});
- part(new THREE.BoxGeometry(.42,.16,.06),lamp,-.62,.83,2.09);part(new THREE.BoxGeometry(.42,.16,.06),lamp,.62,.83,2.09);
+ var lampHousing=new THREE.MeshStandardMaterial({color:0x26343a,metalness:.48,roughness:.38});
+ var lamp=new THREE.MeshPhysicalMaterial({color:0xffe6b5,emissive:0xffd18a,emissiveIntensity:.72,roughness:.2,clearcoat:1});
+ for(var headX of [-.62,.62]){
+  part(new THREE.BoxGeometry(.48,.2,.075),lampHousing,headX,.83,2.075);
+  part(new THREE.BoxGeometry(.42,.14,.06),lamp,headX,.84,2.12);
+ }
+ // Thin rear reflectors and a subtle high-mounted brake-light strip
+ var rearReflect=new THREE.MeshStandardMaterial({color:0xd65a4d,emissive:0x35100c,emissiveIntensity:.5});
+ part(new THREE.BoxGeometry(.72,.055,.035),rearReflect,0,1.54,-1.23);
+ part(new THREE.BoxGeometry(.22,.08,.035),rearReflect,-.72,.83,-2.12);
+ part(new THREE.BoxGeometry(.22,.08,.035),rearReflect,.72,.83,-2.12);
  group.position.set(x,0,z);if(flip)group.rotation.y=Math.PI;scene.add(group);
 }
 parkedCar(-7.6,-28,0x536d78,false);parkedCar(7.5,-61,0x8c5144,true);parkedCar(-7.4,-88,0x858b83,false);
