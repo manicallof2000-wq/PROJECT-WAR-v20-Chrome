@@ -1215,6 +1215,9 @@ var pw363sens=1;var pw363sensBtn=document.createElement("button");pw363sensBtn.t
 
 // pw364: Add adjustable sound volume
 var pw364volume=1;var pw364volumeBtn=document.createElement("button");pw364volumeBtn.textContent="بلندی صدا: ۱۰۰٪";pw364volumeBtn.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw364volumeBtn);pw364volumeBtn.addEventListener("click",function(){pw364volume=pw364volume<=.25?1:pw364volume-.25;pw364volumeBtn.textContent="بلندی صدا: "+Math.round(pw364volume*100)+"٪"});
+
+// pw365: Save camera sensitivity preference
+try{pw363sens=Number(localStorage.getItem("pw_sensitivity")||1)||1;pw363sensBtn.textContent="حساسیت دوربین: "+pw363sens.toFixed(2)}catch(e){}var pw365oldSens=pw363sensBtn.onclick;pw363sensBtn.addEventListener("click",function(){try{localStorage.setItem("pw_sensitivity",String(pw363sens))}catch(e){}});
 })();
 
  }
