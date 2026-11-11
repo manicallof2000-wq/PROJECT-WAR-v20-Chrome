@@ -1596,6 +1596,9 @@ var pw490goalDone=false;setInterval(function(){if(!pw490goalDone&&pw327hits>=pw4
 
 // pw491: Reset goal completion when a new match starts
 var pw491start=startGame;startGame=function(e){pw490goalDone=false;pw380brief.textContent="ماموریت شروع شد • موفق باشی";return pw491start(e)};
+
+// pw492: Add a dashboard toggle for goal progress
+var pw492goalToggle=document.createElement("button");pw492goalToggle.textContent="نمایش پیشرفت هدف";pw492goalToggle.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw492goalToggle);pw492goalToggle.onclick=function(){var on=pw489goalbar.style.display==="none";pw489goalbar.style.display=on?"block":"none";pw489goaltext.style.display=on?"block":"none"};
 })();
 
  }
