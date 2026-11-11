@@ -1257,6 +1257,9 @@ var pw377ach=document.createElement('button');pw377ach.textContent='دستاور
 
 // pw378: Add session duration tracker
 var pw378start=performance.now(),pw378time=document.createElement('div');pw378time.textContent='زمان بازی: ۰ دقیقه';pw378time.style.cssText='position:fixed;left:10px;top:366px;z-index:14;padding:6px 9px;border-radius:8px;background:#102b38dd;color:#d9f7ff;font:800 10px system-ui;pointer-events:none';document.body.appendChild(pw378time);setInterval(function(){if(playing&&!paused)pw378time.textContent='زمان بازی: '+Math.floor((performance.now()-pw378start)/60000)+' دقیقه'},5000);
+
+// pw379: Add session summary shortcut
+var pw379summary=document.createElement('button');pw379summary.textContent='خلاصه این دور';pw379summary.style.cssText='display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui';pw335panel.appendChild(pw379summary);pw379summary.onclick=function(){toast('امتیاز '+score+' • موج '+pw194wave+' • دقت '+Math.round(pw327hits/Math.max(1,pw327shots)*100)+'٪')};
 })();
 
  }
