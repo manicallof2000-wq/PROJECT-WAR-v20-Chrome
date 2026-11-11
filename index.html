@@ -1569,6 +1569,9 @@ var pw481trend=document.createElement("div");pw481trend.style.cssText="padding:6
 
 // pw482: Add a quick mission restart shortcut
 var pw482restart=document.createElement("button");pw482restart.textContent="شروع دوباره مأموریت";pw482restart.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw482restart);pw482restart.onclick=function(){if(typeof startGame==="function"){pw416dash.style.display="none";startGame();toast("مأموریت دوباره آغاز شد")}};
+
+// pw483: Add a visual pulse when score increases
+var pw483last=score;setInterval(function(){if(score>pw483last){pw443score.style.color="#9fffd0";pw443score.style.transform="scale(1.04)";setTimeout(function(){pw443score.style.color="#cfeefa";pw443score.style.transform="scale(1)"},220)}pw483last=score},250);
 })();
 
  }
