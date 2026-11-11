@@ -667,6 +667,7 @@ var pw139band=new THREE.MeshStandardMaterial({color:0x8c9996,metalness:.7,roughn
 var pw140base=new THREE.MeshStandardMaterial({color:0x858c84,roughness:.9});buildings.forEach(function(b){for(var x of [-.8,.8])slab(.95,.14,.82,pw140base,b[0]+x,b[3]+.12,b[1])});
 var pw141cap=new THREE.MeshStandardMaterial({color:0x9da7a2,metalness:.48,roughness:.5});buildings.forEach(function(b){for(var x of [-1,1])slab(.55,.06,.44,pw141cap,b[0]+x*1.25,b[3]+.56,b[1]+.65)});
 var pw142ring=new THREE.MeshStandardMaterial({color:0xb0b9b4,metalness:.8,roughness:.28});buildings.forEach(function(b,i){if(i%3===0){var r=new THREE.Mesh(new THREE.TorusGeometry(.07,.018,5,12),pw142ring);r.position.set(b[0]-.9,b[3]+1.15,b[1]+.6);scene.add(r)}});
+var pw143stone=new THREE.MeshStandardMaterial({color:0x98988e,roughness:.88});buildings.slice(0,6).forEach(function(b){var z=b[1]+b[4]/2+.25;slab(1.7,.16,.12,pw143stone,b[0],.16,z);});
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
