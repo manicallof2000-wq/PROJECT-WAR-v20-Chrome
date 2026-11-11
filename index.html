@@ -1266,6 +1266,9 @@ var pw380brief=document.createElement("div");pw380brief.id="pw380brief";pw380bri
 
 // pw381: Add objective completion feedback
 var pw381base=pw183fire;pw183fire=function(){var before=score;pw381base();if(score>before&&pw380brief)pw380brief.textContent="ماموریت فعال • "+pw327hits+" هدف ثبت شد"};
+
+// pw382: Add a compact pause status indicator
+var pw382pause=document.createElement("div");pw382pause.id="pw382pause";pw382pause.textContent="● آماده";pw382pause.style.cssText="position:fixed;left:10px;top:435px;z-index:14;color:#9fffd0;font:900 10px system-ui;pointer-events:none";document.body.appendChild(pw382pause);document.getElementById("pause").addEventListener("click",function(){pw382pause.textContent=paused?"Ⅱ مکث":"● آماده";pw382pause.style.color=paused?"#ffd18a":"#9fffd0"});
 })();
 
  }
