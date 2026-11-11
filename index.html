@@ -16,7 +16,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172a38;fon
 #nub{position:absolute;left:34px;top:34px;width:48px;height:48px;border-radius:50%;background:#ffffffd9;border:2px solid white;box-shadow:0 3px 12px #0008}
 .action{position:fixed;border:1px solid #ffffffa8;color:#fff;font-weight:900;border-radius:50%;background:#0c2d40eF;box-shadow:0 4px 15px #0007;touch-action:none}
 
-#fire{right:94px;bottom:max(18px,env(safe-area-inset-bottom));width:88px;height:88px;background:#a43b35;font-size:17px;z-index:5}
+#fire{right:94px;bottom:max(18px,env(safe-area-inset-bottom));width:88px;height:88px;background:#087e83;font-size:15px;z-index:5}
 #jump{right:26px;bottom:max(121px,calc(env(safe-area-inset-bottom) + 121px));width:54px;height:54px;font-size:12px}
 #run{right:111px;bottom:max(108px,calc(env(safe-area-inset-bottom) + 108px));width:52px;height:52px;font-size:11px}
 #pause{position:fixed;right:10px;top:108px;width:38px;height:38px;border-radius:11px;border:1px solid #ffffff55;background:#091722d9;color:white;font-size:17px}
@@ -40,11 +40,11 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
 <div id="task">ماموریت: ۵ نقطه نورانی شهر را پیدا کن</div>
 <div id="cross"></div>
 <div id="joy"><div id="nub"></div></div>
-<button class="action" id="fire" type="button">شلیک</button>
+<button class="action" id="fire" type="button">فعال‌سازی</button>
 <button class="action" id="jump" type="button">پرش</button>
 <button class="action" id="run" type="button">دویدن</button>
 <button id="pause" type="button">Ⅱ</button>
-<div id="hint">حرکت: جوی‌استیک • چرخش دوربین: کشیدن صفحه • شلیک: دکمه قرمز</div>
+<div id="hint">حرکت: جوی‌استیک • چرخش دوربین: کشیدن صفحه • فعال‌سازی نقطه: دکمه آبی</div>
 <div id="toast"></div>
 <div id="overlay">
  <div class="dialog">
@@ -122,8 +122,8 @@ function draw(){
   ctx.fillStyle="#52d8c8";ctx.fillRect(W*.012,-48,W*.012,12);ctx.restore();
 
 }
-function shoot(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dx=pt.x-player.x,dz=pt.z-player.z,dist=Math.hypot(dx,dz);if(dist>95)return;var targetYaw=Math.atan2(dx,-dz),diff=Math.atan2(Math.sin(targetYaw-player.yaw),Math.cos(targetYaw-player.yaw));if(Math.abs(diff)<0.42&&dist<best){best=dist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;beep(660,.16);setTimeout(function(){beep(880,.2)},100);toast("نقطه فعال شد +۱۰۰");updateHud()}else{beep(180,.08);toast("نشانه‌گیر را روی هدف بگذار")}}
-document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();shoot()});
+function activateMarker(){if(!playing||paused)return;var nearest=null,best=38;points.forEach(function(pt){if(pt.done)return;var dist=Math.hypot(pt.x-player.x,pt.z-player.z);if(dist>95)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var screenDist=Math.hypot(p.x-W/2,p.y-H*.45);if(screenDist<best){best=screenDist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;beep(660,.16);setTimeout(function(){beep(880,.2)},100);toast("نقطه نورانی فعال شد +۱۰۰");updateHud()}else{beep(180,.08);toast("نشانگر وسط صفحه را دقیقاً روی نقطه بگذار")}}
+document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();activateMarker()});
 document.getElementById("sound").addEventListener("click",function(){soundOn=!soundOn;this.textContent=soundOn?"♫":"♪";toast(soundOn?"صدا روشن شد":"صدا خاموش شد")});
 document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
 var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false})});
