@@ -301,6 +301,14 @@ function roundedBuilding(b,i){
   }
   slab(.18,.32,.12,wallLamp,b[0],floorY+.95,b[1]+d/2+.1);
  }
+ // Exterior rainwater downpipes with subtle mounting brackets
+ var pipeMat=new THREE.MeshStandardMaterial({color:0x657174,metalness:.42,roughness:.56});
+ for(var pipeSide of [-1,1]){
+  var pipeX=b[0]+pipeSide*(w/2-.24);
+  var pipe=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,h-2,8),pipeMat);
+  pipe.position.set(pipeX,h/2+1,b[1]+d/2+.12);pipe.castShadow=true;scene.add(pipe);
+  for(var bracketY=2;bracketY<h-1;bracketY+=3.2)slab(.2,.045,.16,acDark,pipeX,bracketY,b[1]+d/2+.12);
+ }
  // Small rooftop service housings
  for(var roofBox=0;roofBox<2;roofBox++){
   slab(.8,.58,.72,acCase,b[0]-.8+roofBox*1.6,h+.43,b[1]);
