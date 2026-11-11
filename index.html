@@ -1278,6 +1278,9 @@ var pw384milestones=[500,1000,2000,3500,5000],pw384seen={};var pw384base=pw183fi
 
 // pw385: Add session best-hit streak
 var pw385best=0,pw385base=pw183fire;pw183fire=function(){var b=score;pw385base();if(score>b){pw385best=Math.max(pw385best,pw330combo);if(pw385best>0&&pw385best%5===0)pw385bestEl.textContent="بهترین زنجیره: ×"+pw385best}};var pw385bestEl=document.createElement("div");pw385bestEl.textContent="بهترین زنجیره: ×0";pw385bestEl.style.cssText="position:fixed;right:10px;top:293px;z-index:14;padding:6px 9px;border-radius:8px;background:#251d12dd;color:#ffe8b0;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw385bestEl);
+
+// pw386: Add an end-of-wave summary message
+var pw386wave=pw194wave;setInterval(function(){if(pw194wave>pw386wave){pw386wave=pw194wave;pw380brief.textContent="موج "+pw194wave+" شروع شد • آماده باش";pw386waveEl.textContent="آخرین موج: "+pw194wave}},500);var pw386waveEl=document.createElement("div");pw386waveEl.textContent="آخرین موج: "+pw194wave;pw386waveEl.style.cssText="position:fixed;right:10px;top:326px;z-index:14;color:#bcefff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw386waveEl);
 })();
 
  }
