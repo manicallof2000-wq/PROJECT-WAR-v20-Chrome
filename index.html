@@ -1326,6 +1326,9 @@ var pw400practice=document.createElement("button");pw400practice.textContent="ت
 
 // pw401: Add a quick-practice countdown display
 var pw401tick=setInterval(function(){if(pw400end>0){var left=Math.max(0,Math.ceil((pw400end-performance.now())/1000));pw345clock.textContent="تمرین سریع: "+left;if(left===0){pw400end=0;toast("تمرین سریع تمام شد • امتیاز "+score)}}},200);
+
+// pw402: Add a personal accuracy record
+var pw402accuracy=0;try{pw402accuracy=Number(localStorage.getItem("pw_accuracy_best")||0)||0}catch(e){}var pw402bestEl=document.createElement("div");pw402bestEl.textContent="بهترین دقت: "+pw402accuracy+"٪";pw402bestEl.style.cssText="position:fixed;right:10px;top:359px;z-index:14;padding:6px 9px;border-radius:8px;background:#102b25dd;color:#caffdf;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw402bestEl);
 })();
 
  }
