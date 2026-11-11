@@ -88,8 +88,21 @@ var player={x:0,z:8,yaw:0,pitch:0};
 var savedBest=0;try{savedBest=Number(localStorage.getItem("pw_best")||0)||0}catch(e){}
 var best=savedBest;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
-var scene=new THREE.Scene();scene.background=new THREE.Color(0x8fc5dc);scene.fog=new THREE.Fog(0x8fc5dc,42,125);
+var scene=new THREE.Scene();scene.background=null;scene.fog=new THREE.Fog(0x8fc5dc,42,125);
 var camera=new THREE.PerspectiveCamera(72,W/H,.1,180);camera.position.set(0,1.65,8);
+var skyCanvas=document.createElement("canvas");skyCanvas.width=1024;skyCanvas.height=512;
+var skyCtx=skyCanvas.getContext("2d"),skyGrad=skyCtx.createLinearGradient(0,0,0,512);
+skyGrad.addColorStop(0,"#244b78");skyGrad.addColorStop(.42,"#6eaccb");skyGrad.addColorStop(.78,"#b9d8df");skyGrad.addColorStop(1,"#e5d9bd");
+skyCtx.fillStyle=skyGrad;skyCtx.fillRect(0,0,1024,512);
+var sunGlow=skyCtx.createRadialGradient(245,190,8,245,190,170);
+sunGlow.addColorStop(0,"rgba(255,244,211,.9)");sunGlow.addColorStop(.12,"rgba(255,230,180,.38)");sunGlow.addColorStop(1,"rgba(255,230,180,0)");
+skyCtx.fillStyle=sunGlow;skyCtx.fillRect(70,15,350,350);
+skyCtx.save();skyCtx.filter="blur(15px)";
+for(var cloud=0;cloud<17;cloud++){var cx=(cloud*173+70)%1120,cy=95+(cloud*47)%185;skyCtx.fillStyle="rgba(255,255,255,.12)";skyCtx.beginPath();skyCtx.ellipse(cx,cy,55+(cloud%4)*17,9+(cloud%3)*5,0,0,Math.PI*2);skyCtx.fill()}
+skyCtx.restore();
+var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;
+var skyDome=new THREE.Mesh(new THREE.SphereGeometry(170,40,24),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
+skyDome.frustumCulled=false;scene.add(skyDome);
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
