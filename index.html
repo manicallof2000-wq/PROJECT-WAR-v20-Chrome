@@ -26,12 +26,12 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172a38;fon
 h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deebf2}
 #start{border:0;border-radius:13px;background:linear-gradient(135deg,#67f1c5,#43b8e6);color:#082033;padding:14px 32px;font-size:18px;font-weight:900;margin-top:12px;min-width:175px;touch-action:manipulation}
 #toast{position:fixed;z-index:20;left:50%;top:45%;transform:translate(-50%,-50%);background:#071c2cf2;color:#fff;border-radius:13px;padding:11px 17px;opacity:0;transition:opacity .2s;pointer-events:none;font-weight:900}
-#cross{position:fixed;left:50%;top:45%;width:15px;height:15px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 6px #000;pointer-events:none}
+#cross{position:fixed;left:50%;top:45%;width:15px;height:15px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 6px #000;pointer-events:none}\n#map{position:fixed;right:10px;top:153px;width:104px;height:104px;border:1px solid #ffffff88;border-radius:14px;background:#071722cc;pointer-events:none}\n#sound{position:fixed;right:10px;top:198px;width:38px;height:34px;border-radius:10px;border:1px solid #ffffff55;background:#091722d9;color:white;font-size:15px}
 </style>
 </head>
 <body>
 <canvas id="world"></canvas>
-<div id="hud"><div class="pill">امتیاز <span id="score">۰</span></div><div class="pill">نقاط <span id="count">۰</span>/۵</div><div class="pill">وضعیت <span id="status">آماده</span></div></div>
+<div id="hud"><div class="pill">امتیاز <span id="score">۰</span></div><div class="pill">نقاط <span id="count">۰</span>/۵</div><div class="pill">وضعیت <span id="status">آماده</span></div><div class="pill">زمان <span id="timer">۰۰:۰۰</span></div></div>\n<canvas id="map" width="208" height="208"></canvas>\n<button id="sound" type="button">♫</button>
 <div id="task">ماموریت: ۵ نقطه نورانی شهر را پیدا کن</div>
 <div id="cross"></div>
 <div id="joy"><div id="nub"></div></div>
@@ -56,16 +56,16 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
 var canvas=document.getElementById("world"),ctx=canvas.getContext("2d",{alpha:false});
 var overlay=document.getElementById("overlay"),startBtn=document.getElementById("start");
 var scoreEl=document.getElementById("score"),countEl=document.getElementById("count"),statusEl=document.getElementById("status"),taskEl=document.getElementById("task"),toastEl=document.getElementById("toast");
-var W=innerWidth,H=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5),playing=false,paused=false;
-var player={x:0,z:8,y:0,yaw:0,pitch:0},joyX=0,joyY=0,running=false,jump=0,jumpV=0,score=0,found=0;
+var W=innerWidth,H=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5),playing=false,paused=false,startedAt=0;
+var player={x:0,z:8,y:0,yaw:0,pitch:0},joyX=0,joyY=0,running=false,jump=0,jumpV=0,score=0,found=0,elapsed=0,best=Number(localStorage.getItem("pw_best")||0),soundOn=true,audioCtx=null;
 var points=[{x:-4,z:-18,done:false},{x:4,z:-29,done:false},{x:-3,z:-41,done:false},{x:5,z:-53,done:false},{x:0,z:-66,done:false}];
 function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(dpr,0,0,dpr,0,0)}
 addEventListener("resize",resize);resize();
-function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;overlay.style.display="none";statusEl.textContent="درحال بازی";taskEl.textContent="ماموریت: نقاط نورانی را پیدا کن";return false}
+function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;startedAt=performance.now()-elapsed*1000;overlay.style.display="none";statusEl.textContent="درحال بازی";taskEl.textContent="ماموریت: ۵ نقطه نورانی را فعال کن";return false}
 window.startGame=startGame;
 ["click","pointerup","touchend"].forEach(function(ev){startBtn.addEventListener(ev,startGame,{passive:false})});
 function toast(t){toastEl.textContent=t;toastEl.style.opacity="1";clearTimeout(toast.timer);toast.timer=setTimeout(function(){toastEl.style.opacity="0"},1100)}
-function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";toast("همه نقاط را پیدا کردی!")} }
+function updateHud(){scoreEl.textContent=String(score);countEl.textContent=String(found);if(found===5){taskEl.textContent="ماموریت کامل شد!";statusEl.textContent="عالی";if(score>best){best=score;localStorage.setItem("pw_best",String(best))}toast("مرحله کامل شد! رکورد: "+best)}}\nfunction beep(freq,duration){if(!soundOn)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration)}catch(e){}}\nfunction drawMap(){var m=document.getElementById("map"),c=m.getContext("2d");c.clearRect(0,0,208,208);c.fillStyle="#102b37";c.fillRect(0,0,208,208);c.strokeStyle="#526b6e";c.lineWidth=17;c.beginPath();c.moveTo(104,12);c.lineTo(104,196);c.stroke();c.strokeStyle="#d5c99a";c.lineWidth=1;c.setLineDash([5,6]);c.beginPath();c.moveTo(104,12);c.lineTo(104,196);c.stroke();c.setLineDash([]);points.forEach(function(p){var x=104+p.x*2.2,y=18+(8-p.z)*2.2;c.fillStyle=p.done?"#64736e":"#65f4dc";c.beginPath();c.arc(x,y,5,0,Math.PI*2);c.fill()});var px=104+player.x*2.2,py=18+(8-player.z)*2.2;c.save();c.translate(px,py);c.rotate(player.yaw);c.fillStyle="#fff";c.beginPath();c.moveTo(0,-9);c.lineTo(-6,7);c.lineTo(6,7);c.closePath();c.fill();c.restore()}
 function project(x,y,z){
  var dx=x-player.x,dz=z-player.z,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
  var vx=dx*co+dz*si,vz=dx*si-dz*co;
@@ -112,10 +112,10 @@ function draw(){
   ctx.fillStyle="#71858a";ctx.fillRect(-W*.018,-78,W*.035,83);ctx.fillStyle="#a8b8b3";ctx.fillRect(-W*.012,-91,W*.024,22);
   ctx.fillStyle="#d2a06e";ctx.beginPath();ctx.ellipse(-W*.012,30,W*.045,23,-.25,0,Math.PI*2);ctx.fill();ctx.fillStyle="#263744";ctx.fillRect(-W*.055,5,W*.11,17);
   ctx.fillStyle="#52d8c8";ctx.fillRect(W*.012,-48,W*.012,12);ctx.restore();
- var handY=H-35+jump*25;ctx.fillStyle="#263b4b";ctx.beginPath();ctx.moveTo(W*.58,H);ctx.lineTo(W*.62,handY-75);ctx.quadraticCurveTo(W*.68,handY-95,W*.73,handY-55);ctx.lineTo(W*.79,H);ctx.fill();ctx.fillStyle="#b88768";ctx.beginPath();ctx.ellipse(W*.69,handY-18,32,27,-.2,0,Math.PI*2);ctx.fill();
+
 }
-function shoot(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dx=pt.x-player.x,dz=pt.z-player.z,dist=Math.hypot(dx,dz);if(dist>95)return;var targetYaw=Math.atan2(dx,-dz),diff=Math.atan2(Math.sin(targetYaw-player.yaw),Math.cos(targetYaw-player.yaw));if(Math.abs(diff)<0.42&&dist<best){best=dist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;toast("هدف علامت‌گذاری شد +۱۰۰");updateHud()}else toast("نشانه‌گیر را روی هدف بگذار")}
-document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();shoot()});
+function shoot(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dx=pt.x-player.x,dz=pt.z-player.z,dist=Math.hypot(dx,dz);if(dist>95)return;var targetYaw=Math.atan2(dx,-dz),diff=Math.atan2(Math.sin(targetYaw-player.yaw),Math.cos(targetYaw-player.yaw));if(Math.abs(diff)<0.42&&dist<best){best=dist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;beep(660,.16);setTimeout(function(){beep(880,.2)},100);toast("نقطه فعال شد +۱۰۰");updateHud()}else{beep(180,.08);toast("نشانه‌گیر را روی هدف بگذار")}}
+document.getElementById("fire").addEventListener("pointerdown",function(e){e.preventDefault();shoot()});\ndocument.getElementById("sound").addEventListener("click",function(){soundOn=!soundOn;this.textContent=soundOn?"♫":"♪";toast(soundOn?"صدا روشن شد":"صدا خاموش شد")});
 document.getElementById("jump").addEventListener("pointerdown",function(e){e.preventDefault();if(playing&&!paused&&jump===0)jumpV=5});
 var runBtn=document.getElementById("run");runBtn.addEventListener("pointerdown",function(e){e.preventDefault();running=true});["pointerup","pointercancel","pointerleave"].forEach(function(ev){runBtn.addEventListener(ev,function(){running=false})});
 document.getElementById("pause").addEventListener("click",function(){if(!playing)return;paused=!paused;statusEl.textContent=paused?"مکث":"درحال بازی";overlay.style.display=paused?"grid":"none";document.getElementById("title").textContent=paused?"بازی متوقف شد":"گشت‌وگذار شهری";document.getElementById("start").textContent=paused?"ادامه بازی":"شروع بازی"});
@@ -127,13 +127,13 @@ canvas.addEventListener("pointerdown",function(e){if(e.clientX<W*.42&&e.clientY>
 canvas.addEventListener("pointermove",function(e){if(lookId!==e.pointerId||!playing||paused)return;player.yaw+=(e.clientX-lastX)*.004;player.pitch=Math.max(-.45,Math.min(.45,player.pitch-(e.clientY-lastY)*.002));lastX=e.clientX;lastY=e.clientY});
 function stopLook(){lookId=null}canvas.addEventListener("pointerup",stopLook);canvas.addEventListener("pointercancel",stopLook);
 var last=performance.now();
-function frame(now){var dt=Math.min(.04,(now-last)/1000);last=now;if(playing&&!paused){
+function frame(now){var dt=Math.min(.04,(now-last)/1000);last=now;if(playing&&!paused){elapsed=(now-startedAt)/1000;var secs=Math.floor(elapsed),mm=String(Math.floor(secs/60)).padStart(2,"0"),ss=String(secs%60).padStart(2,"0");document.getElementById("timer").textContent=mm+":"+ss;
  var speed=running?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
  player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(joyY*co-joyX*si)*speed*dt;
  player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-90,Math.min(10,player.z));
  if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
  }
- draw();requestAnimationFrame(frame)}
+ draw();drawMap();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 updateHud();
 })();
