@@ -1076,6 +1076,9 @@ var pw319style=document.createElement("style");pw319style.textContent="#hud .pil
 
 // pw320: Start overlay contrast
 var pw320style=document.createElement("style");pw320style.textContent="#overlay{color:#f4fbff}";document.head.appendChild(pw320style);
+
+// pw321: Button active contrast
+var pw321style=document.createElement("style");pw321style.textContent=".action:active{filter:brightness(1.2) saturate(1.1)}";document.head.appendChild(pw321style);
 requestAnimationFrame(frame);updateHud();
 })();
 
