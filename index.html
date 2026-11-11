@@ -768,7 +768,9 @@ var pw191bases=pw183targets.map(function(g){return {y:g.position.y,phase:g.userD
 // pw192: animate active drones with a restrained hover cycle
 // pw193: give drones a slight arcade side-to-side drift
 // pw194: start a fresh drone wave after all current targets are cleared
-var pw194wave=1,pw194fire=pw183fire;pw183fire=function(){var before=score;pw194fire();if(score>before&&pw183targets.every(function(g){return g.userData.hit})){pw194wave++;setTimeout(function(){pw183targets.forEach(function(g){g.userData.hit=false;g.visible=true});toast("موج "+pw194wave+" شروع شد")},900)}};
+var pw194wave=1,pw194fire=pw183fire;pw183fire=function(){var before=score;pw194fire();if(score>before&&pw183targets.every(function(g){return g.userData.hit})){pw194wave++;if(pw195waveEl)pw195waveEl.textContent="WAVE "+pw194wave;setTimeout(function(){pw183targets.forEach(function(g){g.userData.hit=false;g.visible=true});toast("موج "+pw194wave+" شروع شد")},900)}};
+// pw195: display the current arcade wave beside the energy counter
+var pw195waveEl=document.createElement("div");pw195waveEl.style.cssText="position:fixed;right:18px;bottom:55px;z-index:8;color:#9af5ff;font:900 11px Arial;letter-spacing:1px;text-shadow:0 1px 5px #001";pw195waveEl.textContent="WAVE 1";document.body.appendChild(pw195waveEl);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
