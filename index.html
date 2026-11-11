@@ -1590,6 +1590,9 @@ var pw488goal=document.createElement("button");pw488goal.textContent="هدف د�
 
 // pw489: Show progress toward the selected match goal
 var pw489goalbar=document.createElement("div"),pw489goalfill=document.createElement("div"),pw489goaltext=document.createElement("div");pw489goalbar.style.cssText="height:6px;background:#29414c;border-radius:6px;overflow:hidden;margin:5px 0";pw489goalfill.style.cssText="height:100%;width:0;background:#c49cff";pw489goalbar.appendChild(pw489goalfill);pw489goaltext.style.cssText="color:#e2d6ff;font:800 10px system-ui";pw416dash.appendChild(pw489goaltext);pw416dash.appendChild(pw489goalbar);setInterval(function(){var p=Math.min(100,pw327hits/pw488value*100);pw489goalfill.style.width=p+"%";pw489goaltext.textContent="هدف دور: "+Math.min(pw488value,pw327hits)+"/"+pw488value},500);
+
+// pw490: Add a mission goal completion notice
+var pw490goalDone=false;setInterval(function(){if(!pw490goalDone&&pw327hits>=pw488value){pw490goalDone=true;pw380brief.textContent="هدف دور کامل شد • آفرین";toast("هدف تمرین کامل شد!")}},500);
 })();
 
  }
