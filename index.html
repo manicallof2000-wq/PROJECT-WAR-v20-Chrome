@@ -1500,6 +1500,9 @@ var pw458best=document.createElement("div");pw458best.textContent="رکورد ا
 
 // pw459: Add a quick copy score action to the dashboard
 var pw459copy=document.createElement("button");pw459copy.textContent="کپی امتیاز";pw459copy.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw459copy);pw459copy.onclick=function(){var v="PROJECT WAR • امتیاز "+score+" • موج "+pw194wave;if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(function(){toast("امتیاز کپی شد")}).catch(function(){toast(v)});else toast(v)};
+
+// pw460: Add a live session rank tile
+var pw460rank=document.createElement("div");pw460rank.textContent="رتبه: —";pw460rank.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw416dash.appendChild(pw460rank);setInterval(function(){var a=pw327hits/Math.max(1,pw327shots);pw460rank.textContent="رتبه: "+(pw327shots<5?"—":a>=.85?"S":a>=.7?"A":a>=.5?"B":"C")},700);
 })();
 
  }
