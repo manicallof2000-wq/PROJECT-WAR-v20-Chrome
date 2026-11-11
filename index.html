@@ -1245,6 +1245,9 @@ var pw373style=document.createElement("style");pw373style.textContent="@media(ma
 
 // pw374: Finalize touch-friendly game controls and UI
 var pw374style=document.createElement("style");pw374style.textContent="#fire,#jump,#run,#pause,#sound,#pw188reload,#pw335settings,#pw335panel button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}#pw335panel{max-height:58vh;overflow:auto;overscroll-behavior:contain}#pw325panel,#pw326rank,#pw327accuracy,#pw330combo,#pw332best,#pw334wave,#pw342targets,#pw360dist,#pw371board,#pw372rankTitle{backdrop-filter:blur(9px);box-shadow:0 3px 12px #0005}";document.head.appendChild(pw374style);
+
+// pw375: Add daily training objective
+var pw375daily=document.createElement('div');pw375daily.textContent='تمرین امروز: ثبت ۵ هدف';pw375daily.style.cssText='margin-top:8px;padding:7px;border-radius:8px;background:#183345;color:#d8f8ff;font:800 10px system-ui';pw335panel.appendChild(pw375daily);
 })();
 
  }
