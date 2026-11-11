@@ -607,6 +607,7 @@ var pw79case=new THREE.MeshStandardMaterial({color:0x65736e,metalness:.22,roughn
 var pw80metal=new THREE.MeshStandardMaterial({color:0xb5bdb6,metalness:.72,roughness:.34});for(var s of [-1,1]){slab(.12,.22,.035,pw80metal,s*14.1,.58,-38.7);slab(.32,.025,.035,pw80metal,s*14.1,.96,-38.7)}
 var pw81edge=new THREE.MeshStandardMaterial({color:0xb5bdb9,metalness:.72,roughness:.3});slab(3.28,.045,.06,pw81edge,14.1,2.55,-82);slab(.06,.045,1.3,pw81edge,12.55,2.55,-82);slab(.06,.045,1.3,pw81edge,15.65,2.55,-82);
 var pw82handle=new THREE.MeshStandardMaterial({color:0xd1c6a4,metalness:.86,roughness:.2});buildings.slice(0,6).forEach(function(b){var z=b[1]+b[4]/2+.22;slab(.035,.42,.035,pw82handle,b[0]+b[2]*.18,1.05,z)});
+var pw83glow=new THREE.MeshStandardMaterial({color:0xffe5b2,emissive:0xffd28b,emissiveIntensity:1});for(var x of [-.9,0,.9])slab(.32,.045,.22,pw83glow,14.1,2.38,-82);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
