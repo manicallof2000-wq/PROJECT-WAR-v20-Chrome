@@ -104,7 +104,9 @@ var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SR
 var skyDome=new THREE.Mesh(new THREE.SphereGeometry(170,40,24),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
 skyDome.frustumCulled=false;scene.add(skyDome);
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
+var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
+var qualityScale=isMobileDevice?1.35:1.75;
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
@@ -322,7 +324,7 @@ points.forEach(function(p){
 });
 var skyLight=new THREE.Mesh(new THREE.SphereGeometry(3,20,12),new THREE.MeshBasicMaterial({color:0xfff0cb}));skyLight.position.set(28,28,-75);scene.add(skyLight);
 function resize(){W=innerWidth;H=innerHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(W,H,false)}
-addEventListener("resize",resize);
+addEventListener("resize",resize);renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(innerWidth,innerHeight,false);
 function startGame(e){if(e){e.preventDefault();e.stopPropagation()}playing=true;paused=false;startedAt=performance.now()-elapsed*1000;overlay.style.display="none";statusEl.textContent="درحال بازی";return false}
 window.startGame=startGame;startBtn.addEventListener("click",startGame);
 startBtn.addEventListener("touchend",function(e){e.preventDefault();startGame(e)},{passive:false});
