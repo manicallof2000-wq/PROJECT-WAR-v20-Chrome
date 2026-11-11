@@ -600,6 +600,7 @@ var pw72rail=new THREE.MeshStandardMaterial({color:0x536267,metalness:.66,roughn
 var pw73tile=new THREE.MeshStandardMaterial({color:0x9caa9f,roughness:.94});for(var x=-1;x<=1;x++)for(var z=0;z<4;z++)slab(.62,.035,.62,pw73tile,14.1+x*.68,.12,-82+z*.68);
 var pw74roof=new THREE.MeshStandardMaterial({color:0x526b75,metalness:.28,roughness:.55});slab(1.5,.12,.9,pw74roof,13.55,2.02,-94);
 var pw75light=new THREE.MeshStandardMaterial({color:0xffd99b,emissive:0xffc477,emissiveIntensity:.8});buildings.slice(0,6).forEach(function(b){slab(b[2]*.48,.035,.035,pw75light,b[0],2.48,b[1]+b[4]/2+.42)});
+var pw76base=new THREE.MeshStandardMaterial({color:0x777e7c,roughness:.9});for(var s of [-1,1])for(var z=-18;z>-105;z-=16){var m=new THREE.Mesh(new THREE.CylinderGeometry(.24,.3,.3,12),pw76base);m.position.set(s*11.45,.15,z);scene.add(m)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
