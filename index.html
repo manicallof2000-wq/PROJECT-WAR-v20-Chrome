@@ -577,6 +577,7 @@ var pw49support=new THREE.MeshStandardMaterial({color:0x59666a,metalness:.62,rou
 var pw50bin=new THREE.MeshStandardMaterial({color:0x536b69,roughness:.76,metalness:.22}),pw50lid=new THREE.MeshStandardMaterial({color:0x303d40,metalness:.48,roughness:.48});for(var pw50s of [-1,1]){var pw50x=pw50s*13.4;slab(.72,.95,.7,pw50bin,pw50x,.53,-45);slab(.78,.12,.75,pw50lid,pw50x,1.05,-45);slab(.32,.12,.025,pw50lid,pw50x,.62,-44.63)}
 var pw51metal=new THREE.MeshStandardMaterial({color:0x697779,metalness:.8,roughness:.28});for(var pw51s of [-1,1]){var pw51x=pw51s*13.65;for(var pw51z of [-67,-70]){var pw51u=new THREE.Mesh(new THREE.TorusGeometry(.38,.045,8,20,Math.PI),pw51metal);pw51u.rotation.z=Math.PI;pw51u.position.set(pw51x,.12,pw51z);scene.add(pw51u)}}
 var pw52case=new THREE.MeshStandardMaterial({color:0x53666c,metalness:.38,roughness:.5}),pw52screen=new THREE.MeshBasicMaterial({color:0x83b8c2});slab(1.05,1.65,.55,pw52case,13.55,1,-94);slab(.78,.82,.025,pw52screen,13.55,1.25,-93.71);slab(1.12,.08,.62,pw52case,13.55,1.88,-94);
+var pw53paint=new THREE.MeshStandardMaterial({color:0xd8d8c8,roughness:.94});for(var pw53s of [-1,1])for(var pw53z=-18;pw53z>-103;pw53z-=13){slab(.09,.022,5.2,pw53paint,pw53s*9.35,.03,pw53z);slab(2.5,.022,.09,pw53paint,pw53s*8.1,.03,pw53z-2.55)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
