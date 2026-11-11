@@ -1542,6 +1542,9 @@ var pw472high=document.createElement("button");pw472high.textContent="گرافی
 
 // pw473: Add a compact audio status label
 var pw473audio=document.createElement("div");pw473audio.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw473audio);setInterval(function(){pw473audio.textContent="صدای رابط: "+(pw450soundOn?"روشن":"خاموش")},1000);
+
+// pw474: Add a dashboard toggle for low-distraction mode
+var pw474quiet=document.createElement("button");pw474quiet.textContent="حالت خلوت";pw474quiet.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw474quiet);pw474quiet.onclick=function(){pw454quiet.click()};
 })();
 
  }
