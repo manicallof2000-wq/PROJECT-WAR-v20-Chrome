@@ -180,8 +180,13 @@ function facadeTexture(seed){
  for(var row=0;row<7;row++)for(var col=0;col<5;col++){
   var x=27+col*98,yy=20+row*70,w=55,h=43;
   g.fillStyle="#34434a";g.fillRect(x-5,yy-5,w+10,h+10);
-  g.fillStyle=(row+col+seed)%5===0?"#d6c49a":"#416575";g.fillRect(x,yy,w,h);
-  g.fillStyle="#d8e3df55";g.fillRect(x+4,yy+4,4,h-8);g.fillStyle="#172a35";g.fillRect(x+w/2-1,yy,2,h);
+  var lit=(row+col+seed)%5===0;
+  var glassGrad=g.createLinearGradient(x,yy,x+w,yy+h);
+  glassGrad.addColorStop(0,lit?"#e4d6ad":"#6c98a8");glassGrad.addColorStop(.48,lit?"#b6b09a":"#294b60");glassGrad.addColorStop(1,lit?"#8c9a91":"#182f43");
+  g.fillStyle=glassGrad;g.fillRect(x,yy,w,h);
+  g.fillStyle="rgba(235,247,248,.24)";g.beginPath();g.moveTo(x+5,yy+3);g.lineTo(x+17,yy+3);g.lineTo(x+7,yy+h-4);g.lineTo(x+4,yy+h-4);g.fill();
+  g.fillStyle="rgba(12,25,32,.42)";g.fillRect(x+w/2-1,yy,2,h);
+  g.fillStyle="rgba(210,225,225,.45)";g.fillRect(x+2,yy+h-3,w-4,2);
   g.fillStyle="#aeb9b2";g.fillRect(x-7,yy+h,w+14,5);
  }
  var tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return tex;
@@ -207,7 +212,7 @@ function roundedBuilding(b,i){
   slab(w*.56,.07,.07,balconyMetal,b[0],level+1.12,balconyZ+.43);
   for(var post=-2;post<=2;post++)slab(.055,.9,.055,balconyMetal,b[0]+post*w*.14,level+.68,balconyZ+.43);
  }
- var shopGlass=new THREE.MeshStandardMaterial({color:0x6d9ca5,metalness:.25,roughness:.2,transparent:true,opacity:.82,emissive:0x172d32});
+ var shopGlass=new THREE.MeshPhysicalMaterial({color:0x9bc4d0,metalness:.12,roughness:.12,transparent:true,opacity:.76,clearcoat:1,clearcoatRoughness:.08,reflectivity:.9,emissive:0x10232a});
  slab(w*.72,1.9,.08,shopGlass,b[0],1.15,b[1]+d/2+.055);
  slab(w*.78,.18,.55,new THREE.MeshStandardMaterial({color:[0x9b5b42,0x476c7c,0x9b8656][i%3],roughness:.7}),b[0],2.25,b[1]+d/2+.3);
 
