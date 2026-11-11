@@ -1584,6 +1584,9 @@ var pw486stats=document.createElement("button");pw486stats.textContent="نمای
 
 // pw487: Add a clear game status indicator for active play
 var pw487active=document.createElement("div");pw487active.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw487active);setInterval(function(){pw487active.textContent=paused?"وضعیت بازی: مکث":playing?"وضعیت بازی: در حال اجرا":"وضعیت بازی: آماده"},500);
+
+// pw488: Add a match goal selector
+var pw488goal=document.createElement("button");pw488goal.textContent="هدف دور: ۱۰ ثبت";pw488goal.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw488goal);var pw488value=10;pw488goal.onclick=function(){pw488value=pw488value===10?20:pw488value===20?30:10;pw488goal.textContent="هدف دور: "+pw488value+" ثبت"};
 })();
 
  }
