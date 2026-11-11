@@ -1587,6 +1587,9 @@ var pw487active=document.createElement("div");pw487active.style.cssText="padding
 
 // pw488: Add a match goal selector
 var pw488goal=document.createElement("button");pw488goal.textContent="هدف دور: ۱۰ ثبت";pw488goal.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw488goal);var pw488value=10;pw488goal.onclick=function(){pw488value=pw488value===10?20:pw488value===20?30:10;pw488goal.textContent="هدف دور: "+pw488value+" ثبت"};
+
+// pw489: Show progress toward the selected match goal
+var pw489goalbar=document.createElement("div"),pw489goalfill=document.createElement("div"),pw489goaltext=document.createElement("div");pw489goalbar.style.cssText="height:6px;background:#29414c;border-radius:6px;overflow:hidden;margin:5px 0";pw489goalfill.style.cssText="height:100%;width:0;background:#c49cff";pw489goalbar.appendChild(pw489goalfill);pw489goaltext.style.cssText="color:#e2d6ff;font:800 10px system-ui";pw416dash.appendChild(pw489goaltext);pw416dash.appendChild(pw489goalbar);setInterval(function(){var p=Math.min(100,pw327hits/pw488value*100);pw489goalfill.style.width=p+"%";pw489goaltext.textContent="هدف دور: "+Math.min(pw488value,pw327hits)+"/"+pw488value},500);
 })();
 
  }
