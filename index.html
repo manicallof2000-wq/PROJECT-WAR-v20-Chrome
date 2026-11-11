@@ -1611,6 +1611,9 @@ pw490objective.addEventListener("click",function(){try{localStorage.setItem("pw_
 
 // pw496: Restore the selected mission objective
 try{var pw496idx=Number(localStorage.getItem("pw_mission_objective"));if(Number.isInteger(pw496idx)&&pw496idx>=0&&pw496idx<pw490tasks.length){pw490idx=pw496idx;pw490objective.textContent="هدف مأموریت: "+pw490tasks[pw490idx].name}}catch(e){}
+
+// pw497: Add an escape-key quick close for overlays
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){pw335panel.style.display="none";pw416dash.style.display="none";pw416dashBtn.textContent="آمار ▾"}});
 })();
 
  }
