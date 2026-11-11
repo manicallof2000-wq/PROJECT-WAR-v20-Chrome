@@ -1167,6 +1167,9 @@ var pw347done=false,pw347base=pw183fire;pw183fire=function(){var before=score;pw
 
 // pw348: Add a compact progress bar for the challenge
 var pw348bar=document.createElement("div"),pw348fill=document.createElement("div");pw348bar.style.cssText="position:fixed;left:10px;top:221px;width:124px;height:5px;z-index:14;background:#25343a;border-radius:5px;overflow:hidden;pointer-events:none";pw348fill.style.cssText="height:100%;width:100%;background:#f5c66e";pw348bar.appendChild(pw348fill);document.body.appendChild(pw348bar);var pw348tick=setInterval(function(){if(!pw345clock.isConnected)return;var pct=Math.max(0,100-(performance.now()-pw345start)/900);pw348fill.style.width=pct+"%";if(pct<25)pw348fill.style.background="#ff927c"},250);
+
+// pw349: Add a challenge medal on success
+var pw349medal=document.createElement("div");pw349medal.id="pw349medal";pw349medal.textContent="مدال چالش: قفل";pw349medal.style.cssText="position:fixed;left:10px;top:235px;z-index:14;padding:6px 9px;border:1px solid #a9a9a966;border-radius:9px;background:#17232ddd;color:#cbd5da;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw349medal);var pw349base=pw183fire;pw183fire=function(){var before=score;pw349base();if(score>before&&pw347done)pw349medal.textContent="مدال چالش: طلایی"};
 })();
 
  }
