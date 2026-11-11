@@ -811,12 +811,14 @@ var pw219record=document.createElement("div");pw219record.style.cssText="positio
 var pw202hud=document.createElement("div");pw202hud.style.cssText="position:fixed;left:14px;top:14px;z-index:8;color:#a9f4f3;font:800 9px Arial;letter-spacing:1.4px;text-shadow:0 1px 5px #001;pointer-events:none";pw202hud.textContent="PROJECT WAR  /  ARCADE TRAINING";document.body.appendChild(pw202hud);
 // pw204: add a clear target count separate from the legacy marker count
 var pw204count=document.createElement("div");pw204count.style.cssText="position:fixed;left:14px;top:44px;z-index:8;color:#e8fbff;background:#071b2bd9;border:1px solid #58d9e866;border-radius:8px;padding:5px 8px;font:800 10px Arial;pointer-events:none";pw204count.textContent="DRONES 0 / 5";document.body.appendChild(pw204count);
+// pw221: sprint stamina system for more deliberate movement pacing
+var pw221stamina=100,pw221staminaBar=document.createElement("div"),pw221staminaFill=document.createElement("div");pw221staminaBar.style.cssText="position:fixed;left:18px;bottom:20px;width:110px;height:7px;background:#142b36;border:1px solid #ffffff66;border-radius:8px;overflow:hidden;z-index:8;pointer-events:none";pw221staminaFill.style.cssText="width:100%;height:100%;background:#72e9c3";pw221staminaBar.appendChild(pw221staminaFill);document.body.appendChild(pw221staminaBar);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
  if(document.hidden)return;
  if(playing&&!paused){elapsed=(now-startedAt)/1000;var secs=Math.floor(elapsed),mm=String(Math.floor(secs/60)).padStart(2,"0"),ss=String(secs%60).padStart(2,"0");document.getElementById("timer").textContent=mm+":"+ss;
-  var speed=running?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
+  var movingNow=Math.abs(joyX)+Math.abs(joyY)>.08;if(running&&movingNow)pw221stamina=Math.max(0,pw221stamina-dt*23);else pw221stamina=Math.min(100,pw221stamina+dt*15);if(pw221stamina<=0)running=false;if(pw221staminaFill){pw221staminaFill.style.width=pw221stamina+"%";pw221staminaFill.style.background=pw221stamina<25?"#ffb45d":"#72e9c3"}var speed=running&&pw221stamina>0?8:4.6,co=Math.cos(player.yaw),si=Math.sin(player.yaw);
   player.x+=(-joyY*si+joyX*co)*speed*dt;player.z+=(joyY*co-joyX*si)*speed*dt;
   player.x=Math.max(-25,Math.min(25,player.x));player.z=Math.max(-105,Math.min(10,player.z));
   if(jump>0||jumpV>0){jump+=jumpV*dt;jumpV-=13*dt;if(jump<0){jump=0;jumpV=0}}
