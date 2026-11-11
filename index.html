@@ -1116,6 +1116,9 @@ var pw330combo=0,pw330last=0,pw330badge=document.createElement("div");pw330badge
 
 // pw331: Reward consecutive target hits
 var pw331base=pw183fire;pw183fire=function(){var before=score;pw331base();if(score>before){var now=performance.now();pw330combo=now-pw330last<5000?pw330combo+1:1;pw330last=now;if(pw330badge)pw330badge.textContent="COMBO ×"+pw330combo;score+=Math.min(150,(pw330combo-1)*15);if(pw330combo>1)toast("زنجیره امتیاز ×"+pw330combo)}};
+
+// pw332: Add saved personal best panel
+var pw332best=document.createElement("div");pw332best.id="pw332best";var pw332value=0;try{pw332value=Number(localStorage.getItem("pw_arcade_best")||0)||0}catch(e){}pw332best.textContent="رکورد "+pw332value;pw332best.style.cssText="position:fixed;right:10px;top:95px;z-index:14;padding:6px 9px;border:1px solid #79d8ef66;border-radius:9px;background:#071b2bd9;color:#d5f8ff;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw332best);
 })();
 
  }
