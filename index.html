@@ -590,6 +590,7 @@ var pw62cap=new THREE.MeshStandardMaterial({color:0xa6aaa1,roughness:.74,metalne
 var pw63stone=new THREE.MeshStandardMaterial({color:0x898b80,roughness:.92});for(var pw63s of [-1,1]){slab(.12,.22,24,pw63stone,pw63s*14.62,.2,-62);}
 var pw64base=new THREE.MeshStandardMaterial({color:0x34464b,metalness:.55,roughness:.4}),pw64glow=new THREE.MeshStandardMaterial({color:0xffe2a8,emissive:0xffc66c,emissiveIntensity:1.1});for(var pw64s of [-1,1])for(var pw64z=-28;pw64z>-100;pw64z-=18){var pw64p=new THREE.Mesh(new THREE.CylinderGeometry(.09,.13,.55,10),pw64base);pw64p.position.set(pw64s*13.9,.28,pw64z);scene.add(pw64p);var pw64g=new THREE.Mesh(new THREE.SphereGeometry(.13,10,8),pw64glow);pw64g.position.set(pw64s*13.9,.58,pw64z);scene.add(pw64g)}
 var pw65trim=new THREE.MeshStandardMaterial({color:0x59686b,metalness:.65,roughness:.34});buildings.forEach(function(pw65b){var pw65z=pw65b[1]+pw65b[4]/2+.17;for(var pw65x of [-1,1])slab(.09,1.95,.1,pw65trim,pw65b[0]+pw65x*pw65b[2]*.37,1.12,pw65z);slab(pw65b[2]*.74,.09,.1,pw65trim,pw65b[0],2.12,pw65z)});
+var pw66joint=new THREE.MeshStandardMaterial({color:0x777d78,roughness:1});for(var pw66s of [-1,1])for(var pw66z=-14;pw66z>-108;pw66z-=2.5)slab(3.08,.008,.018,pw66joint,pw66s*12.55,.105,pw66z);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
