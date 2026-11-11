@@ -1608,6 +1608,9 @@ var pw494footer=document.createElement("div");pw494footer.textContent="ARCADE BU
 
 // pw495: Save the selected mission objective
 pw490objective.addEventListener("click",function(){try{localStorage.setItem("pw_mission_objective",String(pw490idx))}catch(e){}});
+
+// pw496: Restore the selected mission objective
+try{var pw496idx=Number(localStorage.getItem("pw_mission_objective"));if(Number.isInteger(pw496idx)&&pw496idx>=0&&pw496idx<pw490tasks.length){pw490idx=pw496idx;pw490objective.textContent="هدف مأموریت: "+pw490tasks[pw490idx].name}}catch(e){}
 })();
 
  }
