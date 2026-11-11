@@ -687,6 +687,9 @@ for(var z of [-27,-76])for(var x=-5;x<=5;x+=1){var o=new THREE.Mesh(new THREE.Cy
 // pw164: fine expansion joints along the sidewalk
 var pw164mat=new THREE.MeshStandardMaterial({color:0x777e79,roughness:.96});
 for(var side of [-1,1])for(var z=-101;z<-10;z+=8){var o=new THREE.Mesh(new THREE.BoxGeometry(2.95,.009,.035),pw164mat);o.position.set(side*12.55,.101,z);scene.add(o)}
+// pw165: subtle warm interior panels behind storefront glass
+var pw165mat=new THREE.MeshBasicMaterial({color:0xffdca2,transparent:true,opacity:.13,side:THREE.DoubleSide,depthWrite:false});
+for(var x of [-16,16])for(var z of [-20,-24,-44,-49]){var o=new THREE.Mesh(new THREE.PlaneGeometry(2.1,1.7),pw165mat);o.position.set(x+(x<0?1:-1)*.2,1.65,z);o.rotation.y=x<0?Math.PI/2:-Math.PI/2;scene.add(o)}
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
