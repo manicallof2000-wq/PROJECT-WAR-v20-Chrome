@@ -1013,6 +1013,9 @@ var pw298style=document.createElement("style");pw298style.textContent="#hud .pil
 
 // pw299: Dialog border highlight
 var pw299style=document.createElement("style");pw299style.textContent=".dialog{position:relative;overflow:hidden}.dialog:before{content:\"\";position:absolute;inset:0 18% auto;height:1px;background:linear-gradient(90deg,transparent,#aefaffaa,transparent);pointer-events:none}";document.head.appendChild(pw299style);
+
+// pw300: Start logo responsive
+var pw300style=document.createElement("style");pw300style.textContent="@media(max-width:360px){.logo{font-size:10px;letter-spacing:2px}}";document.head.appendChild(pw300style);
 requestAnimationFrame(frame);updateHud();
 })();
 
