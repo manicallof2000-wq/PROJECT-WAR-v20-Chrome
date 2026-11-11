@@ -1022,6 +1022,9 @@ var pw301style=document.createElement("style");pw301style.textContent="#cross{ou
 
 // pw302: Fire control responsive
 var pw302style=document.createElement("style");pw302style.textContent="@media(max-width:360px){#fire{width:78px;height:78px;right:84px}}";document.head.appendChild(pw302style);
+
+// pw303: Action buttons safe area
+var pw303style=document.createElement("style");pw303style.textContent="@media(orientation:portrait){#fire{bottom:max(22px,calc(env(safe-area-inset-bottom) + 12px))}}";document.head.appendChild(pw303style);
 requestAnimationFrame(frame);updateHud();
 })();
 
