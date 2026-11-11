@@ -1164,6 +1164,9 @@ var pw346tick=setInterval(function(){if(!playing||paused)return;var left=Math.ma
 
 // pw347: Reward finishing the timed challenge
 var pw347done=false,pw347base=pw183fire;pw183fire=function(){var before=score;pw347base();if(score>before&&pw183targets.every(function(t){return t.userData.hit})&&!pw347done&&performance.now()-pw345start<90000){pw347done=true;score+=500;pw328award(150);toast("چالش زمانی کامل شد! +۵۰۰");updateHud()}};
+
+// pw348: Add a compact progress bar for the challenge
+var pw348bar=document.createElement("div"),pw348fill=document.createElement("div");pw348bar.style.cssText="position:fixed;left:10px;top:221px;width:124px;height:5px;z-index:14;background:#25343a;border-radius:5px;overflow:hidden;pointer-events:none";pw348fill.style.cssText="height:100%;width:100%;background:#f5c66e";pw348bar.appendChild(pw348fill);document.body.appendChild(pw348bar);var pw348tick=setInterval(function(){if(!pw345clock.isConnected)return;var pct=Math.max(0,100-(performance.now()-pw345start)/900);pw348fill.style.width=pct+"%";if(pct<25)pw348fill.style.background="#ff927c"},250);
 })();
 
  }
