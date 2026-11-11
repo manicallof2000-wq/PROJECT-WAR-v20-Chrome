@@ -1146,6 +1146,9 @@ var pw340hit=document.createElement("div");pw340hit.id="pw340hit";pw340hit.textC
 
 // pw341: Add crosshair hit color feedback
 var pw341cross=document.getElementById("cross"),pw341base=pw183fire;pw183fire=function(){var before=score;pw341base();if(score>before){pw341cross.style.borderColor="#78ffd2";pw341cross.style.boxShadow="0 0 8px #2affbf,0 0 20px #2affbf";clearTimeout(pw341cross._t);pw341cross._t=setTimeout(function(){pw341cross.style.borderColor="#fff";pw341cross.style.boxShadow="0 0 5px #00121c,0 0 14px #7ce9ff99"},170)}};
+
+// pw342: Add visible training target counter
+var pw342targets=document.createElement("div");pw342targets.id="pw342targets";pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.length;pw342targets.style.cssText="position:fixed;right:10px;top:161px;z-index:14;padding:6px 9px;border:1px solid #69e6d288;border-radius:9px;background:#071b2bd9;color:#caffea;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw342targets);var pw342base=pw183fire;pw183fire=function(){var before=score;pw342base();if(score>before)pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.filter(function(t){return !t.userData.hit}).length};
 })();
 
  }
