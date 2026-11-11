@@ -615,6 +615,7 @@ var pw87leaf=new THREE.MeshStandardMaterial({color:0x607b51,roughness:.95});for(
 var pw88bark=new THREE.MeshStandardMaterial({color:0x66513d,roughness:1});for(var x of [-1,1])for(var z=-25;z>-100;z-=19){var pw88tr=new THREE.Mesh(new THREE.CylinderGeometry(.07,.12,2.2,7),pw88bark);pw88tr.position.set(x*15.1,2.1,z);scene.add(pw88tr);}
 var pw89brick=new THREE.MeshStandardMaterial({color:0x997a61,roughness:.9});for(var x of [-1,1])for(var z=-50;z>-74;z-=1.2)slab(.7,.18,.12,pw89brick,x*14.25,.2,z);
 var pw90tile=new THREE.MeshStandardMaterial({color:0xaaa99e,roughness:.94});for(var i=0;i<5;i++)slab(.45,.04,.45,pw90tile,14.1,.14,-84-i*.5);
+var pw91lamp=new THREE.MeshStandardMaterial({color:0x8fc5c5,emissive:0x367c82,emissiveIntensity:.8});var pw91m=new THREE.Mesh(new THREE.SphereGeometry(.09,10,8),pw91lamp);pw91m.position.set(13.55,2.12,-94);scene.add(pw91m);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
