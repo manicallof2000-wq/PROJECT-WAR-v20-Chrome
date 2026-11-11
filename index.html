@@ -671,6 +671,7 @@ var pw143stone=new THREE.MeshStandardMaterial({color:0x98988e,roughness:.88});bu
 var pw144glow=new THREE.MeshStandardMaterial({color:0xffe2b2,emissive:0xffbd70,emissiveIntensity:.9});buildings.forEach(function(b){var z=b[1]+b[4]/2+.28;for(var x of [-1,1])slab(.08,.52,.045,pw144glow,b[0]+x*b[2]*.46,2.4,z)});
 var pw145wood=new THREE.MeshStandardMaterial({color:0x876b50,roughness:.82});for(var i=0;i<4;i++)slab(1.75,.07,.16,pw145wood,13.45,.72,-57+i*.18);
 var pw146cap=new THREE.MeshStandardMaterial({color:0x9ca6a1,metalness:.72,roughness:.36});for(var x of [-1,1])for(var z=-18;z>-105;z-=16){var m=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.055,12),pw146cap);m.position.set(x*11.45,.32,z);scene.add(m)}
+var pw147stone=new THREE.MeshStandardMaterial({color:0xaaa99e,roughness:.94});for(var x of [-1,1])for(var z=-51;z>-73;z-=2.2)slab(.14,.24,.14,pw147stone,x*14.8,.18,z);
 var last=performance.now(),mapRefresh=0;
 function frame(now){requestAnimationFrame(frame);var dt=Math.min(.04,(now-last)/1000);last=now;
  // Browsers can suspend rendering while the page is hidden; reset the clock on return
