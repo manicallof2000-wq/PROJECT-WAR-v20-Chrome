@@ -93,8 +93,9 @@ var camera=new THREE.PerspectiveCamera(72,W/H,.1,180);camera.position.set(0,1.65
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 scene.add(new THREE.HemisphereLight(0xd9f2ff,0x526044,2.0));
-var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,35,22);sun.castShadow=false;scene.add(sun);
+var sun=new THREE.DirectionalLight(0xffe5bd,2.5);sun.position.set(-18,48,-12);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-48;sun.shadow.camera.right=48;sun.shadow.camera.top=48;sun.shadow.camera.bottom=-48;sun.shadow.camera.near=.5;sun.shadow.camera.far=150;sun.shadow.bias=-.00025;sun.shadow.normalBias=.025;scene.add(sun);sun.target.position.set(0,0,-45);scene.add(sun.target);
 function makeSurfaceTexture(kind){
  var c=document.createElement("canvas");c.width=512;c.height=512;var g=c.getContext("2d");
  g.fillStyle=kind==="road"?"#343b40":"#71805c";g.fillRect(0,0,512,512);
@@ -111,8 +112,8 @@ function makeSurfaceTexture(kind){
  var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(kind==="road"?3:16,kind==="road"?22:18);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());return t;
 }
 var grassTex=makeSurfaceTexture("grass"),asphaltTex=makeSurfaceTexture("road");
-var ground=new THREE.Mesh(new THREE.PlaneGeometry(150,180),new THREE.MeshStandardMaterial({map:grassTex,color:0xffffff,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.set(0,-.035,-42);scene.add(ground);
-var road=new THREE.Mesh(new THREE.PlaneGeometry(22,125),new THREE.MeshStandardMaterial({map:asphaltTex,color:0xffffff,roughness:.96}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-43);scene.add(road);
+var ground=new THREE.Mesh(new THREE.PlaneGeometry(150,180),new THREE.MeshStandardMaterial({map:grassTex,color:0xffffff,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.set(0,-.035,-42);ground.receiveShadow=true;scene.add(ground);
+var road=new THREE.Mesh(new THREE.PlaneGeometry(22,125),new THREE.MeshStandardMaterial({map:asphaltTex,color:0xffffff,roughness:.96}));road.rotation.x=-Math.PI/2;road.position.set(0,.005,-43);road.receiveShadow=true;scene.add(road);
 var sidewalkMat=new THREE.MeshStandardMaterial({color:0x92958d,roughness:.95});
 var curbMat=new THREE.MeshStandardMaterial({color:0xb6b5a9,roughness:.9});
 for(var side of [-1,1]){
@@ -121,7 +122,7 @@ for(var side of [-1,1]){
  for(var joint=-104;joint<-8;joint+=4)slab(3.12,.012,.035,new THREE.MeshStandardMaterial({color:0x6f7773,roughness:1}),side*12.55,.102,joint);
 }
 var lineMat=new THREE.MeshStandardMaterial({color:0xd8d0a8,roughness:.8});
-function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);scene.add(m);return m}
+function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
 slab(.22,.025,115,lineMat,-10.8,.02,-45);slab(.22,.025,115,lineMat,10.8,.02,-45);
 for(var z=-12;z>-108;z-=8){slab(.16,.025,3.8,lineMat,0,.025,z)}
 function facadeTexture(seed){
@@ -147,7 +148,7 @@ function roundedBuilding(b,i){
  geo.translate(0,0,-d/2);
  var facade=new THREE.MeshStandardMaterial({map:facadeTexture(i),roughness:.82});
  var sides=new THREE.MeshStandardMaterial({color:[0x777f7c,0x89877f,0x758087][i%3],roughness:.9});
- scene.add(new THREE.Mesh(geo,[facade,sides]));
+ var buildingMesh=new THREE.Mesh(geo,[facade,sides]);buildingMesh.castShadow=true;buildingMesh.receiveShadow=true;scene.add(buildingMesh);
  slab(w+.18,.22,d+.18,new THREE.MeshStandardMaterial({color:0x59666a,roughness:.9}),b[0],h+.08,b[1]);
  var ledgeMat=new THREE.MeshStandardMaterial({color:0xb0b4aa,roughness:.8});
  for(var level=3;level<h;level+=3.2)slab(w+.16,.11,d+.16,ledgeMat,b[0],level,b[1]);
