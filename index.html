@@ -859,6 +859,8 @@ if(pw226range){var near=Infinity;pw183targets.forEach(function(g){if(g.visible)n
  var pw234fire=document.getElementById("fire");pw234fire.textContent="شلیک";pw234fire.setAttribute("aria-label","شلیک به هدف تمرینی");pw234fire.title="شلیک به پهپاد تمرینی";
 // pw235: align the original HUD wording with the drone practice mode
  var pw235pills=document.querySelectorAll("#hud .pill");if(pw235pills[1])pw235pills[1].childNodes[0].textContent="اهداف ";if(pw235pills[2])pw235pills[2].childNodes[0].textContent="موج ";
+// pw236: add clear accessible names to all touch controls
+ [["joy","کنترل حرکت"],["jump","پرش"],["run","دویدن"],["pause","توقف یا ادامه بازی"],["sound","روشن یا خاموش کردن صدا"]].forEach(function(v){var e=document.getElementById(v[0]);if(e)e.setAttribute("aria-label",v[1])});
 requestAnimationFrame(frame);updateHud();
 })();
 
