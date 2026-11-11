@@ -1359,6 +1359,9 @@ var pw411accbar=document.createElement("div"),pw411accfill=document.createElemen
 
 // pw412: Add a session rank color indicator
 var pw412rankStyle=document.createElement("style");pw412rankStyle.textContent="#pw404grade{border:1px solid #82d9ef66;box-shadow:0 3px 12px #0005}";document.head.appendChild(pw412rankStyle);var pw412tick=setInterval(function(){var a=pw327hits/Math.max(1,pw327shots);pw404grade.style.color=pw327shots<5?"#e6f2ff":a>=.8?"#9fffd0":a>=.5?"#ffe2a1":"#ffb3a8"},500);
+
+// pw413: Add a mission status summary
+var pw413status=document.createElement("div");pw413status.textContent="وضعیت: در انتظار شروع";pw413status.style.cssText="position:fixed;left:10px;top:570px;z-index:14;color:#cfeefa;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw413status);var pw413start=startGame;startGame=function(e){var r=pw413start(e);pw413status.textContent="وضعیت: مأموریت فعال";return r};document.getElementById("pause").addEventListener("click",function(){pw413status.textContent=paused?"وضعیت: مکث":"وضعیت: مأموریت فعال"});
 })();
 
  }
