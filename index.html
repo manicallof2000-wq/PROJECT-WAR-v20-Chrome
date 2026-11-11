@@ -1293,6 +1293,9 @@ var pw389reset=document.createElement("button");pw389reset.textContent="بازن
 
 // pw390: Add a challenge completion tracker
 var pw390completed=0;try{pw390completed=Number(localStorage.getItem("pw_challenges")||0)||0}catch(e){}var pw390challenge=document.createElement("div");pw390challenge.textContent="چالش‌های کامل‌شده: "+pw390completed;pw390challenge.style.cssText="position:fixed;left:10px;top:492px;z-index:14;color:#ffe5a8;font:800 10px system-ui;pointer-events:none";document.body.appendChild(pw390challenge);var pw390base=pw183fire;pw183fire=function(){var b=score;pw390base();if(score>b&&pw347done){pw390completed++;try{localStorage.setItem("pw_challenges",String(pw390completed))}catch(e){}pw390challenge.textContent="چالش‌های کامل‌شده: "+pw390completed}};
+
+// pw391: Add a quick settings close button
+var pw391close=document.createElement("button");pw391close.textContent="بستن تنظیمات";pw391close.style.cssText="display:block;width:100%;margin:7px 0 0;padding:8px;background:#3a2525;color:#ffe4df;border:1px solid #c77c70;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw391close);pw391close.onclick=function(){pw335panel.style.display="none"};
 })();
 
  }
