@@ -71,7 +71,8 @@ function project(x,y,z){
  var vx=dx*co+dz*si,vz=dx*si-dz*co;
  if(vz<.35)return null;
  var focal=Math.min(W,H)*.92,scale=focal/vz;
- return {x:W/2+vx*scale,y:H*.43-(y-1.65-jump)*scale,scale:scale,z:vz};
+  var horizon=H*.43+player.pitch*H*.65;
+  return {x:W/2+vx*scale,y:horizon-(y-1.65-jump)*scale,scale:scale,z:vz};
 }
 function poly(pts,fill,stroke){var p=pts.map(function(v){return project(v[0],v[1],v[2])});if(p.some(function(v){return !v}))return;ctx.beginPath();ctx.moveTo(p[0].x,p[0].y);for(var i=1;i<p.length;i++)ctx.lineTo(p[i].x,p[i].y);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}}
 function box(x,z,w,h,d,base){
@@ -89,7 +90,7 @@ function shade(hex,f){var n=parseInt(hex.slice(1),16),r=Math.min(255,((n>>16)&25
 function roundRect(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
 function draw(){
  var sky=ctx.createLinearGradient(0,0,0,H*.7);sky.addColorStop(0,"#7fc6ed");sky.addColorStop(1,"#d6e0da");ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
- var hz=H*.43;
+  var hz=H*.43+player.pitch*H*.65;
  poly([[-500,0,-100],[500,0,-100],[500,0,50],[-500,0,50]],"#687a59");
  // ground and asphalt lane
  ctx.fillStyle="#647b53";ctx.fillRect(0,hz,W,H-hz);
@@ -105,7 +106,12 @@ function draw(){
  for(var i=0;i<5;i++){var bx=(i-2)*4.7,bz=-9-(i%2)*1.4,p1=project(bx,0,bz),p2=project(bx,1.05,bz);if(p1&&p2){var w=Math.max(8,Math.min(90,p1.scale*1.65));roundRect(p1.x-w/2,p2.y,w,Math.max(5,p1.y-p2.y),Math.min(8,w*.12),i%2?"#8e9997":"#59676c");ctx.fillStyle="#bdc2bc";ctx.fillRect(p1.x-w/2,p2.y,w,Math.max(2,w*.035))}}
  // luminous checkpoints
  points.forEach(function(pt,i){if(pt.done)return;var p=project(pt.x,1.25,pt.z);if(!p)return;var r=Math.max(4,Math.min(42,p.scale*.55));ctx.save();ctx.shadowBlur=Math.min(28,r*1.4);ctx.shadowColor=["#ffe36c","#5cecff","#ff88bc","#b6a0ff","#a4ff91"][i];ctx.fillStyle=["#ffe36c","#5cecff","#ff88bc","#b6a0ff","#a4ff91"][i];ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle="#ffffff";ctx.lineWidth=Math.max(1,r*.12);ctx.beginPath();ctx.arc(p.x,p.y,r*1.45,0,Math.PI*2);ctx.stroke();ctx.restore()});
- // subtle first-person sleeves, only decorative, no weapon model
+  // stylized sci-fi game blaster; vertical touch-look moves it up and down
+  var gunY=H*.88-player.pitch*150+jump*24;ctx.save();ctx.translate(W*.73,gunY);ctx.rotate(-.08);
+  ctx.fillStyle="#263744";ctx.beginPath();ctx.moveTo(-W*.10,55);ctx.lineTo(-W*.075,-15);ctx.lineTo(-W*.025,-31);ctx.lineTo(W*.095,-25);ctx.lineTo(W*.12,8);ctx.lineTo(W*.075,30);ctx.lineTo(W*.06,65);ctx.closePath();ctx.fill();
+  ctx.fillStyle="#71858a";ctx.fillRect(-W*.018,-78,W*.035,83);ctx.fillStyle="#a8b8b3";ctx.fillRect(-W*.012,-91,W*.024,22);
+  ctx.fillStyle="#d2a06e";ctx.beginPath();ctx.ellipse(-W*.012,30,W*.045,23,-.25,0,Math.PI*2);ctx.fill();ctx.fillStyle="#263744";ctx.fillRect(-W*.055,5,W*.11,17);
+  ctx.fillStyle="#52d8c8";ctx.fillRect(W*.012,-48,W*.012,12);ctx.restore();
  var handY=H-35+jump*25;ctx.fillStyle="#263b4b";ctx.beginPath();ctx.moveTo(W*.58,H);ctx.lineTo(W*.62,handY-75);ctx.quadraticCurveTo(W*.68,handY-95,W*.73,handY-55);ctx.lineTo(W*.79,H);ctx.fill();ctx.fillStyle="#b88768";ctx.beginPath();ctx.ellipse(W*.69,handY-18,32,27,-.2,0,Math.PI*2);ctx.fill();
 }
 function shoot(){if(!playing||paused)return;var nearest=null,best=Infinity;points.forEach(function(pt){if(pt.done)return;var dx=pt.x-player.x,dz=pt.z-player.z,dist=Math.hypot(dx,dz);if(dist>95)return;var targetYaw=Math.atan2(dx,-dz),diff=Math.atan2(Math.sin(targetYaw-player.yaw),Math.cos(targetYaw-player.yaw));if(Math.abs(diff)<0.42&&dist<best){best=dist;nearest=pt}});if(nearest){nearest.done=true;found++;score+=100;toast("هدف علامت‌گذاری شد +۱۰۰");updateHud()}else toast("نشانه‌گیر را روی هدف بگذار")}
