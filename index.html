@@ -40,7 +40,7 @@ h1{font-size:27px;margin:10px 0}.desc{font-size:14px;line-height:1.9;color:#deeb
 
 <div id="cross"></div>
 <div id="joy"><div id="nub"></div></div>
-<button class="action" id="fire" type="button">فعال‌سازی</button>
+<button class="action" id="fire" type="button">شلیک</button>
 <button class="action" id="jump" type="button">پرش</button>
 <button class="action" id="run" type="button">دویدن</button>
 <button id="pause" type="button">Ⅱ</button>
@@ -1082,6 +1082,13 @@ var pw321style=document.createElement("style");pw321style.textContent=".action:a
 
 // pw322: Final responsive polish
 var pw322style=document.createElement("style");pw322style.textContent="@media(max-width:340px){#hud .pill{font-size:8px;padding:5px 4px}#map{width:76px;height:76px}}";document.head.appendChild(pw322style);
+
+
+
+// pw324: rebuild the mobile controls into separated, non-overlapping rows
+var pw324layout=document.createElement("style");
+pw324layout.textContent="#fire{position:fixed!important;left:auto!important;top:auto!important;right:max(18px,calc(env(safe-area-inset-right) + 18px))!important;bottom:max(18px,calc(env(safe-area-inset-bottom) + 18px))!important;width:76px!important;height:76px!important;z-index:30!important}#jump{position:fixed!important;left:auto!important;top:auto!important;right:max(20px,calc(env(safe-area-inset-right) + 20px))!important;bottom:max(106px,calc(env(safe-area-inset-bottom) + 106px))!important;width:54px!important;height:54px!important;z-index:30!important}#run{position:fixed!important;left:auto!important;top:auto!important;right:max(84px,calc(env(safe-area-inset-right) + 84px))!important;bottom:max(106px,calc(env(safe-area-inset-bottom) + 106px))!important;width:54px!important;height:54px!important;z-index:30!important}#pw188reload{position:fixed!important;left:auto!important;top:auto!important;right:max(20px,calc(env(safe-area-inset-right) + 20px))!important;bottom:max(170px,calc(env(safe-area-inset-bottom) + 170px))!important;z-index:30!important}#pw187ammo{position:fixed!important;left:auto!important;top:auto!important;right:max(20px,calc(env(safe-area-inset-right) + 20px))!important;bottom:max(220px,calc(env(safe-area-inset-bottom) + 220px))!important;z-index:29!important}#pause,#sound{z-index:30!important}#joy{z-index:25!important}#pw209bar{right:max(20px,calc(env(safe-area-inset-right) + 20px))!important;bottom:max(162px,calc(env(safe-area-inset-bottom) + 162px))!important}@media(max-width:360px){#fire{width:70px!important;height:70px!important;right:max(14px,calc(env(safe-area-inset-right) + 14px))!important}#run{right:max(78px,calc(env(safe-area-inset-right) + 78px))!important}}@media(orientation:landscape) and (max-height:500px){#fire{width:64px!important;height:64px!important;bottom:max(12px,calc(env(safe-area-inset-bottom) + 12px))!important}#jump,#run{bottom:max(84px,calc(env(safe-area-inset-bottom) + 84px))!important}#pw188reload{bottom:max(145px,calc(env(safe-area-inset-bottom) + 145px))!important}#pw187ammo{bottom:max(190px,calc(env(safe-area-inset-bottom) + 190px))!important}}";
+document.head.appendChild(pw324layout);
 
 // pw323: restore distinct positions for every mobile control
 var pw323layout=document.createElement("style");
