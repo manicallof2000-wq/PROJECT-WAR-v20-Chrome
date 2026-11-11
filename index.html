@@ -1593,6 +1593,9 @@ var pw489goalbar=document.createElement("div"),pw489goalfill=document.createElem
 
 // pw490: Add a mission goal completion notice
 var pw490goalDone=false;setInterval(function(){if(!pw490goalDone&&pw327hits>=pw488value){pw490goalDone=true;pw380brief.textContent="هدف دور کامل شد • آفرین";toast("هدف تمرین کامل شد!")}},500);
+
+// pw491: Reset goal completion when a new match starts
+var pw491start=startGame;startGame=function(e){pw490goalDone=false;pw380brief.textContent="ماموریت شروع شد • موفق باشی";return pw491start(e)};
 })();
 
  }
