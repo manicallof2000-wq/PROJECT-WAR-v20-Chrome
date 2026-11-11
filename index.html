@@ -1461,6 +1461,9 @@ var pw445meter=document.createElement("div"),pw445fill=document.createElement("d
 
 // pw446: Add a dashboard toggle for mission details
 var pw446details=document.createElement("button");pw446details.textContent="تفاصيل مأموریت";pw446details.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw446details);pw446details.onclick=function(){pw440brief.style.display=pw440brief.style.display==="none"?"block":"none";pw445meter.style.display=pw445meter.style.display==="none"?"block":"none"};
+
+// pw447: Add a current difficulty readout
+var pw447difficulty=document.createElement("div");pw447difficulty.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw447difficulty);setInterval(function(){pw447difficulty.textContent="سختی: "+(typeof pw350difficulty!=="undefined"?pw350difficulty:"استاندارد")},1000);
 })();
 
  }
