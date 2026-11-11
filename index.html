@@ -1566,6 +1566,9 @@ var pw480reset=document.createElement("button");pw480reset.textContent="بازن
 
 // pw481: Add a compact session score trend
 var pw481trend=document.createElement("div");pw481trend.style.cssText="padding:6px;margin:4px 0;background:#0b2635;color:#cfeefa;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw481trend);var pw481last=score;setInterval(function(){pw481trend.textContent="روند امتیاز: "+(score>pw481last?"↗ رو به رشد":score<pw481last?"↘ کاهش":"→ ثابت");pw481last=score},1800);
+
+// pw482: Add a quick mission restart shortcut
+var pw482restart=document.createElement("button");pw482restart.textContent="شروع دوباره مأموریت";pw482restart.style.cssText="width:100%;padding:7px;margin:4px 0;background:#174054;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw416dash.appendChild(pw482restart);pw482restart.onclick=function(){if(typeof startGame==="function"){pw416dash.style.display="none";startGame();toast("مأموریت دوباره آغاز شد")}};
 })();
 
  }
