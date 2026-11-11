@@ -235,6 +235,38 @@ function tree(x,z,size){
 [[-8,-13,1.1],[8,-18,1.25],[-9,-34,.9],[10,-39,1.2],[-8,-57,1.15],[9,-64,1.1],[-11,-83,1.3],[12,-88,1.2]].forEach(function(t){tree(t[0],t[1],t[2])});
 var metal=new THREE.MeshStandardMaterial({color:0x303d43,metalness:.65,roughness:.35}),lampGlow=new THREE.MeshStandardMaterial({color:0xffe5a5,emissive:0xffc46b,emissiveIntensity:1.5});
 for(var li=0;li<6;li++){var lx=li%2?8.8:-8.8,lz=-12-li*15;slab(.12,4.8,.12,metal,lx,2.4,lz);slab(1.15,.1,.12,metal,lx+(li%2?-.48:.48),4.72,lz);slab(.22,.13,.2,lampGlow,lx+(li%2?-.92:.92),4.65,lz);}
+
+// Sidewalk furniture: planters, benches and wayfinding signs
+var planterMat=new THREE.MeshStandardMaterial({color:0x555e5b,roughness:.92});
+var soilMat=new THREE.MeshStandardMaterial({color:0x40382d,roughness:1});
+var shrubMat=new THREE.MeshStandardMaterial({color:0x3e7048,roughness:1});
+function streetPlanter(x,z){
+ slab(1.25,.48,.82,planterMat,x,.34,z);
+ slab(1.12,.06,.69,soilMat,x,.61,z);
+ for(var q=0;q<5;q++){
+  var bush=new THREE.Mesh(new THREE.SphereGeometry(.22,10,8),shrubMat);
+  bush.position.set(x-.42+q*.21,.83+(q%2)*.06,z);bush.castShadow=true;scene.add(bush);
+ }
+}
+function streetBench(x,z,flip){
+ var wood=new THREE.MeshStandardMaterial({color:0x806044,roughness:.86});
+ var leg=new THREE.MeshStandardMaterial({color:0x343e40,metalness:.55,roughness:.48});
+ slab(1.55,.13,.48,wood,x,.62,z);
+ slab(1.55,.58,.12,wood,x,.98,z-.2);
+ for(var bx of [-.58,.58]){
+  slab(.09,.58,.09,leg,x+bx,.34,z);
+  slab(.09,.09,.58,leg,x+bx,.35,z);
+ }
+}
+function waySign(x,z,flip){
+ slab(.09,2.3,.09,metal,x,1.15,z);
+ var board=slab(.95,.58,.09,new THREE.MeshStandardMaterial({color:0x315d66,roughness:.7}),x+(flip?-.42:.42),2.12,z);
+ board.rotation.y=flip?-.08:.08;
+ slab(.68,.045,.11,lampGlow,x+(flip?-.42:.42),2.12,z+.06);
+}
+streetPlanter(-13.15,-31);streetPlanter(13.15,-57);streetPlanter(-13.15,-86);
+streetBench(12.8,-42,false);streetBench(-12.8,-72,true);
+waySign(-13.3,-18,false);waySign(13.3,-99,true);
 var barrierMat=new THREE.MeshStandardMaterial({color:0x69787a,roughness:.72});
 for(var k=0;k<5;k++){var bar=slab(2.7,1.05,.55,barrierMat,(k-2)*4.7,.52,-9-(k%2)*1.4);bar.rotation.y=(k%2?.05:-.05)}
 var markerObjects=[];
