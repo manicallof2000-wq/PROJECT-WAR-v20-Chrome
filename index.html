@@ -1428,6 +1428,9 @@ var pw434perf=document.createElement("button");pw434perf.textContent="حالت �
 
 // pw435: Persist the performance mode preference
 try{pw434on=localStorage.getItem("pw_performance")==="1";if(pw434on){renderer.setPixelRatio(Math.min(devicePixelRatio||1,.85));renderer.shadowMap.enabled=false;renderer.setSize(innerWidth,innerHeight,false);pw434perf.textContent="حالت روان‌سازی: روشن"}}catch(e){}pw434perf.addEventListener("click",function(){try{localStorage.setItem("pw_performance",pw434on?"1":"0")}catch(e){}});
+
+// pw436: Adapt the stats dashboard to landscape phones
+var pw436land=document.createElement("style");pw436land.textContent="@media(orientation:landscape) and (max-height:500px){#pw416dash{max-height:52vh;width:190px!important;top:42px!important}#pw416dashBtn{top:6px!important;left:8px!important;padding:6px 9px!important}}";document.head.appendChild(pw436land);
 })();
 
  }
