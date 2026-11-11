@@ -1191,6 +1191,9 @@ var pw355start=startGame;startGame=function(e){var result=pw355start(e);pw345sta
 
 // pw356: Add a clean round reset action
 var pw356reset=document.createElement("button");pw356reset.textContent="شروع دوباره موج";pw356reset.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #d59a72;border-radius:8px;background:#38251c;color:#ffe4d4;font:800 10px system-ui";pw335panel.appendChild(pw356reset);pw356reset.addEventListener("click",function(){pw183targets.forEach(function(t,i){t.userData.hit=false;t.visible=true;t.position.set(pw191bases[i].x,pw191bases[i].y,pw191bases[i].z)});pw194wave=1;pw330combo=0;pw330badge.textContent="COMBO ×0";pw342targets.textContent="اهداف باقی‌مانده: "+pw183targets.length;pw347done=false;pw345start=performance.now();pw345clock.textContent="زمان چالش: ۹۰";pw349medal.textContent="مدال چالش: قفل";pw335panel.style.display="none";toast("موج تمرینی از نو آغاز شد")});
+
+// pw357: Add minimap zoom control
+var pw357zoom=document.createElement("button");pw357zoom.textContent="بزرگ‌نمایی نقشه";pw357zoom.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw357zoom);var pw357large=false;pw357zoom.addEventListener("click",function(){pw357large=!pw357large;var m=document.getElementById("map");m.style.width=pw357large?"150px":"104px";m.style.height=pw357large?"150px":"104px";pw357zoom.textContent=pw357large?"نقشه کوچک":"بزرگ‌نمایی نقشه"});
 })();
 
  }
