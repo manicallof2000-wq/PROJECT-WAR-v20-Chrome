@@ -1194,6 +1194,9 @@ var pw356reset=document.createElement("button");pw356reset.textContent="شروع
 
 // pw357: Add minimap zoom control
 var pw357zoom=document.createElement("button");pw357zoom.textContent="بزرگ‌نمایی نقشه";pw357zoom.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw357zoom);var pw357large=false;pw357zoom.addEventListener("click",function(){pw357large=!pw357large;var m=document.getElementById("map");m.style.width=pw357large?"150px":"104px";m.style.height=pw357large?"150px":"104px";pw357zoom.textContent=pw357large?"نقشه کوچک":"بزرگ‌نمایی نقشه"});
+
+// pw358: Add HUD visibility option
+var pw358hud=document.createElement("button");pw358hud.textContent="نمایش اطلاعات: روشن";pw358hud.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;border:1px solid #6bb9c9;border-radius:8px;background:#123649;color:white;font:800 10px system-ui";pw335panel.appendChild(pw358hud);var pw358hudOn=true;pw358hud.addEventListener("click",function(){pw358hudOn=!pw358hudOn;document.getElementById("hud").style.opacity=pw358hudOn?"1":"0";pw358hud.textContent="نمایش اطلاعات: "+(pw358hudOn?"روشن":"خاموش")});
 })();
 
  }
