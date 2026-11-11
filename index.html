@@ -116,13 +116,14 @@ skyCtx.restore();
 var haze=skyCtx.createLinearGradient(0,470,0,768);
 haze.addColorStop(0,"rgba(237,225,199,0)");haze.addColorStop(1,"rgba(240,224,195,.42)");
 skyCtx.fillStyle=haze;skyCtx.fillRect(0,430,1536,338);
-var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;skyTexture.anisotropy=Math.min(isMobileDevice?2:8,renderer.capabilities.getMaxAnisotropy());
+var skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;
 var skyDome=new THREE.Mesh(new THREE.SphereGeometry(190,48,32),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false}));
 skyDome.frustumCulled=false;scene.add(skyDome);
 var isMobileDevice=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||Math.min(innerWidth,innerHeight)<700;
 var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:!isMobileDevice,alpha:false,powerPreference:"high-performance"});
 var qualityScale=isMobileDevice?1.0:1.75;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,qualityScale));renderer.setSize(W,H,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
+skyTexture.anisotropy=Math.min(isMobileDevice?2:8,renderer.capabilities.getMaxAnisotropy());
 renderer.setClearColor(0x9bbfce,1);
 canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();var o=document.getElementById("overlay");if(o){o.style.display="grid";var t=document.getElementById("title"),d=o.querySelector(".desc");if(t)t.textContent="مشکل گرافیکی";if(d)d.textContent="گرافیک دستگاه متوقف شد؛ صفحه را دوباره بارگذاری کن."}});
 
