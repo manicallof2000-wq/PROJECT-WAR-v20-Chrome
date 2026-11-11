@@ -1488,6 +1488,9 @@ var pw454reset=document.createElement("button");pw454reset.textContent="بازن
 
 // pw455: Add a compact target count in the mission card
 var pw455count=document.createElement("div");pw455count.textContent="هدف‌ها: "+pw183targets.length;pw455count.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw445brief.appendChild(pw455count);setInterval(function(){pw455count.textContent="هدف‌های فعال: "+pw183targets.filter(function(t){return t.visible}).length},600);
+
+// pw456: Add a clear all-targets-ready status
+var pw456ready=document.createElement("div");pw456ready.textContent="وضعیت هدف‌ها: آماده";pw456ready.style.cssText="margin:5px 0;padding:7px;border-radius:8px;background:#103344;color:#d9f8ff;font:800 10px system-ui";pw445brief.appendChild(pw456ready);setInterval(function(){var n=pw183targets.filter(function(t){return t.visible}).length;pw456ready.textContent=n?"وضعیت هدف‌ها: "+n+" فعال":"وضعیت هدف‌ها: همه ثبت شدند"},600);
 })();
 
  }
