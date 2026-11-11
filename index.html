@@ -138,6 +138,39 @@ var lineMat=new THREE.MeshStandardMaterial({color:0xd8d0a8,roughness:.8});
 function slab(w,h,d,mat,x,y,z){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
 slab(.22,.025,115,lineMat,-10.8,.02,-45);slab(.22,.025,115,lineMat,10.8,.02,-45);
 for(var z=-12;z>-108;z-=8){slab(.16,.025,3.8,lineMat,0,.025,z)}
+// Crosswalks, lane reflectors and street drainage details
+var crosswalkMat=new THREE.MeshStandardMaterial({color:0xd9d8c9,roughness:.9});
+for(var cz of [-27,-76]){
+ for(var stripe=-5;stripe<=5;stripe++){
+  var mark=slab(1.55,.035,.48,crosswalkMat,stripe*1.82,.035,cz);
+  mark.receiveShadow=true;
+ }
+}
+var reflectorMat=new THREE.MeshStandardMaterial({color:0xe2c875,metalness:.25,roughness:.35,emissive:0x33240a});
+for(var rz=-16;rz>-104;rz-=8){
+ for(var rs of [-1,1]){
+  var reflect=slab(.16,.035,.24,reflectorMat,rs*10.35,.045,rz);
+  reflect.rotation.y=.08*rs;
+ }
+}
+var drainMat=new THREE.MeshStandardMaterial({color:0x30383a,metalness:.65,roughness:.72});
+for(var dz of [-20,-47,-70,-94]){
+ for(var ds of [-1,1]){
+  var drainX=ds*10.85;
+  slab(.38,.045,1.15,drainMat,drainX,.14,dz);
+  for(var grate=-4;grate<=4;grate++){
+   slab(.025,.012,.94,curbMat,drainX+grate*.075,.17,dz);
+  }
+ }
+}
+var manholeMat=new THREE.MeshStandardMaterial({color:0x596165,metalness:.7,roughness:.55});
+for(var mhz of [-38,-87]){
+ var cover=new THREE.Mesh(new THREE.CylinderGeometry(.62,.62,.045,32),manholeMat);
+ cover.position.set(3,.04,mhz);cover.receiveShadow=true;scene.add(cover);
+ var rimLine=new THREE.Mesh(new THREE.TorusGeometry(.49,.025,6,32),curbMat);
+ rimLine.rotation.x=Math.PI/2;rimLine.position.set(3,.067,mhz);scene.add(rimLine);
+}
+
 function facadeTexture(seed){
  var c=document.createElement("canvas");c.width=512;c.height=512;var g=c.getContext("2d");
  var tones=["#8c9693","#a49d91","#78858a","#9b9a91","#7e8987"];g.fillStyle=tones[seed%tones.length];g.fillRect(0,0,512,512);
