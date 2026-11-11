@@ -100,7 +100,7 @@ function makeSurfaceTexture(kind){
  g.fillStyle=kind==="road"?"#343b40":"#71805c";g.fillRect(0,0,512,512);
  var seed=kind==="road"?23:71;
  function rnd(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}
- for(var n=0;n<kind==="road"?18000:26000;n++){
+ for(var n=0;n<(kind==="road"?18000:26000);n++){
   var x=rnd()*512,y=rnd()*512,a=.025+rnd()*.12;
   if(kind==="road"){g.fillStyle="rgba(220,225,220,"+a+")";g.fillRect(x,y,1+rnd()*3,.5+rnd()*1.5)}
   else{g.fillStyle=rnd()>.5?"rgba(25,55,23,"+a+")":"rgba(190,180,110,"+a+")";g.fillRect(x,y,1+rnd()*2,1+rnd()*3)}
