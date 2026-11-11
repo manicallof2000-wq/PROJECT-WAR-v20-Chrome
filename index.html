@@ -1524,6 +1524,9 @@ var pw466mapsize=document.createElement("button");pw466mapsize.textContent="ان
 
 // pw467: Add a minimap opacity control
 var pw467mapopacity=document.createElement("button");pw467mapopacity.textContent="شفافیت نقشه: ۱۰۰٪";pw467mapopacity.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw467mapopacity);var pw467op=1;pw467mapopacity.onclick=function(){pw467op=pw467op<=.4?1:pw467op-.2;var el=document.getElementById("map");if(el)el.style.opacity=pw467op;pw467mapopacity.textContent="شفافیت نقشه: "+Math.round(pw467op*100)+"٪"};
+
+// pw468: Add a dashboard density toggle
+var pw468density=document.createElement("button");pw468density.textContent="فاصله آمار: عادی";pw468density.style.cssText="display:block;width:100%;margin:5px 0;padding:8px;background:#123649;color:white;border:1px solid #6bb9c9;border-radius:8px;font:800 10px system-ui";pw335panel.appendChild(pw468density);var pw468tight=false;pw468density.onclick=function(){pw468tight=!pw468tight;pw416dash.style.gap=pw468tight?"1px":"5px";pw416dash.querySelectorAll("div").forEach(function(el){el.style.margin=pw468tight?"1px 0":"4px 0";el.style.padding=pw468tight?"4px":"7px"});pw468density.textContent="فاصله آمار: "+(pw468tight?"فشرده":"عادی")};
 })();
 
  }
