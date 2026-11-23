@@ -1,194 +1,225 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Car Sales Simulator</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#111827;color:white;font:15px Arial}canvas{display:block}
-#hud{position:fixed;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
-.pill{background:#101827df;border:1px solid #ffffff35;border-radius:12px;padding:10px;font-weight:bold}
-#help{position:fixed;top:58px;left:10px;max-width:230px;font-size:12px;line-height:1.4}
-#controls{position:fixed;bottom:12px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:end}
-.group{display:flex;gap:8px}.ctrl{height:58px;min-width:58px;border:1px solid #ffffff55;border-radius:13px;background:#17263ddd;color:white;font-weight:bold;font-size:19px;touch-action:none}.pedal{min-width:66px;font-size:13px;background:#17613bde}
-#actions{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;gap:7px;flex-wrap:wrap;justify-content:center;width:94%;pointer-events:none}
-#actions button,#office button{pointer-events:auto;border:0;border-radius:10px;padding:11px 13px;background:#efb23b;color:#171717;font-weight:bold}
-#toast{display:none;position:fixed;top:19%;left:50%;transform:translateX(-50%);background:#101827ed;padding:10px 15px;border-radius:12px;text-align:center}
-#office{display:none;position:fixed;inset:0;background:#07101bee;align-items:center;justify-content:center;padding:20px}
-.card{max-width:420px;background:#192a40;padding:20px;border-radius:17px;border:1px solid #ffffff33;line-height:1.5}.secondary{background:#53657b!important;color:white!important}
-
-#customerPanel{display:none;position:fixed;z-index:5;inset:0;background:#06101ddd;align-items:center;justify-content:center;padding:18px}#customerPanel .card{width:min(420px,100%)}#customerPanel button{margin:4px 4px 0 0;cursor:pointer}
-</style></head>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101827;color:#fff;font:15px Arial,sans-serif}canvas{display:block}
+#hud{position:fixed;z-index:5;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
+.pill{background:#101827e8;border:1px solid #ffffff38;border-radius:12px;padding:10px;font-weight:bold;box-shadow:0 4px 16px #0003}
+#help{position:fixed;z-index:5;top:62px;left:10px;max-width:260px;font-size:12px;line-height:1.45}
+#controls{position:fixed;z-index:6;bottom:14px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:end;pointer-events:none}
+.group{display:flex;gap:8px;pointer-events:auto}.ctrl{height:62px;min-width:62px;border:1px solid #ffffff66;border-radius:14px;background:#17263de8;color:white;font-weight:bold;font-size:20px;touch-action:none;user-select:none}.pedal{min-width:74px;font-size:13px;background:#17613be8}
+#actions{position:fixed;z-index:7;left:50%;top:52%;transform:translate(-50%,-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:94%;pointer-events:none}
+#actions button,#office button,#customerPanel button{pointer-events:auto;border:0;border-radius:10px;padding:12px 14px;background:#efb23b;color:#171717;font-weight:bold;font-size:14px}
+#toast{display:none;position:fixed;z-index:9;top:18%;left:50%;transform:translateX(-50%);background:#101827ed;padding:11px 16px;border-radius:12px;text-align:center;max-width:90%;font-weight:bold}
+#office,#customerPanel{display:none;position:fixed;z-index:10;inset:0;background:#07101bee;align-items:center;justify-content:center;padding:18px}
+.card{width:min(430px,100%);background:#192a40;padding:20px;border-radius:17px;border:1px solid #ffffff44;line-height:1.5;box-shadow:0 18px 55px #0008}
+.card h2{margin-top:0}.secondary{background:#53657b!important;color:white!important}
+#customerChoices{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+@media(max-width:420px){.pill{padding:8px;font-size:13px}#help{max-width:220px}.ctrl{min-width:56px;height:56px}.pedal{min-width:66px}}
+</style>
+</head>
 <body>
 <div id="hud"><div class="pill">🚘 CAR SALES SIMULATOR</div><div class="pill" id="cash">💵 $25,000</div></div>
-<div id="help" class="pill">Explore your dealership. Walk with WASD or the arrow keys. Approach a car to inspect, buy, sell or test-drive it.</div>
+<div id="help" class="pill">Explore your dealership. Walk with WASD or arrow keys. Approach a car to inspect, buy, sell or test-drive it.</div>
 <div id="actions"></div><div id="toast"></div>
-<div id="controls"><div class="group"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div><div class="group"><button class="ctrl pedal" id="brake">BRAKE</button><button class="ctrl pedal" id="gas">GAS</button></div></div>
+<div id="controls">
+ <div class="group"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div>
+ <div class="group"><button class="ctrl pedal" id="brake">BRAKE</button><button class="ctrl pedal" id="gas">GAS</button></div>
+</div>
 <div id="customerPanel"><div class="card"><h2 id="customerTitle">Customer</h2><p id="customerText"></p><div id="customerChoices"></div><button class="secondary" id="leaveCustomer">Close</button></div></div>
 <div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Welcome, dealer! Build your stock, make sales and grow your reputation.</p><p id="stats"></p><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-(()=>{
-const root=document.body,toastEl=document.getElementById('toast'),actions=document.getElementById('actions');
-if(!window.THREE){toastEl.style.display='block';toastEl.textContent='3D engine could not load. Please check your internet.';return}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x9bbdd1);scene.fog=new THREE.Fog(0x9bbdd1,45,110);
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,200);
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);renderer.domElement.style.position='fixed';renderer.domElement.style.inset='0';renderer.domElement.style.zIndex='0';
-document.querySelectorAll('#hud,#help,#controls,#actions,#toast,#office').forEach(e=>e.style.zIndex='2');
-scene.add(new THREE.HemisphereLight(0xffffff,0x637080,2));const sun=new THREE.DirectionalLight(0xffffff,2.4);sun.position.set(-18,32,18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
-const M=(c,r=.65,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
-function box(w,h,d,x,y,z,ma){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),ma);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o}
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(180,180),M(0x748575));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
-const asphalt=M(0x343b43),line=M(0xf4f0dc),glass=new THREE.MeshStandardMaterial({color:0x8fc4d9,roughness:.2,metalness:.15,transparent:true,opacity:.72});
-const road=new THREE.Mesh(new THREE.PlaneGeometry(100,16),asphalt);road.rotation.x=-Math.PI/2;road.position.set(0,.02,-25);scene.add(road);
-for(let x=-48;x<50;x+=8){const q=new THREE.Mesh(new THREE.PlaneGeometry(4,.15),line);q.rotation.x=-Math.PI/2;q.position.set(x,.03,-25);scene.add(q)}
-box(30,7,12,0,3.5,-13,M(0xd9dfe4));box(32,.55,13,0,7.15,-13,M(0x27374b));box(9,.3,.3,0,5.8,-6.7,M(0xf0b53c));
-for(let x=-10;x<=10;x+=5)box(3.8,4.2,.12,x,3.1,-6.85,glass);
-box(6,2.2,.2,0,1.25,-6.7,M(0x26384a));
-const signCanvas=document.createElement('canvas');signCanvas.width=512;signCanvas.height=128;const cx=signCanvas.getContext('2d');cx.fillStyle='#192a40';cx.fillRect(0,0,512,128);cx.fillStyle='white';cx.font='bold 54px Arial';cx.textAlign='center';cx.fillText('AUTO DEALER',256,82);const sign=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(signCanvas)}));sign.position.set(0,5.1,-6.4);sign.scale.set(8,2,1);scene.add(sign);
-for(let x=-19;x<=19;x+=9){const q=new THREE.Mesh(new THREE.PlaneGeometry(.12,13),line);q.rotation.x=-Math.PI/2;q.position.set(x,.035,4);scene.add(q)}
-function car(color,name,price,x,z){const g=new THREE.Group(),body=M(color,.28,.4),rubber=M(0x101216),rim=M(0xb8c2c9,.25,.75);
-function part(w,h,d,px,py,pz,ma){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),ma);o.position.set(px,py,pz);o.castShadow=true;g.add(o)}
-part(2.25,.72,4.2,0,.85,0,body);part(2.1,.28,1.05,0,1.2,-1.42,body);part(1.7,.76,2.05,0,1.55,.15,glass);part(1.75,.13,1.85,0,1.96,.15,body);
-for(const sx of [-1,1])for(const sz of [-1.35,1.35]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.42,.42,.24,20),rubber);w.rotation.z=Math.PI/2;w.position.set(sx*1.12,.52,sz);w.castShadow=true;g.add(w);const h=new THREE.Mesh(new THREE.CylinderGeometry(.21,.21,.25,16),rim);h.rotation.z=Math.PI/2;h.position.copy(w.position);g.add(h)}
-part(.4,.18,.08,-.78,1.02,-2.12,M(0xfff1bd));part(.4,.18,.08,.78,1.02,-2.12,M(0xfff1bd));part(1.6,.18,.08,0,1.02,2.12,M(0xc52d28));g.position.set(x,0,z);scene.add(g);g.userData={name,price,owned:false};return g}
-const cars=[car(0xc72e2e,'Falcon S',8500,-13,2),car(0x2476c9,'Vortex GT',14500,-4,2),car(0xd8d8d8,'Metro LX',11200,5,2),car(0xe0aa2e,'Ranger X',19800,14,2),car(0x398b63,'Trail Master',17500,-22,2),car(0x633e9c,'Night Runner',22500,22,2)];
-let cash=25000,rep=1,day=1,selected=null;try{const s=JSON.parse(localStorage.getItem('carDealerSave')||'null');if(s){cash=s.cash??cash;rep=s.rep??rep;day=s.day??day;cars.forEach((c,i)=>c.userData.owned=!!s.owned?.[i])}}catch(e){}
-function save(){try{localStorage.setItem('carDealerSave',JSON.stringify({cash,rep,day,owned:cars.map(c=>c.userData.owned)}))}catch(e){}}
-function refresh(){document.getElementById('cash').textContent='💵 $'+cash.toLocaleString();save()}
+(function(){
+"use strict";
+const toastEl=document.getElementById("toast");
+const actions=document.getElementById("actions");
+if(!window.THREE){toastEl.style.display="block";toastEl.textContent="3D engine could not load. Check your internet connection and reload.";return;}
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x9bbdd1);
+scene.fog=new THREE.Fog(0x9bbdd1,48,115);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,220);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.1;
+renderer.domElement.style.position="fixed";
+renderer.domElement.style.inset="0";
+renderer.domElement.style.zIndex="0";
+document.body.appendChild(renderer.domElement);
+function mat(color,roughness,metalness){return new THREE.MeshStandardMaterial({color:color,roughness:roughness===undefined?.65:roughness,metalness:metalness||0});}
+function addBox(w,h,d,x,y,z,material,parent){
+ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+ mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;
+ (parent||scene).add(mesh);return mesh;
+}
+scene.add(new THREE.HemisphereLight(0xffffff,0x667080,1.9));
+const sun=new THREE.DirectionalLight(0xffffff,2.2);
+sun.position.set(-18,32,18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(180,180),mat(0x788b78));
+ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+const road=new THREE.Mesh(new THREE.PlaneGeometry(110,16),mat(0x343b43));
+road.rotation.x=-Math.PI/2;road.position.set(0,.025,-26);scene.add(road);
+for(let x=-50;x<55;x+=9){const stripe=new THREE.Mesh(new THREE.PlaneGeometry(4,.16),mat(0xf4f0dc));stripe.rotation.x=-Math.PI/2;stripe.position.set(x,.04,-26);scene.add(stripe);}
+const glass=new THREE.MeshStandardMaterial({color:0x8fc4d9,roughness:.2,metalness:.12,transparent:true,opacity:.72});
+addBox(30,7,12,0,3.5,-13,mat(0xd9dfe4));
+addBox(32,.55,13,0,7.15,-13,mat(0x27374b));
+addBox(9,.3,.3,0,5.8,-6.7,mat(0xf0b53c));
+for(let x=-10;x<=10;x+=5)addBox(3.8,4.2,.12,x,3.1,-6.85,glass);
+addBox(6,2.2,.2,0,1.25,-6.7,mat(0x26384a));
+const signCanvas=document.createElement("canvas");signCanvas.width=512;signCanvas.height=128;
+const signCtx=signCanvas.getContext("2d");signCtx.fillStyle="#192a40";signCtx.fillRect(0,0,512,128);
+signCtx.fillStyle="white";signCtx.font="bold 54px Arial";signCtx.textAlign="center";signCtx.fillText("AUTO DEALER",256,82);
+const sign=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(signCanvas)}));
+sign.position.set(0,5.1,-6.4);sign.scale.set(8,2,1);scene.add(sign);
+const parkingLine=mat(0xf4f0dc);
+for(let x=-19;x<=19;x+=9){const q=new THREE.Mesh(new THREE.PlaneGeometry(.12,13),parkingLine);q.rotation.x=-Math.PI/2;q.position.set(x,.04,4);scene.add(q);}
+function makeCar(color,name,price,x,z){
+ const group=new THREE.Group(),body=mat(color,.28,.38),rubber=mat(0x101216),rim=mat(0xb8c2c9,.25,.7);
+ function part(w,h,d,px,py,pz,ma){return addBox(w,h,d,px,py,pz,ma,group);}
+ part(2.25,.72,4.2,0,.85,0,body);
+ part(2.1,.28,1.05,0,1.2,-1.42,body);
+ part(1.7,.76,2.05,0,1.55,.15,glass);
+ part(1.75,.13,1.85,0,1.96,.15,body);
+ for(const sx of [-1,1])for(const sz of [-1.35,1.35]){
+  const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.42,.42,.24,20),rubber);
+  wheel.rotation.z=Math.PI/2;wheel.position.set(sx*1.12,.52,sz);wheel.castShadow=true;group.add(wheel);
+  const hub=new THREE.Mesh(new THREE.CylinderGeometry(.21,.21,.25,16),rim);
+  hub.rotation.z=Math.PI/2;hub.position.copy(wheel.position);group.add(hub);
+ }
+ part(.4,.18,.08,-.78,1.02,-2.12,mat(0xfff1bd));
+ part(.4,.18,.08,.78,1.02,-2.12,mat(0xfff1bd));
+ part(1.6,.18,.08,0,1.02,2.12,mat(0xc52d28));
+ group.position.set(x,0,z);scene.add(group);
+ group.userData={name:name,price:price,owned:false};
+ return group;
+}
+const cars=[
+ makeCar(0xc72e2e,"Falcon S",8500,-13,2),
+ makeCar(0x2476c9,"Vortex GT",14500,-4,2),
+ makeCar(0xd8d8d8,"Metro LX",11200,5,2),
+ makeCar(0xe0aa2e,"Ranger X",19800,14,2),
+ makeCar(0x398b63,"Trail Master",17500,-22,2),
+ makeCar(0x633e9c,"Night Runner",22500,22,2)
+];
+let cash=25000,rep=1,day=1,selected=null;
+try{const saved=JSON.parse(localStorage.getItem("carDealerSave")||"null");if(saved){cash=Number(saved.cash)||cash;rep=Number(saved.rep)||rep;day=Number(saved.day)||day;if(Array.isArray(saved.owned))cars.forEach((c,i)=>c.userData.owned=!!saved.owned[i]);}}catch(err){}
+function save(){try{localStorage.setItem("carDealerSave",JSON.stringify({cash:cash,rep:rep,day:day,owned:cars.map(c=>c.userData.owned)}));}catch(err){}}
+function refresh(){document.getElementById("cash").textContent="💵 $"+cash.toLocaleString();save();}
+function toast(message){toastEl.textContent=message;toastEl.style.display="block";clearTimeout(toastEl.timer);toastEl.timer=setTimeout(function(){toastEl.style.display="none";},2300);}
 const player={x:0,z:13,yaw:Math.PI,driving:false,car:null,speed:0};
-const avatar=new THREE.Group(),torso=new THREE.Mesh(new THREE.CapsuleGeometry(.32,.8,4,8),M(0x24538a));torso.position.y=1;avatar.add(torso);const head=new THREE.Mesh(new THREE.SphereGeometry(.23,14,12),M(0xd5a27d));head.position.y=1.65;avatar.add(head);
-scene.add(avatar);
+const avatar=new THREE.Group();
+const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.32,.8,4,8),mat(0x24538a));torso.position.y=1;avatar.add(torso);
+const head=new THREE.Mesh(new THREE.SphereGeometry(.23,14,12),mat(0xd5a27d));head.position.y=1.65;avatar.add(head);scene.add(avatar);
+const customerNames=["Alex","Mina","Sam","Nora","Leo"];
+const customerColors=[0x315f9b,0x9a553c,0x397b58,0x76529b,0xb17b2e];
 const customers=[];
-const customerLooks=[0x315f9b,0x9a553c,0x397b58,0x76529b,0xb17b2e];
-const customerNames=['Alex','Mina','Sam','Nora','Leo','Ava','Noah','Zara'];
 for(let i=0;i<5;i++){
- const g=new THREE.Group(),coat=M(customerLooks[i],.85),skin=M(0xd4a17c);
- const body=new THREE.Mesh(new THREE.CapsuleGeometry(.25,.68,4,8),coat);body.position.y=.88;g.add(body);
- const head=new THREE.Mesh(new THREE.SphereGeometry(.19,12,10),skin);head.position.y=1.48;g.add(head);
- g.position.set(-17+i*8,0,-1+(i%2)*5);scene.add(g);
- customers.push({mesh:g,name:customerNames[i],budget:9000+i*3800,target:cars[(i+1)%cars.length],wait:0,phase:i*.9,active:true});
+ const person=new THREE.Group();
+ const body=new THREE.Mesh(new THREE.CapsuleGeometry(.25,.68,4,8),mat(customerColors[i]));body.position.y=.88;person.add(body);
+ const face=new THREE.Mesh(new THREE.SphereGeometry(.19,12,10),mat(0xd4a17c));face.position.y=1.48;person.add(face);
+ person.position.set(-17+i*8,0,-1+(i%2)*5);scene.add(person);
+ customers.push({mesh:person,name:customerNames[i],budget:9000+i*3800,target:cars[(i+1)%cars.length],phase:i*.9,active:true});
 }
 let activeCustomer=null;
-const customerPanel=document.getElementById('customerPanel');
-document.getElementById('leaveCustomer').onclick=()=>{customerPanel.style.display='none';activeCustomer=null};
+const customerPanel=document.getElementById("customerPanel");
+document.getElementById("leaveCustomer").onclick=function(){customerPanel.style.display="none";activeCustomer=null;showActions();};
+function addAction(label,callback){const button=document.createElement("button");button.textContent=label;button.onclick=callback;actions.appendChild(button);}
+function nearestCar(){let best=null,bestDistance=5;for(const car of cars){const d=Math.hypot(car.position.x-player.x,car.position.z-player.z);if(d<bestDistance){bestDistance=d;best=car;}}return best;}
+function nearestCustomer(){let best=null,bestDistance=3.5;for(const c of customers){if(!c.active)continue;const d=Math.hypot(c.mesh.position.x-player.x,c.mesh.position.z-player.z);if(d<bestDistance){bestDistance=d;best=c;}}return best;}
+function buy(car){if(cash<car.userData.price){toast("Not enough cash.");return;}cash-=car.userData.price;car.userData.owned=true;rep++;refresh();toast("You bought "+car.userData.name+".");showActions();}
+function sell(car){if(!car.userData.owned){toast("This car is not yours.");return;}const amount=Math.round(car.userData.price*.82);cash+=amount;car.userData.owned=false;rep+=2;refresh();toast("Sold for $"+amount.toLocaleString()+".");showActions();}
+function drive(car){if(!car.userData.owned){toast("Buy this car before test-driving it.");return;}player.driving=true;player.car=car;player.x=car.position.x;player.z=car.position.z;player.yaw=car.rotation.y;player.speed=0;toast("Test drive started. Use GAS, BRAKE and arrows.");showActions();}
+function exitCar(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;showActions();}
+function openOffice(){document.getElementById("stats").textContent="Cash: $"+cash.toLocaleString()+" · Reputation: "+rep+" · Cars in stock: "+cars.filter(c=>c.userData.owned).length+" · Day "+day+" · Visitors: "+customers.filter(c=>c.active).length;document.getElementById("office").style.display="flex";}
+document.getElementById("closeOffice").onclick=function(){document.getElementById("office").style.display="none";};
 function talkCustomer(c){
  if(player.driving)return;
- activeCustomer=c;const car=c.target;
- document.getElementById('customerTitle').textContent='🤝 '+c.name+' wants a car';
- document.getElementById('customerText').textContent='Budget: 
-function toast(t){toastEl.textContent=t;toastEl.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>toastEl.style.display='none',2200)}
-function near(){let best=null,dmin=5;for(const c of cars){const d=Math.hypot(c.position.x-player.x,c.position.z-player.z);if(d<dmin){dmin=d;best=c}}return best}
-function action(t,fn){const b=document.createElement('button');b.textContent=t;b.onclick=fn;actions.appendChild(b)}
-function show(){actions.innerHTML='';if(player.driving){action('EXIT VEHICLE',exit);return}const visitor=nearestCustomer();if(visitor){action('TALK TO '+visitor.name,()=>talkCustomer(visitor));return}const c=near();if(c){selected=c;action('INSPECT '+c.userData.name,()=>toast(c.userData.name+' · $'+c.userData.price.toLocaleString()));if(!c.userData.owned)action('BUY $'+c.userData.price.toLocaleString(),()=>buy(c));else{action('TEST DRIVE',()=>drive(c));action('SELL CAR',()=>sell(c))}}else if(Math.hypot(player.x,player.z+13)<7)action('DEALERSHIP OFFICE',office)}
-function buy(c){if(cash<c.userData.price){toast('Not enough cash');return}cash-=c.userData.price;c.userData.owned=true;rep++;refresh();toast('You bought '+c.userData.name);show()}
-function sell(c){if(player.driving)return;const amount=Math.round(c.userData.price*.82);cash+=amount;c.userData.owned=false;rep+=2;refresh();toast('Sold for $'+amount.toLocaleString());show()}
-function drive(c){player.driving=true;player.car=c;player.x=c.position.x;player.z=c.position.z;player.speed=0;toast('Test drive started. GAS / BRAKE and steering controls.');show()}
-function exit(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;show()}
-function office(){document.getElementById('stats').textContent='Cash: $'+cash.toLocaleString()+' · Reputation: '+rep+' · Cars in stock: '+cars.filter(c=>c.userData.owned).length+' · Day '+day+' · Visitors: '+customers.filter(c=>c.active).length;document.getElementById('office').style.display='flex'}
-document.getElementById('closeOffice').onclick=()=>document.getElementById('office').style.display='none';
-const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function hold(id,k){const el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;el.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,()=>keys[k]=false))}
-hold('left','left');hold('right','right');hold('gas','gas');hold('brake','brake');
-let last=performance.now(),elapsed=0;
-function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
-for(const c of customers){if(c.active&&!player.driving){c.phase+=dt*.45;const tx=Math.sin(c.phase*.7+c.wait)*12;const tz=-2+Math.cos(c.phase*.55+c.wait)*5;c.mesh.position.x+=(tx-c.mesh.position.x)*dt*.22;c.mesh.position.z+=(tz-c.mesh.position.z)*dt*.22;c.mesh.rotation.y=Math.atan2(tx-c.mesh.position.x,tz-c.mesh.position.z)}}
-const f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
-if(player.driving){if(f||keys.gas)player.speed=Math.min(14,player.speed+12*dt);else if(g||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);else player.speed*=Math.pow(.95,dt*60);if(l)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);if(r)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y}
-else{let m=f?1:g?-1:0;if(l)player.yaw+=2.3*dt;if(r)player.yaw-=2.3*dt;player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*m*7*dt,-28,28);player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*m*7*dt,-38,26);avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw}
-const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
-const dayLight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+dayLight*1.3;if(now%350<18)show();renderer.render(scene,camera)}
-requestAnimationFrame(loop);refresh();show();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-})();
-</script></body></html>+c.budget.toLocaleString()+'. Interested in '+car.userData.name+'. Asking price: 
-function toast(t){toastEl.textContent=t;toastEl.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>toastEl.style.display='none',2200)}
-function near(){let best=null,dmin=5;for(const c of cars){const d=Math.hypot(c.position.x-player.x,c.position.z-player.z);if(d<dmin){dmin=d;best=c}}return best}
-function action(t,fn){const b=document.createElement('button');b.textContent=t;b.onclick=fn;actions.appendChild(b)}
-function show(){actions.innerHTML='';if(player.driving){action('EXIT VEHICLE',exit);return}const c=near();if(c){selected=c;action('INSPECT '+c.userData.name,()=>toast(c.userData.name+' · $'+c.userData.price.toLocaleString()));if(!c.userData.owned)action('BUY $'+c.userData.price.toLocaleString(),()=>buy(c));else{action('TEST DRIVE',()=>drive(c));action('SELL CAR',()=>sell(c))}}else if(Math.hypot(player.x,player.z+13)<7)action('DEALERSHIP OFFICE',office)}
-function buy(c){if(cash<c.userData.price){toast('Not enough cash');return}cash-=c.userData.price;c.userData.owned=true;rep++;refresh();toast('You bought '+c.userData.name);show()}
-function sell(c){if(player.driving)return;const amount=Math.round(c.userData.price*.82);cash+=amount;c.userData.owned=false;rep+=2;refresh();toast('Sold for $'+amount.toLocaleString());show()}
-function drive(c){player.driving=true;player.car=c;player.x=c.position.x;player.z=c.position.z;player.speed=0;toast('Test drive started. GAS / BRAKE and steering controls.');show()}
-function exit(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;show()}
-function office(){document.getElementById('stats').textContent='Cash: $'+cash.toLocaleString()+' · Reputation: '+rep+' · Cars in stock: '+cars.filter(c=>c.userData.owned).length+' · Day '+day;document.getElementById('office').style.display='flex'}
-document.getElementById('closeOffice').onclick=()=>document.getElementById('office').style.display='none';
-const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function hold(id,k){const el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;el.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,()=>keys[k]=false))}
-hold('left','left');hold('right','right');hold('gas','gas');hold('brake','brake');
-let last=performance.now(),elapsed=0;
-function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
-const f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
-if(player.driving){if(f||keys.gas)player.speed=Math.min(14,player.speed+12*dt);else if(g||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);else player.speed*=Math.pow(.95,dt*60);if(l)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);if(r)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y}
-else{let m=f?1:g?-1:0;if(l)player.yaw+=2.3*dt;if(r)player.yaw-=2.3*dt;player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*m*7*dt,-28,28);player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*m*7*dt,-38,26);avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw}
-const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
-const dayLight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+dayLight*1.3;if(now%350<18)show();renderer.render(scene,camera)}
-requestAnimationFrame(loop);refresh();show();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-})();
-</script></body></html>+car.userData.price.toLocaleString()+'. Choose a response.';
- const choices=document.getElementById('customerChoices');choices.innerHTML='';
- const addChoice=(label,fn)=>{const b=document.createElement('button');b.textContent=label;b.onclick=fn;choices.appendChild(b)};
- const owned=cars.filter(x=>x.userData.owned);
- const eligible=owned.filter(x=>x.userData.price<=c.budget*1.3);
- if(!owned.length){addChoice('Showroom tour',()=>{toast('Customer is browsing. Buy a car into stock first.');customerPanel.style.display='none';activeCustomer=null})}
- else if(!eligible.length){addChoice('Offer a lower-priced car',()=>{c.budget+=4500;toast(c.name+' increased their budget!');talkCustomer(c)})}
- else eligible.forEach(car=>{
-  const offer=Math.min(c.budget,Math.round(car.userData.price*.9));
-  addChoice('Offer '+car.userData.name+' for 
-function toast(t){toastEl.textContent=t;toastEl.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>toastEl.style.display='none',2200)}
-function near(){let best=null,dmin=5;for(const c of cars){const d=Math.hypot(c.position.x-player.x,c.position.z-player.z);if(d<dmin){dmin=d;best=c}}return best}
-function action(t,fn){const b=document.createElement('button');b.textContent=t;b.onclick=fn;actions.appendChild(b)}
-function show(){actions.innerHTML='';if(player.driving){action('EXIT VEHICLE',exit);return}const c=near();if(c){selected=c;action('INSPECT '+c.userData.name,()=>toast(c.userData.name+' · $'+c.userData.price.toLocaleString()));if(!c.userData.owned)action('BUY $'+c.userData.price.toLocaleString(),()=>buy(c));else{action('TEST DRIVE',()=>drive(c));action('SELL CAR',()=>sell(c))}}else if(Math.hypot(player.x,player.z+13)<7)action('DEALERSHIP OFFICE',office)}
-function buy(c){if(cash<c.userData.price){toast('Not enough cash');return}cash-=c.userData.price;c.userData.owned=true;rep++;refresh();toast('You bought '+c.userData.name);show()}
-function sell(c){if(player.driving)return;const amount=Math.round(c.userData.price*.82);cash+=amount;c.userData.owned=false;rep+=2;refresh();toast('Sold for $'+amount.toLocaleString());show()}
-function drive(c){player.driving=true;player.car=c;player.x=c.position.x;player.z=c.position.z;player.speed=0;toast('Test drive started. GAS / BRAKE and steering controls.');show()}
-function exit(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;show()}
-function office(){document.getElementById('stats').textContent='Cash: $'+cash.toLocaleString()+' · Reputation: '+rep+' · Cars in stock: '+cars.filter(c=>c.userData.owned).length+' · Day '+day;document.getElementById('office').style.display='flex'}
-document.getElementById('closeOffice').onclick=()=>document.getElementById('office').style.display='none';
-const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function hold(id,k){const el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;el.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,()=>keys[k]=false))}
-hold('left','left');hold('right','right');hold('gas','gas');hold('brake','brake');
-let last=performance.now(),elapsed=0;
-function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
-const f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
-if(player.driving){if(f||keys.gas)player.speed=Math.min(14,player.speed+12*dt);else if(g||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);else player.speed*=Math.pow(.95,dt*60);if(l)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);if(r)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y}
-else{let m=f?1:g?-1:0;if(l)player.yaw+=2.3*dt;if(r)player.yaw-=2.3*dt;player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*m*7*dt,-28,28);player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*m*7*dt,-38,26);avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw}
-const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
-const dayLight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+dayLight*1.3;if(now%350<18)show();renderer.render(scene,camera)}
-requestAnimationFrame(loop);refresh();show();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-})();
-</script></body></html>+offer.toLocaleString(),()=>{
-   if(offer>=car.userData.price*.78){cash+=offer;car.userData.owned=false;rep+=3;refresh();toast('Deal! '+c.name+' bought '+car.userData.name);c.active=false;c.mesh.visible=false}
-   else{toast(c.name+' declined. Try a better offer.')}
-   customerPanel.style.display='none';activeCustomer=null;show();
+ activeCustomer=c;
+ const car=c.target;
+ document.getElementById("customerTitle").textContent="🤝 "+c.name+" wants a car";
+ document.getElementById("customerText").textContent="Budget: $"+c.budget.toLocaleString()+". Interested in "+car.userData.name+". Asking price: $"+car.userData.price.toLocaleString()+".";
+ const choices=document.getElementById("customerChoices");choices.innerHTML="";
+ const owned=cars.filter(function(item){return item.userData.owned;});
+ function choice(label,fn){const b=document.createElement("button");b.textContent=label;b.onclick=fn;choices.appendChild(b);}
+ const affordable=owned.filter(function(item){return item.userData.price<=c.budget*1.3;});
+ if(!owned.length){choice("Showroom tour",function(){toast("Buy a car into stock first.");customerPanel.style.display="none";activeCustomer=null;});}
+ else if(!affordable.length){choice("Offer a lower-priced car",function(){c.budget+=4500;talkCustomer(c);});}
+ else{
+  affordable.forEach(function(item){
+   const offer=Math.min(c.budget,Math.round(item.userData.price*.9));
+   choice("Offer "+item.userData.name+" · $"+offer.toLocaleString(),function(){
+    if(offer>=item.userData.price*.78){cash+=offer;item.userData.owned=false;rep+=3;refresh();toast("Deal! "+c.name+" bought "+item.userData.name+".");c.active=false;c.mesh.visible=false;}
+    else toast(c.name+" declined. Try a higher offer.");
+    customerPanel.style.display="none";activeCustomer=null;showActions();
+   });
   });
- });
- addChoice('Negotiate +10%',()=>{c.budget=Math.round(c.budget*1.1);toast(c.name+' may pay a little more.');talkCustomer(c)});
- customerPanel.style.display='flex';
+ }
+ choice("Negotiate +10%",function(){c.budget=Math.round(c.budget*1.1);talkCustomer(c);});
+ customerPanel.style.display="flex";
 }
-function nearestCustomer(){let best=null,dmin=3.5;for(const c of customers){if(!c.active)continue;const d=Math.hypot(c.mesh.position.x-player.x,c.mesh.position.z-player.z);if(d<dmin){dmin=d;best=c}}return best}
-
-function toast(t){toastEl.textContent=t;toastEl.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>toastEl.style.display='none',2200)}
-function near(){let best=null,dmin=5;for(const c of cars){const d=Math.hypot(c.position.x-player.x,c.position.z-player.z);if(d<dmin){dmin=d;best=c}}return best}
-function action(t,fn){const b=document.createElement('button');b.textContent=t;b.onclick=fn;actions.appendChild(b)}
-function show(){actions.innerHTML='';if(player.driving){action('EXIT VEHICLE',exit);return}const c=near();if(c){selected=c;action('INSPECT '+c.userData.name,()=>toast(c.userData.name+' · $'+c.userData.price.toLocaleString()));if(!c.userData.owned)action('BUY $'+c.userData.price.toLocaleString(),()=>buy(c));else{action('TEST DRIVE',()=>drive(c));action('SELL CAR',()=>sell(c))}}else if(Math.hypot(player.x,player.z+13)<7)action('DEALERSHIP OFFICE',office)}
-function buy(c){if(cash<c.userData.price){toast('Not enough cash');return}cash-=c.userData.price;c.userData.owned=true;rep++;refresh();toast('You bought '+c.userData.name);show()}
-function sell(c){if(player.driving)return;const amount=Math.round(c.userData.price*.82);cash+=amount;c.userData.owned=false;rep+=2;refresh();toast('Sold for $'+amount.toLocaleString());show()}
-function drive(c){player.driving=true;player.car=c;player.x=c.position.x;player.z=c.position.z;player.speed=0;toast('Test drive started. GAS / BRAKE and steering controls.');show()}
-function exit(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;show()}
-function office(){document.getElementById('stats').textContent='Cash: $'+cash.toLocaleString()+' · Reputation: '+rep+' · Cars in stock: '+cars.filter(c=>c.userData.owned).length+' · Day '+day;document.getElementById('office').style.display='flex'}
-document.getElementById('closeOffice').onclick=()=>document.getElementById('office').style.display='none';
-const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function hold(id,k){const el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;el.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,()=>keys[k]=false))}
-hold('left','left');hold('right','right');hold('gas','gas');hold('brake','brake');
-let last=performance.now(),elapsed=0;
-function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
-const f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
-if(player.driving){if(f||keys.gas)player.speed=Math.min(14,player.speed+12*dt);else if(g||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);else player.speed*=Math.pow(.95,dt*60);if(l)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);if(r)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y}
-else{let m=f?1:g?-1:0;if(l)player.yaw+=2.3*dt;if(r)player.yaw-=2.3*dt;player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*m*7*dt,-28,28);player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*m*7*dt,-38,26);avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw}
-const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
-const dayLight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+dayLight*1.3;if(now%350<18)show();renderer.render(scene,camera)}
-requestAnimationFrame(loop);refresh();show();
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+function showActions(){
+ actions.innerHTML="";
+ if(player.driving){addAction("EXIT VEHICLE",exitCar);return;}
+ const visitor=nearestCustomer();
+ if(visitor){addAction("TALK TO "+visitor.name,function(){talkCustomer(visitor);});return;}
+ const car=nearestCar();
+ if(car){
+  selected=car;
+  addAction("INSPECT "+car.userData.name,function(){toast(car.userData.name+" · $"+car.userData.price.toLocaleString());});
+  if(!car.userData.owned)addAction("BUY $"+car.userData.price.toLocaleString(),function(){buy(car);});
+  else{addAction("TEST DRIVE",function(){drive(car);});addAction("SELL CAR",function(){sell(car);});}
+ }else if(Math.hypot(player.x,player.z+13)<7)addAction("DEALERSHIP OFFICE",openOffice);
+}
+const keys={};
+addEventListener("keydown",function(e){keys[e.key.toLowerCase()]=true;});
+addEventListener("keyup",function(e){keys[e.key.toLowerCase()]=false;});
+function hold(id,key){
+ const element=document.getElementById(id);
+ element.addEventListener("pointerdown",function(e){e.preventDefault();keys[key]=true;if(element.setPointerCapture)element.setPointerCapture(e.pointerId);});
+ ["pointerup","pointercancel","lostpointercapture"].forEach(function(eventName){element.addEventListener(eventName,function(){keys[key]=false;});});
+}
+hold("left","left");hold("right","right");hold("gas","gas");hold("brake","brake");
+let last=performance.now(),elapsed=0,actionClock=0;
+function loop(now){
+ requestAnimationFrame(loop);
+ const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;actionClock+=dt;
+ customers.forEach(function(c){if(c.active&&!player.driving){c.phase+=dt*.45;const tx=Math.sin(c.phase*.7)*12;const tz=-2+Math.cos(c.phase*.55)*5;c.mesh.position.x+=(tx-c.mesh.position.x)*dt*.22;c.mesh.position.z+=(tz-c.mesh.position.z)*dt*.22;c.mesh.rotation.y=Math.atan2(tx-c.mesh.position.x,tz-c.mesh.position.z);}});
+ const forward=keys.w||keys.arrowup,back=keys.s||keys.arrowdown,left=keys.a||keys.arrowleft||keys.left,right=keys.d||keys.arrowright||keys.right;
+ if(player.driving){
+  if(forward||keys.gas)player.speed=Math.min(14,player.speed+12*dt);
+  else if(back||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);
+  else player.speed*=Math.pow(.95,dt*60);
+  if(left)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);
+  if(right)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);
+  player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;
+  player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;
+  player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);
+  player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);
+  player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y;
+ }else{
+  const move=forward?1:back?-1:0;
+  if(left)player.yaw+=2.3*dt;if(right)player.yaw-=2.3*dt;
+  player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*move*7*dt,-28,28);
+  player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*move*7*dt,-38,26);
+  avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw;
+ }
+ const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);
+ camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
+ const daylight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+daylight*1.3;
+ if(actionClock>.3){showActions();actionClock=0;}
+ renderer.render(scene,camera);
+}
+camera.position.set(0,5,22);camera.lookAt(0,1,13);
+refresh();showActions();requestAnimationFrame(loop);
+addEventListener("resize",function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 })();
-</script></body></html>
+</script>
+</body>
+</html>
