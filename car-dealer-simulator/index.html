@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="hud"><div class="pill">🚘 CAR SALES SIMULATOR</div><div style="display:flex;gap:6px;align-items:flex-start"><div class="pill" id="cash">💵 $25,000</div><button class="bizOpen" id="openBiz">DEALER DESK</button></div></div>
-<div id="help" class="pill">Walk: WASD / arrows · Approach a car to inspect, wash, repair, list, buy or test-drive it.<div id="driveInfo"></div></div>
+<div id="help" class="pill">Walk: WASD / arrows or hold GAS to walk forward and BRAKE to walk backward. Approach a car to inspect, buy or test-drive it.<div id="driveInfo"></div></div>
 <div id="actions"></div><div id="toast"></div>
 <div id="controls">
  <div class="group"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div>
@@ -278,7 +278,7 @@ function loop(now){
  requestAnimationFrame(loop);
  const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;actionClock+=dt;
  customers.forEach(function(c){if(c.active&&!player.driving){c.phase+=dt*.45;const tx=Math.sin(c.phase*.7)*12;const tz=-2+Math.cos(c.phase*.55)*5;c.mesh.position.x+=(tx-c.mesh.position.x)*dt*.22;c.mesh.position.z+=(tz-c.mesh.position.z)*dt*.22;c.mesh.rotation.y=Math.atan2(tx-c.mesh.position.x,tz-c.mesh.position.z);}});
- const forward=keys.w||keys.arrowup,back=keys.s||keys.arrowdown,left=keys.a||keys.arrowleft||keys.left,right=keys.d||keys.arrowright||keys.right;
+ const forward=keys.w||keys.arrowup||(!player.driving&&keys.gas),back=keys.s||keys.arrowdown||(!player.driving&&keys.brake),left=keys.a||keys.arrowleft||keys.left,right=keys.d||keys.arrowright||keys.right;
  if(player.driving){
   if(forward||keys.gas)player.speed=Math.min(14,player.speed+12*dt);
   else if(back||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);
