@@ -18,19 +18,21 @@
 .card{width:min(430px,100%);background:#192a40;padding:20px;border-radius:17px;border:1px solid #ffffff44;line-height:1.5;box-shadow:0 18px 55px #0008}
 .card h2{margin-top:0}.secondary{background:#53657b!important;color:white!important}
 #customerChoices{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+#vehiclePanel{display:none;position:fixed;z-index:11;inset:0;background:#07101bf2;align-items:center;justify-content:center;padding:18px}.specGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.spec{background:#ffffff12;padding:10px;border-radius:9px}.spec b{display:block;color:#ffd36b;font-size:12px;margin-bottom:3px}#vehiclePanel button,#office button{margin:4px 3px}#hud{align-items:flex-start}#dayInfo{font-size:12px;opacity:.9}
 @media(max-width:420px){.pill{padding:8px;font-size:13px}#help{max-width:220px}.ctrl{min-width:56px;height:56px}.pedal{min-width:66px}}
 \n#hud .pill{backdrop-filter:blur(12px);border-color:#ffffff55}#help{backdrop-filter:blur(10px)}.ctrl{box-shadow:0 7px 20px #0005,inset 0 1px #ffffff35}.ctrl:active{transform:translateY(2px);filter:brightness(1.25)}#actions button{box-shadow:0 8px 22px #0005;background:linear-gradient(135deg,#ffd36b,#e99a25)}\n</style>
 </head>
 <body>
 <div id="hud"><div class="pill">🚘 CAR SALES SIMULATOR</div><div class="pill" id="cash">💵 $25,000</div></div>
-<div id="help" class="pill">Explore your dealership. Walk with WASD or arrow keys. Approach a car to inspect, buy, sell or test-drive it.</div>
+<div id="help" class="pill">Walk: WASD / arrows · Approach a car to inspect, wash, repair, list, buy or test-drive it.<div id="driveInfo"></div></div>
 <div id="actions"></div><div id="toast"></div>
 <div id="controls">
  <div class="group"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div>
  <div class="group"><button class="ctrl pedal" id="brake">BRAKE</button><button class="ctrl pedal" id="gas">GAS</button></div>
 </div>
 <div id="customerPanel"><div class="card"><h2 id="customerTitle">Customer</h2><p id="customerText"></p><div id="customerChoices"></div><button class="secondary" id="leaveCustomer">Close</button></div></div>
-<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Welcome, dealer! Build your stock, make sales and grow your reputation.</p><p id="stats"></p><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
+<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Manage your business, review the numbers and start a new business day.</p><p id="stats"></p><button id="nextDay">🌅 End day & collect revenue</button><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
+<div id="vehiclePanel"><div class="card"><h2 id="vehicleTitle">Vehicle inspection</h2><div id="vehicleSpecs" class="specGrid"></div><p id="vehicleAdvice"></p><button id="closeVehicle" class="secondary">Close inspection</button></div></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (function(){
@@ -138,9 +140,10 @@ const cars=[
  makeCar(0x398b63,"Trail Master",17500,-22,2),
  makeCar(0x633e9c,"Night Runner",22500,22,2)
 ];
-let cash=25000,rep=1,day=1,selected=null;
-try{const saved=JSON.parse(localStorage.getItem("carDealerSave")||"null");if(saved){cash=Number(saved.cash)||cash;rep=Number(saved.rep)||rep;day=Number(saved.day)||day;if(Array.isArray(saved.owned))cars.forEach((c,i)=>c.userData.owned=!!saved.owned[i]);}}catch(err){}
-function save(){try{localStorage.setItem("carDealerSave",JSON.stringify({cash:cash,rep:rep,day:day,owned:cars.map(c=>c.userData.owned)}));}catch(err){}}
+let cash=25000,rep=1,day=1,selected=null,dayRevenue=0,dayExpenses=0,marketMood=1,showroomLevel=1;
+cars.forEach(function(c,i){c.userData.condition=[86,94,78,91,83,97][i];c.userData.mileage=[68400,31200,92500,45800,73100,18900][i];c.userData.cleanliness=[72,95,58,88,67,99][i];c.userData.listed=false;c.userData.daysOwned=0;});
+try{const saved=JSON.parse(localStorage.getItem("carDealerSave")||"null");if(saved){cash=Number(saved.cash)||cash;rep=Number(saved.rep)||rep;day=Number(saved.day)||day;if(Array.isArray(saved.owned))cars.forEach((c,i)=>c.userData.owned=!!saved.owned[i]);if(Array.isArray(saved.condition))cars.forEach((c,i)=>c.userData.condition=saved.condition[i]||c.userData.condition);if(Array.isArray(saved.mileage))cars.forEach((c,i)=>c.userData.mileage=saved.mileage[i]||c.userData.mileage);if(Array.isArray(saved.cleanliness))cars.forEach((c,i)=>c.userData.cleanliness=saved.cleanliness[i]||c.userData.cleanliness);if(Array.isArray(saved.listed))cars.forEach((c,i)=>c.userData.listed=!!saved.listed[i]);dayRevenue=saved.dayRevenue||0;dayExpenses=saved.dayExpenses||0;showroomLevel=saved.showroomLevel||1;}}catch(err){}
+function save(){try{localStorage.setItem("carDealerSave",JSON.stringify({cash:cash,rep:rep,day:day,owned:cars.map(c=>c.userData.owned),condition:cars.map(c=>c.userData.condition),mileage:cars.map(c=>c.userData.mileage),cleanliness:cars.map(c=>c.userData.cleanliness),listed:cars.map(c=>c.userData.listed),dayRevenue:dayRevenue,dayExpenses:dayExpenses,showroomLevel:showroomLevel}));}catch(err){}}
 function refresh(){document.getElementById("cash").textContent="💵 $"+cash.toLocaleString();save();}
 function toast(message){toastEl.textContent=message;toastEl.style.display="block";clearTimeout(toastEl.timer);toastEl.timer=setTimeout(function(){toastEl.style.display="none";},2300);}
 const player={x:0,z:13,yaw:Math.PI,driving:false,car:null,speed:0};
@@ -163,12 +166,17 @@ document.getElementById("leaveCustomer").onclick=function(){customerPanel.style.
 function addAction(label,callback){const button=document.createElement("button");button.textContent=label;button.onclick=callback;actions.appendChild(button);}
 function nearestCar(){let best=null,bestDistance=5;for(const car of cars){const d=Math.hypot(car.position.x-player.x,car.position.z-player.z);if(d<bestDistance){bestDistance=d;best=car;}}return best;}
 function nearestCustomer(){let best=null,bestDistance=3.5;for(const c of customers){if(!c.active)continue;const d=Math.hypot(c.mesh.position.x-player.x,c.mesh.position.z-player.z);if(d<bestDistance){bestDistance=d;best=c;}}return best;}
-function buy(car){if(cash<car.userData.price){toast("Not enough cash.");return;}cash-=car.userData.price;car.userData.owned=true;rep++;refresh();toast("You bought "+car.userData.name+".");showActions();}
-function sell(car){if(!car.userData.owned){toast("This car is not yours.");return;}const amount=Math.round(car.userData.price*.82);cash+=amount;car.userData.owned=false;rep+=2;refresh();toast("Sold for $"+amount.toLocaleString()+".");showActions();}
+function buy(car){if(cars.filter(c=>c.userData.owned).length>=showroomLevel+2){toast("Showroom full. Upgrade your dealership first.");return;}if(cash<car.userData.price){toast("Not enough cash.");return;}cash-=car.userData.price;dayExpenses+=car.userData.price;car.userData.owned=true;car.userData.listed=true;car.userData.daysOwned=0;rep++;refresh();toast("Stock acquired: "+car.userData.name+". Prepare it for sale.");showActions();}
+function sell(car){if(!car.userData.owned){toast("This car is not yours.");return;}const amount=Math.round(car.userData.price*(.52+car.userData.condition/330)*marketMood);cash+=amount;dayRevenue+=amount;car.userData.owned=false;car.userData.listed=false;rep+=2;refresh();toast("Vehicle sold for $"+amount.toLocaleString()+".");showActions();}
 function drive(car){if(!car.userData.owned){toast("Buy this car before test-driving it.");return;}player.driving=true;player.car=car;player.x=car.position.x;player.z=car.position.z;player.yaw=car.rotation.y;player.speed=0;toast("Test drive started. Use GAS, BRAKE and arrows.");showActions();}
 function exitCar(){player.driving=false;player.x=player.car.position.x+3;player.z=player.car.position.z;player.car=null;player.speed=0;showActions();}
-function openOffice(){document.getElementById("stats").textContent="Cash: $"+cash.toLocaleString()+" · Reputation: "+rep+" · Cars in stock: "+cars.filter(c=>c.userData.owned).length+" · Day "+day+" · Visitors: "+customers.filter(c=>c.active).length;document.getElementById("office").style.display="flex";}
+function openOffice(){document.getElementById("stats").textContent="Cash: $"+cash.toLocaleString()+" · Reputation: "+rep+" · Stock: "+cars.filter(c=>c.userData.owned).length+" · Day "+day+" · Today sales: $"+dayRevenue.toLocaleString()+" · Expenses: $"+dayExpenses.toLocaleString()+" · Tier: "+(rep>=15?"Trusted dealer":rep>=6?"Local dealer":"New dealer")+" · Showroom level: "+showroomLevel;document.getElementById("office").style.display="flex";}
+function finishDay(){const rent=650+showroomLevel*250,upkeep=cars.filter(c=>c.userData.owned).length*180;const net=dayRevenue-rent-upkeep;cash+=net;dayExpenses+=rent+upkeep;day++;marketMood=.88+Math.random()*.28;customers.forEach(function(c){c.active=true;c.mesh.visible=true;c.budget=Math.round(c.budget*(.94+Math.random()*.14));c.target=cars[Math.floor(Math.random()*cars.length)];});cars.forEach(function(c){if(c.userData.owned)c.userData.daysOwned++;});dayRevenue=0;refresh();toast("Day "+(day-1)+" closed. Net result: $"+net.toLocaleString()+".");openOffice();}
 document.getElementById("closeOffice").onclick=function(){document.getElementById("office").style.display="none";};
+document.getElementById("nextDay").onclick=finishDay;
+document.getElementById("closeVehicle").onclick=function(){document.getElementById("vehiclePanel").style.display="none";};
+function inspectCar(car){const u=car.userData;document.getElementById("vehicleTitle").textContent="🔍 "+u.name+" · vehicle report";document.getElementById("vehicleSpecs").innerHTML="<div class=spec><b>MARKET PRICE</b>$"+Math.round(u.price*marketMood).toLocaleString()+"</div><div class=spec><b>CONDITION</b>"+u.condition+"/100</div><div class=spec><b>MILEAGE</b>"+Math.round(u.mileage).toLocaleString()+" km</div><div class=spec><b>CLEANLINESS</b>"+u.cleanliness+"/100</div><div class=spec><b>STATUS</b>"+(u.owned?"Your inventory":"Available to buy")+"</div><div class=spec><b>LISTING</b>"+(u.listed?"On sale":"Not listed")+"</div>";document.getElementById("vehicleAdvice").textContent=u.condition<65?"Needs mechanical repair before a strong resale.":u.cleanliness<65?"A wash will improve showroom appeal.":"This vehicle is in presentable condition.";document.getElementById("vehiclePanel").style.display="flex";}
+function serviceCar(car,kind){if(!car.userData.owned)return;const u=car.userData;if(kind==="wash"){if(cash<120){toast("A wash costs $120.");return;}cash-=120;dayExpenses+=120;u.cleanliness=Math.min(100,u.cleanliness+35);toast("Vehicle cleaned. Presentation improved.");}else{const cost=Math.round((100-u.condition)*95);if(cash<cost){toast("Repairs cost $"+cost.toLocaleString()+". Not enough cash.");return;}cash-=cost;dayExpenses+=cost;u.condition=100;toast("Inspection and repairs complete.");}refresh();showActions();}
 function talkCustomer(c){
  if(player.driving)return;
  activeCustomer=c;
@@ -183,9 +191,9 @@ function talkCustomer(c){
  else if(!affordable.length){choice("Offer a lower-priced car",function(){c.budget+=4500;talkCustomer(c);});}
  else{
   affordable.forEach(function(item){
-   const offer=Math.min(c.budget,Math.round(item.userData.price*.9));
+   const conditionFactor=.72+item.userData.condition/360;const offer=Math.min(c.budget,Math.round(item.userData.price*conditionFactor*(item.userData.cleanliness<55?.94:1)));
    choice("Offer "+item.userData.name+" · $"+offer.toLocaleString(),function(){
-    if(offer>=item.userData.price*.78){cash+=offer;item.userData.owned=false;rep+=3;refresh();toast("Deal! "+c.name+" bought "+item.userData.name+".");c.active=false;c.mesh.visible=false;}
+    if(offer>=item.userData.price*(.55+item.userData.condition/500)){cash+=offer;dayRevenue+=offer;item.userData.owned=false;item.userData.listed=false;rep+=3;refresh();toast("Deal! "+c.name+" bought "+item.userData.name+" for $"+offer.toLocaleString()+".");c.active=false;c.mesh.visible=false;}
     else toast(c.name+" declined. Try a higher offer.");
     customerPanel.style.display="none";activeCustomer=null;showActions();
    });
@@ -202,9 +210,9 @@ function showActions(){
  const car=nearestCar();
  if(car){
   selected=car;
-  addAction("INSPECT "+car.userData.name,function(){toast(car.userData.name+" · $"+car.userData.price.toLocaleString());});
+  addAction("INSPECT / HISTORY",function(){inspectCar(car);});
   if(!car.userData.owned)addAction("BUY $"+car.userData.price.toLocaleString(),function(){buy(car);});
-  else{addAction("TEST DRIVE",function(){drive(car);});addAction("SELL CAR",function(){sell(car);});}
+  else{addAction("TEST DRIVE",function(){drive(car);});addAction("WASH $120",function(){serviceCar(car,"wash");});addAction("REPAIR",function(){serviceCar(car,"repair");});addAction(car.userData.listed?"UNLIST FOR SALE":"LIST FOR SALE",function(){car.userData.listed=!car.userData.listed;toast(car.userData.name+(car.userData.listed?" listed for sale.":" removed from listing."));save();showActions();});addAction("SELL NOW",function(){sell(car);});}
  }else if(Math.hypot(player.x,player.z+13)<7)addAction("DEALERSHIP OFFICE",openOffice);
 }
 const keys={};
@@ -230,6 +238,7 @@ function loop(now){
   if(right)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);
   player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;
   player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;
+  player.car.userData.mileage+=Math.abs(player.speed*dt)*.08;
   player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);
   player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);
   player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y;
@@ -243,6 +252,7 @@ function loop(now){
  const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);
  camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
  const daylight=(Math.sin(elapsed*.035)+1)/2;sun.intensity=1.2+daylight*1.3;
+ if(player.driving){const info=document.getElementById("driveInfo");if(info)info.textContent="Speed "+Math.abs(Math.round(player.speed*3.6))+" km/h · Odometer "+Math.round(player.car.userData.mileage).toLocaleString()+" km";}
  if(actionClock>.3){showActions();actionClock=0;}
  renderer.render(scene,camera);
 }
