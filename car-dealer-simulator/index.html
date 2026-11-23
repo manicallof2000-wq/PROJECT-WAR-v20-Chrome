@@ -31,7 +31,7 @@
  <div class="group"><button class="ctrl pedal" id="brake">BRAKE</button><button class="ctrl pedal" id="gas">GAS</button></div>
 </div>
 <div id="customerPanel"><div class="card"><h2 id="customerTitle">Customer</h2><p id="customerText"></p><div id="customerChoices"></div><button class="secondary" id="leaveCustomer">Close</button></div></div>
-<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Manage your business, review the numbers and start a new business day.</p><p id="stats"></p><button id="nextDay">🌅 End day & collect revenue</button><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
+<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Manage your business, review the numbers and start a new business day.</p><p id="stats"></p><button id="nextDay">🌅 End day & collect revenue</button><button id="upgradeShowroom">🏗️ Upgrade showroom</button><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
 <div id="vehiclePanel"><div class="card"><h2 id="vehicleTitle">Vehicle inspection</h2><div id="vehicleSpecs" class="specGrid"></div><p id="vehicleAdvice"></p><button id="closeVehicle" class="secondary">Close inspection</button></div></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
@@ -174,6 +174,7 @@ function openOffice(){document.getElementById("stats").textContent="Cash: $"+cas
 function finishDay(){const rent=650+showroomLevel*250,upkeep=cars.filter(c=>c.userData.owned).length*180;const net=dayRevenue-rent-upkeep;cash+=net;dayExpenses+=rent+upkeep;day++;marketMood=.88+Math.random()*.28;customers.forEach(function(c){c.active=true;c.mesh.visible=true;c.budget=Math.round(c.budget*(.94+Math.random()*.14));c.target=cars[Math.floor(Math.random()*cars.length)];});cars.forEach(function(c){if(c.userData.owned)c.userData.daysOwned++;});dayRevenue=0;refresh();toast("Day "+(day-1)+" closed. Net result: $"+net.toLocaleString()+".");openOffice();}
 document.getElementById("closeOffice").onclick=function(){document.getElementById("office").style.display="none";};
 document.getElementById("nextDay").onclick=finishDay;
+document.getElementById("upgradeShowroom").onclick=function(){const cost=12000*showroomLevel;if(showroomLevel>=4){toast("Showroom is already at maximum level.");return;}if(cash<cost){toast("Upgrade costs $"+cost.toLocaleString()+".");return;}cash-=cost;dayExpenses+=cost;showroomLevel++;rep+=2;refresh();toast("Showroom upgraded! Inventory capacity increased.");openOffice();};
 document.getElementById("closeVehicle").onclick=function(){document.getElementById("vehiclePanel").style.display="none";};
 function inspectCar(car){const u=car.userData;document.getElementById("vehicleTitle").textContent="🔍 "+u.name+" · vehicle report";document.getElementById("vehicleSpecs").innerHTML="<div class=spec><b>MARKET PRICE</b>$"+Math.round(u.price*marketMood).toLocaleString()+"</div><div class=spec><b>CONDITION</b>"+u.condition+"/100</div><div class=spec><b>MILEAGE</b>"+Math.round(u.mileage).toLocaleString()+" km</div><div class=spec><b>CLEANLINESS</b>"+u.cleanliness+"/100</div><div class=spec><b>STATUS</b>"+(u.owned?"Your inventory":"Available to buy")+"</div><div class=spec><b>LISTING</b>"+(u.listed?"On sale":"Not listed")+"</div>";document.getElementById("vehicleAdvice").textContent=u.condition<65?"Needs mechanical repair before a strong resale.":u.cleanliness<65?"A wash will improve showroom appeal.":"This vehicle is in presentable condition.";document.getElementById("vehiclePanel").style.display="flex";}
 function serviceCar(car,kind){if(!car.userData.owned)return;const u=car.userData;if(kind==="wash"){if(cash<120){toast("A wash costs $120.");return;}cash-=120;dayExpenses+=120;u.cleanliness=Math.min(100,u.cleanliness+35);toast("Vehicle cleaned. Presentation improved.");}else{const cost=Math.round((100-u.condition)*95);if(cash<cost){toast("Repairs cost $"+cost.toLocaleString()+". Not enough cash.");return;}cash-=cost;dayExpenses+=cost;u.condition=100;toast("Inspection and repairs complete.");}refresh();showActions();}
@@ -184,7 +185,7 @@ function talkCustomer(c){
  document.getElementById("customerTitle").textContent="🤝 "+c.name+" wants a car";
  document.getElementById("customerText").textContent="Budget: $"+c.budget.toLocaleString()+". Interested in "+car.userData.name+". Asking price: $"+car.userData.price.toLocaleString()+".";
  const choices=document.getElementById("customerChoices");choices.innerHTML="";
- const owned=cars.filter(function(item){return item.userData.owned;});
+ const owned=cars.filter(function(item){return item.userData.owned&&item.userData.listed;});
  function choice(label,fn){const b=document.createElement("button");b.textContent=label;b.onclick=fn;choices.appendChild(b);}
  const affordable=owned.filter(function(item){return item.userData.price<=c.budget*1.3;});
  if(!owned.length){choice("Showroom tour",function(){toast("Buy a car into stock first.");customerPanel.style.display="none";activeCustomer=null;});}
