@@ -23,7 +23,8 @@
 <div id="help" class="pill">Explore your dealership. Walk with WASD or the arrow keys. Approach a car to inspect, buy, sell or test-drive it.</div>
 <div id="actions"></div><div id="toast"></div>
 <div id="controls"><div class="group"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div><div class="group"><button class="ctrl pedal" id="brake">BRAKE</button><button class="ctrl pedal" id="gas">GAS</button></div></div>
-<div id="customerPanel"><div class="card"><h2 id="customerTitle">Customer</h2><p id="customerText"></p><div id="customerChoices"></div><button class="secondary" id="leaveCustomer">Close</button></div></div>\n<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Welcome, dealer! Build your stock, make sales and grow your reputation.</p><p id="stats"></p><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
+<div id="customerPanel"><div class="card"><h2 id="customerTitle">Customer</h2><p id="customerText"></p><div id="customerChoices"></div><button class="secondary" id="leaveCustomer">Close</button></div></div>
+<div id="office"><div class="card"><h2>🏢 Dealership Office</h2><p>Welcome, dealer! Build your stock, make sales and grow your reputation.</p><p id="stats"></p><button id="closeOffice" class="secondary">Back to showroom</button></div></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (()=>{
@@ -90,7 +91,8 @@ function hold(id,k){const el=document.getElementById(id);el.addEventListener('po
 hold('left','left');hold('right','right');hold('gas','gas');hold('brake','brake');
 let last=performance.now(),elapsed=0;
 function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-last)/1000,.04);last=now;elapsed+=dt;
-for(const c of customers){if(c.active&&!player.driving){c.phase+=dt*.45;const tx=Math.sin(c.phase*.7+c.wait)*12;const tz=-2+Math.cos(c.phase*.55+c.wait)*5;c.mesh.position.x+=(tx-c.mesh.position.x)*dt*.22;c.mesh.position.z+=(tz-c.mesh.position.z)*dt*.22;c.mesh.rotation.y=Math.atan2(tx-c.mesh.position.x,tz-c.mesh.position.z)}}\nconst f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
+for(const c of customers){if(c.active&&!player.driving){c.phase+=dt*.45;const tx=Math.sin(c.phase*.7+c.wait)*12;const tz=-2+Math.cos(c.phase*.55+c.wait)*5;c.mesh.position.x+=(tx-c.mesh.position.x)*dt*.22;c.mesh.position.z+=(tz-c.mesh.position.z)*dt*.22;c.mesh.rotation.y=Math.atan2(tx-c.mesh.position.x,tz-c.mesh.position.z)}}
+const f=keys.w||keys.arrowup,g=keys.s||keys.arrowdown,l=keys.a||keys.arrowleft||keys.left,r=keys.d||keys.arrowright||keys.right;
 if(player.driving){if(f||keys.gas)player.speed=Math.min(14,player.speed+12*dt);else if(g||keys.brake)player.speed=Math.max(-4,player.speed-17*dt);else player.speed*=Math.pow(.95,dt*60);if(l)player.car.rotation.y+=2*dt*(player.speed>=0?1:-1);if(r)player.car.rotation.y-=2*dt*(player.speed>=0?1:-1);player.car.position.x+=Math.sin(player.car.rotation.y)*player.speed*dt;player.car.position.z+=Math.cos(player.car.rotation.y)*player.speed*dt;player.car.position.x=THREE.MathUtils.clamp(player.car.position.x,-45,45);player.car.position.z=THREE.MathUtils.clamp(player.car.position.z,-39,26);player.x=player.car.position.x;player.z=player.car.position.z;player.yaw=player.car.rotation.y}
 else{let m=f?1:g?-1:0;if(l)player.yaw+=2.3*dt;if(r)player.yaw-=2.3*dt;player.x=THREE.MathUtils.clamp(player.x+Math.sin(player.yaw)*m*7*dt,-28,28);player.z=THREE.MathUtils.clamp(player.z+Math.cos(player.yaw)*m*7*dt,-38,26);avatar.position.set(player.x,0,player.z);avatar.rotation.y=player.yaw}
 const target=new THREE.Vector3(player.x-Math.sin(player.yaw)*8,player.driving?5:4.5,player.z-Math.cos(player.yaw)*8);camera.position.lerp(target,.13);camera.lookAt(player.x,1.2,player.z);
