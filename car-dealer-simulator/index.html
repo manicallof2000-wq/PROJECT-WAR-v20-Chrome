@@ -109,9 +109,9 @@ function makeCar(color,name,price,x,z){
  const group=new THREE.Group(),paint=new THREE.MeshPhysicalMaterial({color,roughness:.24,metalness:.58,clearcoat:1,clearcoatRoughness:.12}),dark=mat(0x101820,.22,.35),rubber=mat(0x111318,.88),chrome=mat(0xc5d2dc,.2,.85),glassMat=new THREE.MeshPhysicalMaterial({color:0x172d40,roughness:.12,metalness:.35,transparent:true,opacity:.88});
  function part(w,h,d,px,py,pz,ma,radius){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d,2,2,2),ma);m.position.set(px,py,pz);group.add(m);m.castShadow=true;m.receiveShadow=true;return m;}
  const base=new THREE.Mesh(new THREE.ExtrudeGeometry(roundedFootprint(2.35,4.45,.34),{depth:.78,bevelEnabled:true,bevelSegments:4,steps:1,bevelSize:.13,bevelThickness:.12,curveSegments:12}),paint);
- base.rotation.x=Math.PI/2;base.position.y=.55;group.add(base);base.castShadow=true;
+ base.rotation.x=-Math.PI/2;base.position.y=.08;group.add(base);base.castShadow=true;
  const cabin=new THREE.Mesh(new THREE.ExtrudeGeometry(roundedFootprint(1.82,2.15,.28),{depth:.78,bevelEnabled:true,bevelSegments:4,bevelSize:.08,bevelThickness:.1,curveSegments:12}),glassMat);
- cabin.rotation.x=Math.PI/2;cabin.position.set(0,1.23,.12);group.add(cabin);
+ cabin.rotation.x=-Math.PI/2;cabin.position.set(0,1.23,.12);group.add(cabin);
  part(1.9,.09,1.9,0,1.65,.12,paint);
  for(const side of [-1,1]){
   for(const zz of [-1.38,1.38]){
