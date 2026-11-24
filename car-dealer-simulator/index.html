@@ -44,13 +44,17 @@ const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x9bbdd1);
 scene.fog=new THREE.Fog(0x9bbdd1,48,115);
 const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,220);
-const renderer=new THREE.WebGLRenderer({antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance",precision:"highp"});
+// Ultra visual profile (100): sharper rendering with a mobile-friendly pixel-ratio cap.
+const QUALITY_LEVEL=100;
+function applyVisualQuality(){const pixelCap=innerWidth<700?2:2.5;renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,pixelCap));}
+applyVisualQuality();
 renderer.setSize(innerWidth,innerHeight);
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.1;
+renderer.toneMappingExposure=1.16;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.domElement.style.position="fixed";
 renderer.domElement.style.inset="0";
 renderer.domElement.style.zIndex="0";
@@ -62,9 +66,9 @@ function addBox(w,h,d,x,y,z,material,parent){
  (parent||scene).add(mesh);return mesh;
 }
 function addRoundedVolume(w,d,h,r,x,y,z,material){const g=new THREE.ExtrudeGeometry(roundedFootprint(w,d,r),{depth:h,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.12,bevelThickness:.12,curveSegments:16});g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,material);m.position.set(x,0,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;}
-scene.add(new THREE.HemisphereLight(0xffffff,0x667080,1.9));
-const sun=new THREE.DirectionalLight(0xffffff,2.2);
-sun.position.set(-18,32,18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xffffff,0x667080,2.15));
+const sun=new THREE.DirectionalLight(0xffffff,2.45);
+sun.position.set(-18,32,18);sun.castShadow=true;sun.shadow.mapSize.set(3072,3072);sun.shadow.bias=-0.00012;sun.shadow.normalBias=0.025;sun.shadow.radius=4;scene.add(sun);
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(180,180),mat(0x788b78));
 ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
 const road=new THREE.Mesh(new THREE.PlaneGeometry(110,16),mat(0x343b43));
@@ -294,7 +298,7 @@ function loop(now){
 }
 camera.position.set(0,5,22);camera.lookAt(0,1,13);
 refresh();showActions();requestAnimationFrame(loop);
-addEventListener("resize",function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+addEventListener("resize",function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();applyVisualQuality();renderer.setSize(innerWidth,innerHeight);});
 })();
 </script>
 </body>
